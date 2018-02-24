@@ -31,22 +31,15 @@
 <script>
     export default {
         name: `landing-page`,
-        data: () => {
-            return {
-                ready: false,
-            }
+        computed: {
+            ready () {
+                return this.$store.state.App.initialized
+            },
         },
         methods: {
             open (link) {
                 this.$electron.shell.openExternal(link)
             },
-        },
-        created () {
-            this.ready = true
-            console.log(`fired`)
-            this.$axios.get(`http://tracker.dev/api/v1/user`).then(response => {
-                console.log(response)
-            })
         },
     }
 </script>

@@ -1,12 +1,38 @@
 <template>
     <div id="app">
-        <router-view></router-view>
+        <div class="wrapper" v-if="show">
+            <router-view></router-view>
+        </div>
+        <transition name="zoom">
+            <div id="login-form" class="hero is-fullheight" v-if="$store.state.App.requestLogin">
+                <div class="hero-body">
+                    <p class="subtitle has-text-centered">
+                        <span>Đăng nhập</span>
+                    </p>
+                </div>
+            </div>
+        </transition>
+
     </div>
 </template>
 
 <script>
     export default {
         name: `mec`,
+        computed: {
+            show () {
+                if (this.$store.state.App.initialized) {
+                    if (this.$store.state.App.requestLogin) {
+                        return false
+                    } else {
+                        return true
+                    }
+                }
+            },
+        },
+        created () {
+            this.$store.dispatch(`appInit`)
+        },
     }
 </script>
 
@@ -15,7 +41,6 @@
     /*
      * Variables
     */
-    $family-heading: "Source Sans Pro";
     $family-primary: "Roboto Condensed";
     $font-weight-heading: 400;
 
@@ -26,10 +51,6 @@
         -webkit-backface-visibility: hidden;
         -moz-backface-visibility: hidden;
         backface-visibility: hidden;
-    }
-    h1, h2, h3, h4, h5, h6, .title, .subtitle {
-        font-family: $family-heading;
-        font-weight: $font-weight-heading;
     }
     .is-relative {
         position: relative;
@@ -53,13 +74,15 @@
 </style>
 <style lang="scss">
     /* Animation */
-    .zoom-in-enter, .zoom-in-leave-to {
+    .zoom-enter, .zoom-leave-to {
         opacity: 0;
         transform: scale(1.2);
     }
-    .zoom-in-enter-active, .zoom-in-leave-active {
+    .zoom-enter-to, .zoom-leave {
         opacity: 1;
         transform: scale(1);
+    }
+    .zoom-enter-active, .zoom-leave-active {
         transition: opacity 0.2s ease, transform 0.2s ease;
     }
 </style>

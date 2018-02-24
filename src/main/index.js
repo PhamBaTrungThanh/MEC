@@ -34,6 +34,7 @@ function createWindow () {
     mainWindow.loadURL(winURL)
     mainWindow.once(`ready-to-show`, () => {
         mainWindow.show()
+        mainWindow.focus()
     })
     mainWindow.on(`closed`, () => {
         mainWindow = null
