@@ -4,21 +4,18 @@
             <router-view></router-view>
         </div>
         <transition name="zoom">
-            <div id="login-form" class="hero is-fullheight" v-if="$store.state.App.requestLogin">
-                <div class="hero-body">
-                    <p class="subtitle has-text-centered">
-                        <span>Đăng nhập</span>
-                    </p>
-                </div>
-            </div>
+            <login-form v-if="requestLogin" />
         </transition>
-
     </div>
 </template>
 
 <script>
+    import LoginForm from './components/LoginForm'
     export default {
         name: `mec`,
+        components: {
+            LoginForm,
+        },
         computed: {
             show () {
                 if (this.$store.state.App.initialized) {
@@ -28,6 +25,9 @@
                         return true
                     }
                 }
+            },
+            requestLogin () {
+                return this.$store.state.App.requestLogin
             },
         },
         created () {
@@ -41,11 +41,17 @@
     /*
      * Variables
     */
-    $family-primary: "Roboto Condensed";
+    $family-primary: "Roboto";
+    $family-heading: "Roboto Condensed";
     $font-weight-heading: 400;
-
+    $radius: 0px;
+    $label-weight: 400;
     @import "~bulma/bulma.sass";
-
+    /* Override */
+    h1, h2, h3, h4, h5, h6, .title, .subtitle {
+        font-family: $family-heading;
+        font-weight: $font-weight-heading;
+    }
     /** Global */
     * {
         -webkit-backface-visibility: hidden;
@@ -83,7 +89,7 @@
         transform: scale(1);
     }
     .zoom-enter-active, .zoom-leave-active {
-        transition: opacity 0.2s ease, transform 0.2s ease;
+        transition: opacity 0.5s ease, transform 0.5s ease;
     }
 </style>
 

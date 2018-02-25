@@ -1,5 +1,5 @@
 <template>
-    <transition name="zoom-in">
+    <transition name="zoom" appear>
         <div id="wrapper" v-if="ready">
             <div class="content">
                 <section class="hero is-fullheight">

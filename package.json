@@ -58,8 +58,10 @@
   "dependencies": {
     "axios": "^0.18.0",
     "bulma": "^0.6.2",
+    "eslint-plugin-vue": "^4.3.0",
     "node-sass": "^4.7.2",
     "sass-loader": "^6.0.6",
+    "vee-validate": "^2.0.4",
     "vue": "^2.5.13",
     "vue-electron": "^1.0.6",
     "vue-router": "^3.0.1",
