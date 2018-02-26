@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VeeValidate from 'vee-validate'
+import { sync } from 'vuex-router-sync'
 
 import App from './App'
 import router from './router'
@@ -10,6 +11,10 @@ if (!process.env.IS_WEB) Vue.use(require(`vue-electron`))
 Vue.config.productionTip = false
 Vue.use(VeeValidate)
 Vue.use(MEC)
+
+// Sync store and router
+sync(store, router)
+
 /* eslint-disable no-new */
 new Vue({
     components: { App },

@@ -1,6 +1,6 @@
 <template>
     <transition name="zoom" appear>
-        <div id="wrapper" v-if="ready">
+        <div class="wrapper landing-page" v-if="initialized">
             <div class="content">
                 <section class="hero is-fullheight">
                     <div class="hero-body">
@@ -17,7 +17,8 @@
                         <p class="has-text-centered">                       
                             <span>Đang tải dữ liệu</span>
                             <br>
-                            <a class="button is-white is-loading">loading</a>
+                            <a class="button is-white is-loading" v-show="!ready">loading</a>
+
                         </p>
                         <p class="a-foot">
                         </p>
@@ -32,20 +33,18 @@
     export default {
         name: `landing-page`,
         computed: {
-            ready () {
+            initialized () {
                 return this.$store.state.App.initialized
+            },
+            ready () {
+                if (this.$store.state.App.isReady) {
+                    this.$router.push(`dashboard`)
+                    return true
+                }
+                return false
             },
         },
         methods: {
-            open (link) {
-                this.$electron.shell.openExternal(link)
-            },
         },
     }
 </script>
-
-<style>
-    ::-webkit-scrollbar { 
-        display: none;
-    }
-</style>

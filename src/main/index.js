@@ -29,8 +29,8 @@ function createWindow () {
         thickFrame: false,
     })
     mainWindow.setMenuBarVisibility(false)
-    mainWindow.setMovable(false)
-    mainWindow.setMaximizable(false)
+    mainWindow.setMovable(true)
+    // mainWindow.setMaximizable(false)
     mainWindow.loadURL(winURL)
     mainWindow.once(`ready-to-show`, () => {
         mainWindow.show()

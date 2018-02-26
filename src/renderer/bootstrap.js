@@ -16,6 +16,7 @@ const helpers = Object.freeze({
             'X-Requested-With': `XMLHttpRequest`,
         },
     }),
+
 })
 
 const MEC = {

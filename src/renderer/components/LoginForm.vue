@@ -11,7 +11,12 @@
                 <div class="content">
                     <div class="field">
                         <label class="label">Email</label>
-                        <input type="text" :class="{'input': true, 'is-danger': (errors.has('email') || invalidCredentials) ? true : false}" v-model="username" :disabled="onSubmit" v-validate="'required'" name="email" />
+                        <div class="control has-icons-left">
+                            <input type="text" :class="{'input': true, 'is-danger': (errors.has('email') || invalidCredentials) ? true : false}" v-model="username" :disabled="onSubmit" @keyup.enter="submit" v-validate="'required'" name="email" />
+                            <span class="icon is-left">
+                                <i class="mdi mdi-account"></i>
+                            </span>
+                        </div>
                         <p class="help has-text-danger">
                             <span v-if="errors.firstByRule('email', 'required')">Email không được để trống</span>
                             <span v-if="errors.firstByRule('email', 'email')">Email không hợp lệ</span>
@@ -20,11 +25,22 @@
                     </div>
                     <div class="field">
                         <label class="label">Mật khẩu</label>
-                        <input type="password" :class="{'input': true, 'is-danger': (errors.has('password') || invalidCredentials) ? true : false}" v-model="password" :disabled="onSubmit" name="password" v-validate="'required'"/>
+                        <div class="control has-icons-left">
+                            <input type="password" :class="{'input': true, 'is-danger': (errors.has('password') || invalidCredentials) ? true : false}" v-model="password" :disabled="onSubmit" @keyup.enter="submit" name="password" v-validate="'required'"/>
+                            <span class="icon is-left">
+                                <i class="mdi mdi-lock"></i>
+                            </span>
+                        </div>
+                        
                     </div>
                 </div>
                 <p class="content has-text-centered">
-                    <button :class="{'button': true, 'is-primary': true, 'is-loading': onSubmit}" @click="submit">Đăng nhập</button>
+                    <button :class="{'button': true, 'is-primary': true, 'is-loading': onSubmit}" @click="submit">
+                        <span class="icon">
+                            <i class="mdi mdi-login"></i>
+                        </span>
+                        <span>Đăng nhập</span>
+                    </button>
                 </p>
             </div>
         </div>
@@ -56,16 +72,24 @@ export default {
                             this.onSubmit = false
                             this.password = ``
                         } else {
-                            this.$store.dispatch(`fetchData`)
+                            this.$store.dispatch(`fetchAllResources`)
                         }
                     })
                 }
             })
         },
     },
+    created () {
+        const currentWindow = this.$electron.remote.getCurrentWindow()
+        const screen = this.$electron.remote.screen
+        const display = screen.getPrimaryDisplay().workArea
+        currentWindow.setBounds({
+            x: (display.width - 440) / 2,
+            y: (display.height - 500) / 2,
+            width: 440,
+            height: 500,
+        })
+    },
 }
 </script>
 
-<style>
-
-</style>
