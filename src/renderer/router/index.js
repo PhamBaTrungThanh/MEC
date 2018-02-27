@@ -16,6 +16,17 @@ export default new Router({
             component: require(`@/components/Dashboard`).default,
         },
         {
+            path: `/hr`,
+            component: require(`@/components/HR/Base`).default,
+            children: [
+                {
+                    path: ``,
+                    name: `hr.index`,
+                    component: require(`@/components/HR/Index`).default,
+                },
+            ],
+        },
+        {
             path: `*`,
             redirect: `/`,
         },

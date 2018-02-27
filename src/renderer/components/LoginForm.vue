@@ -79,17 +79,6 @@ export default {
             })
         },
     },
-    created () {
-        const currentWindow = this.$electron.remote.getCurrentWindow()
-        const screen = this.$electron.remote.screen
-        const display = screen.getPrimaryDisplay().workArea
-        currentWindow.setBounds({
-            x: (display.width - 440) / 2,
-            y: (display.height - 500) / 2,
-            width: 440,
-            height: 500,
-        })
-    },
 }
 </script>
 

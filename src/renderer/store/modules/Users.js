@@ -1,6 +1,10 @@
+import arraySort from 'array-sort'
 const state = {
     user: {},
     users: [],
+    directorsGroup: {
+        label: "Ban giám đốc",
+    },
 }
 const mutations = {
     STORE_CURRENT_USER (state, user) {
@@ -11,8 +15,21 @@ const mutations = {
     },
 }
 const getters = {
-    user (state) {
+    currentUser (state) {
         return state.user
+    },
+    users (state) {
+        return state.users
+    },
+    usergroups (state) {
+        let directorsGroup = [],
+            projectsGroup = [],
+            accountingGroups = [],
+            enginneeringGroups = [],
+            generalsGroups = []
+        for (let i = state.users.length - 1; i <= 0; i--) {
+            if ()
+        }
     },
 }
 const actions = {
@@ -26,10 +43,11 @@ const actions = {
             if (currentUser.status === 200) {
                 console.log(`Store::Users -> user ${currentUser.data.data.name} logged in`)
                 commit(`STORE_CURRENT_USER`, currentUser.data.data)
+                return true
             }
-            dispatch(`appResourcesFetched`, `users`)
         } catch (e) {
             console.log(`Store::Users =>`, e)
+            return false
         }
     },
 }

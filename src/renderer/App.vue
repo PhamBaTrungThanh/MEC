@@ -4,32 +4,6 @@
             <router-view></router-view>
         </div>
         <section class="hero is-fullheight" v-if="ready">
-            <div class="hero-head">
-                <!--
-                <nav class="navbar">
-                    <div class="container is-fluid">
-                        
-                        <div class="navbar-brand">
-                            <a class="navbar-item">
-                                <span class="is-5 title">MEC Manager</span>
-                            </a>
-                        </div>
-                        <div class="navbar-menu">
-                            <div class="navbar-start">
-                                <span class="navbar-item">
-                                    <router-link class="button is-info is-inverted navbar-button" to="/dashboard">
-                                        <span>Test</span>
-                                    </router-link>
-                                </span>
-                            </div>
-                        </div>
-                        
-
-                    </div>
-                </nav>
-                -->
-
-            </div>
             <div class="hero-body no-padding is-relative">
                 <aside :class="{'sidebar': true, 'hide-sidebar': !displaySidebar}">
                     <a class="toggle-sidebar-button" @click="displaySidebar = !displaySidebar">
@@ -47,18 +21,7 @@
                     </div>
                 </aside>
                 <div class="main-content">
-                    <hero class="is-dark">
-                        <div class="container is-fluid">
-                            <nav class="tabs is-boxed is-right">
-                                <ul>
-                                    <router-link tag="li" to="/dashboard">
-                                        <a>Dashboard</a>
-                                    </router-link>
-                                </ul>
-                            </nav>
-                        </div>
-                    </hero>
-
+                    <router-view></router-view>
                 </div>
             </div>
         </section>    
@@ -78,6 +41,10 @@
         data: () => {
             return {
                 displaySidebar: true,
+                fixedWindow: {
+                    width: 440,
+                    height: 500,
+                },
             }
         },
         computed: {
@@ -92,18 +59,79 @@
             },
             ready () {
                 if (this.$store.state.App.isReady) {
-                    const currentWindow = this.$electron.remote.getCurrentWindow()
-                    const screen = this.$electron.remote.screen
-                    const display = screen.getPrimaryDisplay()
-                    console.log(display.workArea)
-                    currentWindow.hide()
-                    currentWindow.setBounds(display.workArea)
-                    currentWindow.show()
+                    this.setWindowMaximizeWithMenu()
                 }
                 return this.$store.state.App.isReady
             },
             requestLogin () {
+                if (this.$store.state.App.requestLogin) {
+                    this.setWindowFixed()
+                }
                 return this.$store.state.App.requestLogin
+            },
+        },
+        methods: {
+            setWindowMaximizeWithMenu () {
+                const currentWindow = this.$electron.remote.getCurrentWindow()
+                const screen = this.$electron.remote.screen
+                const display = screen.getPrimaryDisplay()
+                const router = this.$router
+                const template = [
+                    {
+                        label: `Nhân sự`,
+                        submenu: [
+                            {
+                                type: `normal`,
+                                label: `Danh sách nhân viên`,
+                                accelerator: `Control+1`,
+                                click () {
+                                    console.log(`Goto hr/index`)
+                                    router.push(`/hr`)
+                                },
+                            },
+                            {
+                                type: `normal`,
+                                label: `Thêm nhân viên mới`,
+                            },
+                        ],
+                    },
+                    {
+                        label: `Dự án`,
+                        submenu: [
+                            {
+                                type: `normal`,
+                                label: `Danh sách công trường`,
+                                accelerator: `Control+2`,
+                            },
+                        ],
+                    },
+                    {
+                        role: `help`,
+                        submenu: [
+                            {
+                                label: `Learn More`,
+                                click () { console.log(`clicked`) },
+                            },
+                        ],
+                    },
+                ]
+                const menu = this.$electron.remote.Menu.buildFromTemplate(template)
+                this.$electron.remote.Menu.setApplicationMenu(menu)
+                currentWindow.hide()
+                currentWindow.setMenuBarVisibility(true)
+                currentWindow.setBounds(display.workArea)
+                currentWindow.show()
+            },
+            setWindowFixed () {
+                const currentWindow = this.$electron.remote.getCurrentWindow()
+                const screen = this.$electron.remote.screen
+                const display = screen.getPrimaryDisplay().workArea
+                currentWindow.setBounds({
+                    x: (display.width - this.fixedWindow.width) / 2,
+                    y: (display.height - this.fixedWindow.height) / 2,
+                    width: this.fixedWindow.width,
+                    height: this.fixedWindow.height,
+                })
             },
         },
         created () {

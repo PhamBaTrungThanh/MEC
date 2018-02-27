@@ -60,7 +60,6 @@ const actions = {
             if (loginWorker.status === 200) {
                 commit(`TOKEN`, loginWorker.data.access_token)
                 commit(`LOGGED_IN`)
-                commit(`IS_READY`)
             }
             return loginWorker
         } catch (e) {
@@ -73,7 +72,7 @@ const actions = {
     },
     async fetchAllResources ({ commit, dispatch }) {
         try {
-            const worker = await this._vm.axios.get(`data`)
+            const [worker] = await Promise.all([this._vm.axios.get(`data`), dispatch(`getLoggedInUser`)])
             if (worker.status === 200) {
                 console.log(`Store::App('fetchAllResources') -> data fetched`)
                 dispatch(`storeResources`, worker.data)
