@@ -1,4 +1,4 @@
-
+import storage from 'electron-json-storage'
 const App = require(`../../bootstrap`).App
 
 const state = {
@@ -24,7 +24,6 @@ const mutations = {
     },
     TOKEN (state, token) {
         state._token = token
-        this._vm.axios.defaults.headers.common.Authorization = `Bearer ${token}`
     },
     UPDATE_RESOURCES (state, data) {
         state.resources.push(data)
@@ -33,18 +32,40 @@ const mutations = {
 const actions = {
     async appInit ({ commit, dispatch }) {
         commit(`INITIALIZED`)
-        try {
-            const loginStatus = await this._vm.axios.get(`user`)
-            if (loginStatus.status === 200) {
-                console.log(`Store::App('AppInit') -> User Authorized`)
-                dispatch(`fetchAllResources`)
+        const readToken = () => {
+            return new Promise((resolve, reject) => {
+                storage.get(`authorize`, (error, data) => {
+                    if (error) {
+                        reject(error)
+                    }
+                    resolve(data.access_token)
+                })
+            })
+        }
+        const _token = await readToken()
+        if (_token) {
+            try {
+                // set custom headers
+                this._vm.axios.defaults.headers.common.Authorization = `Bearer ${_token}`
+                const loginStatus = await this._vm.axios.get(`user`)
+                if (loginStatus.status === 200) {
+                    console.log(`Store::App('AppInit') -> User Authorized`)
+                    commit(`TOKEN`, _token)
+                    commit(`LOGGED_IN`)
+                    dispatch(`fetchAllResources`)
+                }
+            } catch (e) {
+                if (e.response.status === 401) {
+                    console.log(`Store::App('AppInit') => User unauthorized`)
+                    // remove custom header
+                    this._vm.axios.defaults.headers.common.Authorization = ``
+                    commit(`REQUEST_LOGINFORM`)
+                }
+                console.log(`Store::App('AppInit') => `, e)
             }
-        } catch (e) {
-            if (e.response.status === 401) {
-                console.log(`Store::App('AppInit') => User unauthorized or not logged in`)
-                commit(`REQUEST_LOGINFORM`)
-            }
-            console.log(`Store::App('AppInit') => `, e)
+        } else {
+            console.log(`Store::App('AppInit') => User not logged in`)
+            commit(`REQUEST_LOGINFORM`)
         }
     },
     async appLogin ({ commit }, {username, password}) {
@@ -58,7 +79,9 @@ const actions = {
                 scope: `*`,
             })
             if (loginWorker.status === 200) {
+                storage.set(`authorize`, {access_token: loginWorker.data.access_token})
                 commit(`TOKEN`, loginWorker.data.access_token)
+                this._vm.axios.defaults.headers.common.Authorization = `Bearer ${loginWorker.data.access_token}`
                 commit(`LOGGED_IN`)
             }
             return loginWorker

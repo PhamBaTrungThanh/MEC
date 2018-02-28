@@ -44,13 +44,6 @@ export default {
         user () {
             return this.$store.getters[`user/user`]
         },
-        pageMeta () {
-            return {
-                'title': (this.user) ? `Nhân viên: ${this.user.name}` : `Nhân viên`,
-                'description': (this.user) ? `Phòng: ${this.user.label}` : ``,
-                'color': `dark`,
-            }
-        },
     },
     mounted () {
         this.ready = true

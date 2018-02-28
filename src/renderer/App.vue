@@ -20,7 +20,7 @@
                         </div>
                     </div>
                 </aside>
-                <div class="main-content">
+                <div class="main-content scrollable-y">
                     <router-view></router-view>
                 </div>
             </div>
@@ -163,9 +163,10 @@
         -moz-backface-visibility: hidden;
         backface-visibility: hidden;
     }
-    ::-webkit-scrollbar { 
+    html::-webkit-scrollbar { 
         display: none;
     }
+
     .is-relative {
         position: relative;
     }
@@ -186,6 +187,9 @@
     }
     .scrollable-y {
         overflow-y: auto;
+    }
+    .scrollable-x {
+        overflow-x: auto;
     }
     /* 
      * navbar
@@ -209,7 +213,6 @@
         top: 0;
         bottom: 0;
         z-index: 300;
-        overflow-y: scroll;
         color: $dark;
         width: 235px;
 

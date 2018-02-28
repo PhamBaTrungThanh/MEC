@@ -2,9 +2,33 @@ import arraySort from 'array-sort'
 const state = {
     user: {},
     users: [],
-    directorsGroup: {
-        label: "Ban giám đốc",
-    },
+    groups: [
+        {
+            name: `directors`,
+            label: `Ban giám đốc`,
+            role_id: 1,
+        },
+        {
+            name: `projects`,
+            label: `Phòng dự án`,
+            role_id: 2,
+        },
+        {
+            name: `accounting`,
+            label: `Phòng kế toán`,
+            role_id: 3,
+        },
+        {
+            name: `enginneering`,
+            label: `Phòng kỹ thuật`,
+            role_id: 4,
+        },
+        {
+            name: `generals`,
+            label: `Phòng hành chính`,
+            role_id: 5,
+        },
+    ],
 }
 const mutations = {
     STORE_CURRENT_USER (state, user) {
@@ -13,6 +37,7 @@ const mutations = {
     STORE_ALL_USERS (state, users) {
         state.users = users
     },
+
 }
 const getters = {
     currentUser (state) {
@@ -22,14 +47,20 @@ const getters = {
         return state.users
     },
     usergroups (state) {
-        let directorsGroup = [],
-            projectsGroup = [],
-            accountingGroups = [],
-            enginneeringGroups = [],
-            generalsGroups = []
-        for (let i = state.users.length - 1; i <= 0; i--) {
-            if ()
+        let groups = []
+        for (let i = state.groups.length - 1; i >= 0; i--) {
+            groups.push({
+                label: state.groups[i].label,
+                list: arraySort(state.users.reduce((users, user) => {
+                    if (user.role === state.groups[i].role_id) {
+                        users.push(user)
+                    }
+                    return users
+                }, []), [`order`, `name`]),
+                order: state.groups[i].role_id,
+            })
         }
+        return arraySort(groups, `order`)
     },
 }
 const actions = {

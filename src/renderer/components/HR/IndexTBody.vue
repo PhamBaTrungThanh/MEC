@@ -17,13 +17,16 @@
             <td class="is-size-7">{{user.native_place}}</td>
             <td class="is-size-7">{{user.phone_number}}</td>
             <td class="is-size-7">{{user.address}}</td>
-            <td>{{user.workplace}}</td>
+            <td class="is-size-7">{{user.workplace}}</td>
             <td class="is-size-7">{{user.joined_at}}</td>
             <td class="is-size-7">{{user.current_job}}</td>
             <td class="is-size-7">{{user.current_workplace}}</td>
+            <!--
             <td class="is-size-7">{{user.email}}</td>
+            
             <td class="is-size-7">{{user.mariage_status}}</td>
             <td class="is-size-7">{{user.family_status}}</td>
+            -->
 
         </tr>
     </tbody>
