@@ -15,7 +15,7 @@
                 </div>    
             </hero-header>
             <section class="section">
-                <fullscreen :fullscreen.sync="fullscreen" ref="fullscreen">
+                <div>
                     <div :class="{'container': !fullscreen, 'fullscreen-container': fullscreen} ">
 
                         <div class="content">
@@ -151,7 +151,7 @@
                             </div>
                         </div>
                     </div>
-                </fullscreen>
+                </div>
             </section>
 
         </div>
@@ -161,10 +161,10 @@
 </template>
 
 <script>
-import Fullscreen from "vue-fullscreen/src/component.vue";
-import {mapGetters} from "vuex";
+
+import {mapGetters} from "vuex"
 export default {
-    data() {
+    data () {
         return {
             fullscreen: false,
             detailedWork: [],
@@ -172,58 +172,52 @@ export default {
         }
     },
     computed: {
-        work() {
-            return this.$store.getters['work/work'](parseInt(this.$route.params.work_id));
+        work () {
+            return this.$store.getters[`work/work`](parseInt(this.$route.params.work_id))
         },
-        pageMeta() {
+        pageMeta () {
             return {
-                'title': (this.work) ? `Báo cáo công trình ${this.work.name}` : "Báo cáo",
-                'description': (this.work) ? this.work.description : "",
+                title: (this.work) ? `Báo cáo công trình ${this.work.name}` : `Báo cáo`,
+                description: (this.work) ? this.work.description : ``,
             }
         },
-        materials() {
-            const materials = this.$store.getters["material/materials"];
-            return materials.map( material => {
-                const boqs = this.boqsForMaterial(material.id);
+        materials () {
+            const materials = this.$store.getters[`material/materials`]
+            return materials.map(material => {
+                const boqs = this.boqsForMaterial(material.id)
                 return Object.assign({}, material, {
-                    'boqs': (boqs.length > 0) ? boqs[0] : false,
-                    'sum_boqs': (boqs.length > 0) ? this.sum(boqs) : 0,
-
-                });
+                    boqs: (boqs.length > 0) ? boqs[0] : false,
+                    sum_boqs: (boqs.length > 0) ? this.sum(boqs) : 0,
+                })
             })
-            
         },
-        ...mapGetters("provider", [
-            "providers"
+        ...mapGetters(`provider`, [
+            `providers`,
         ]),
     },
     methods: {
-        guard() {
-            this.$store.dispatch("material/getTree", {'work_id': parseInt(this.$route.params.work_id)});
+        guard () {
+            this.$store.dispatch(`material/getTree`, {work_id: parseInt(this.$route.params.work_id)})
         },
-        showMaterialDetail(material_id) {
-            axios.get(`${this.$store.state.apiBase}/material/${material_id}`).then(result => {
-                this.material = result.data.data;
-            });
+        showMaterialDetail (materialId) {
+            this.axios.get(`${this.$store.state.apiBase}/material/${materialId}`).then(result => {
+                this.material = result.data.data
+            })
         },
-        boqsForMaterial(material_id) {
-            return this.$store.getters["boq/boqsForMaterial"](material_id);
+        boqsForMaterial (materialId) {
+            return this.$store.getters[`boq/boqsForMaterial`](materialId)
         },
-        sum(data) {
-
+        sum (data) {
             if (data instanceof Array) {
                 if (data.length > 1) {
-                    return data.reduce( (sum, node) => sum + node.total);
+                    return data.reduce((sum, node) => sum + node.total)
                 } else if (data.length === 1) {
-                    
-                    return data[0].total;
+                    return data[0].total
                 }
-            } 
-            return 0;
-        }
+            }
+            return 0
+        },
     },
-    components: {Fullscreen},
-
 }
 </script>
 

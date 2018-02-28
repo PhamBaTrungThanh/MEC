@@ -168,57 +168,51 @@
 
 <script>
 export default {
-    data: () => ({
-        
-    }),
     computed: {
-        user() {
-            return this.$store.getters["user/user"];
+        user () {
+            return this.$store.getters[`user/user`]
         },
-        invoice() {
-            return this.$store.getters["invoice/invoice"](parseInt(this.$route.params.invoice_id));
+        invoice () {
+            return this.$store.getters[`invoice/invoice`](parseInt(this.$route.params.invoice_id))
         },
-        payment() {
-            return this.$store.getters["payment/payment"](parseInt(this.$route.params.payment_id));
+        payment () {
+            return this.$store.getters[`payment/payment`](parseInt(this.$route.params.payment_id))
         },
-        pageMeta() {
+        pageMeta () {
             return {
-                title: (this.payment) ? `${this.payment.name}` : "",
-                description: (this.invoice) ? `Đơn hàng: ${this.invoice.name}` : "Đơn hàng",
+                title: (this.payment) ? `${this.payment.name}` : ``,
+                description: (this.invoice) ? `Đơn hàng: ${this.invoice.name}` : `Đơn hàng`,
             }
-        }
-    },
-
-    methods: {
-        guard() {
-            this.$store.dispatch("payment/getSinglePaymentInstance", {payment_id: parseInt(this.$route.params.payment_id)});
-            this.$store.dispatch("payment/getRelatedInvoice", {invoice_id: parseInt(this.$route.params.invoice_id)});
         },
-        deletePayment() {
+    },
+    methods: {
+        guard () {
+            this.$store.dispatch(`payment/getSinglePaymentInstance`, {payment_id: parseInt(this.$route.params.payment_id)})
+            this.$store.dispatch(`payment/getRelatedInvoice`, {invoice_id: parseInt(this.$route.params.invoice_id)})
+        },
+        deletePayment () {
             this.swal({
-                'title': "Xác nhận xóa!",
-                'text': "Bạn có chắc chắc xóa thanh toán này? Hành động này sẽ không thể khôi phục.",
-                'type': "error",
-                'confirmButtonClass': "button is-danger",
-            }).then( result => {
+                title: `Xác nhận xóa!`,
+                text: `Bạn có chắc chắc xóa thanh toán này? Hành động này sẽ không thể khôi phục.`,
+                type: `error`,
+                confirmButtonClass: `button is-danger`,
+            }).then(result => {
                 if (result.value) {
                     this.axios.delete(`payment/${this.payment.id}`).then(response => {
                         this.swal({
-                            'title': "Đã xóa",
-                            'text': "Thanh toán đã được xóa",
-                            'type': "success",
-                            'timer': 3000
-                        }).then( response => {
-                            this.$store.dispatch("removePaymentsById", [this.payment.id]);
-                            this.$store.dispatch("updateInvoice", response.data.affected.invoice);
-                        });
-                    });
+                            title: `Đã xóa`,
+                            text: `Thanh toán đã được xóa`,
+                            type: `success`,
+                            timer: 3000,
+                        }).then(response => {
+                            this.$store.dispatch(`removePaymentsById`, [this.payment.id])
+                            this.$store.dispatch(`updateInvoice`, response.data.affected.invoice)
+                        })
+                    })
                 }
-            });
-        }
-    }
-
-
+            })
+        },
+    },
 }
 </script>
 

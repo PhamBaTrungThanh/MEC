@@ -279,360 +279,325 @@
 </template>
 
 <script>
-import Treeselect from '@riophae/vue-treeselect';
-import { mapGetters } from 'vuex';
+import Treeselect from '@riophae/vue-treeselect'
+import { mapGetters } from 'vuex'
 export default {
-    data() {
+    data () {
         return {
-            'is_ready': true,
-            'materials_list': [],
-            'flatList': [],
-            'rightClick': {
+            is_read: true,
+            materials_list: [],
+            flatList: [],
+            rightClick: {
                 'isActive': false,
                 'selectedUID': null,
                 'clickHandle': null,
                 'selectedIndex': null,
             },
-            'materialSelect': {
-                'disabled': false,
-                'dirty': false,
+            materialSelect: {
+                disabled: false,
+                dirty: false,
             },
-            'options': {
-                'price': {
-                    'numeral': true,
-                    'numeralThousandsGroupStyle': 'thousand'
+            options: {
+                price: {
+                    numeral: true,
+                    numeralThousandsGroupStyle: `thousand`,
                 },
-                'vat': {
-                    'numeral': true,
+                vat: {
+                    numeral: true,
                 },
-                'date': {
-                    'date': true,
-                    'datePattern' : ["d", "m", "Y"],                    
-                }
+                date: {
+                    date: true,
+                    datePattern: [`d`, `m`, `Y`],
+                },
             },
-            'new_invoice': {
-                'name': "",
-                'type': "invoice",
-                'signed_at': "",
-                'contract_number': "",
+            new_invoice: {
+                name: ``,
+                type: `invoice`,
+                signed_at: ``,
+                contract_number: ``,
             },
-            'provider_id': null,
-            'new_provider': {
-                'name': "",
-                'tax_number': "",
-                'description': "",
-                'address': "",
+            provider_id: null,
+            new_provider: {
+                name: ``,
+                tax_number: ``,
+                description: ``,
+                address: ``,
             },
-            'onSubmit': false,
+            onSubmit: false,
         }
     },
 
     computed: {
-        /*
-        nested_categories() {
-            return this.work.categories.map( category => {
-                return {
-                    id: `${category.id}--cat`,
-                    label: category.name,
-                    children: this.work.flatten.reduce( (_children, material) => {
-                        if (material.category_id == category.id) {
-                            _children.push({
-                                id: `${material.id}--mat`,
-                                label: material.name,
-                            });
-                        }
-                        return _children;
-                    }, []),
-                }
-            });
+        selectedProvider () {
+            return (this.providers && this.provider_id) ? this.providers.find(p => p.id === this.provider_id) : {}
         },
-        */
-        selectedProvider() {
-            return (this.providers && this.provider_id) ? this.providers.find( p => p.id === this.provider_id) : {};
-        },
-        pageMeta() {
+        pageMeta () {
             return {
-                'title': "Tạo đơn hàng mới",
-                'description': (this.work) ? `Công trình ${this.work.name}` : "Công trình",
-                'color': "success",
+                title: `Tạo đơn hàng mới`,
+                description: (this.work) ? `Công trình ${this.work.name}` : `Công trình`,
+                color: `success`,
             }
         },
-        tree() {
-            return this.$store.getters["material/tree"];
-            
+        tree () {
+            return this.$store.getters[`material/tree`]
         },
-        ...mapGetters("provider", [
-            "providers"
+        ...mapGetters(`provider`, [
+            `providers`,
         ]),
-
-        work() {
-            return this.$store.getters["work/work"](parseInt(this.$route.params.work_id));
-        }
+        work () {
+            return this.$store.getters[`work/work`](parseInt(this.$route.params.work_id))
+        },
     },
 
     methods: {
-        guard() {
-            this.$store.dispatch("invoice/getRelatedWork", {'work_id': parseInt(this.$route.params.work_id)});
-            this.$store.dispatch("material/getTree", {'work_id': parseInt(this.$route.params.work_id)});
+        guard () {
+            this.$store.dispatch(`invoice/getRelatedWork`, {work_id: parseInt(this.$route.params.work_id)})
+            this.$store.dispatch(`material/getTree`, {work_id: parseInt(this.$route.params.work_id)})
         },
-        boqs(material_id) {
-            return this.$store.getters["boq/boqsForMaterial"](material_id);
+        boqs (materialId) {
+            return this.$store.getters[`boq/boqsForMaterial`](materialId)
         },
-        generateFlatList() {
-            let list = this.materials_list;
-            let _flatList = this.$store.getters["material/materials"].map( value => Object.assign({}, value, {
-                'active': false,
-                'children': null,
-                'is_new': false,
-                'uid': null,
-                'tracker': {
-                    'vat': 10,
-                    'price': 0,
-                    'unit': 0,
+        generateFlatList () {
+            let list = this.materials_list
+            let _flatList = this.$store.getters[`material/materials`].map(value => Object.assign({}, value, {
+                active: false,
+                children: null,
+                is_new: false,
+                uid: null,
+                tracker: {
+                    vat: 10,
+                    price: 0,
+                    unit: 0,
                 },
-                'is_dirty': true,
-            }));
+                is_dirty: true,
+            }))
 
             let _trackBackward = (id) => {
-                let index = _flatList.findIndex( i => i.id === id);
-                _flatList[index].active = true;
+                let index = _flatList.findIndex(i => i.id === id)
+                _flatList[index].active = true
                 if (_flatList[index].parent_id) {
-                    _trackBackward(_flatList[index].parent_id);
+                    _trackBackward(_flatList[index].parent_id)
                 }
             }
             let _trackForward = (id, index) => {
                 for (let i = index + 1; i < _flatList.length; i++) {
                     if (_flatList[i].parent_id === id) {
-                         _flatList[i].active = true;
-                         if (_flatList[i].has_children) {
-                             _trackForward(_flatList[i].id, i);
-                         }
+                        _flatList[i].active = true
+                        if (_flatList[i].has_children) {
+                            _trackForward(_flatList[i].id, i)
+                        }
                     }
-                   
                 }
-
             }
-            for (let i = list.length - 1;  i >= 0; i--) {
-                let index = _flatList.findIndex( m => m.id === list[i]);
+            for (let i = list.length - 1; i >= 0; i--) {
+                let index = _flatList.findIndex(m => m.id === list[i])
                 if (index !== -1) {
-                    _flatList[index].active = true;
-                    if(_flatList[index].parent_id) {
-                        _trackBackward(_flatList[index].parent_id);
+                    _flatList[index].active = true
+                    if (_flatList[index].parent_id) {
+                        _trackBackward(_flatList[index].parent_id)
                     }
-                    if(_flatList[index].has_children) {
-                        _trackForward(_flatList[index].id, index);
+                    if (_flatList[index].has_children) {
+                        _trackForward(_flatList[index].id, index)
                     }
                 }
             }
-            
-
-            return _flatList.reduce( (materials, material) => {
+            return _flatList.reduce((materials, material) => {
                 if (material.active === true) {
                     if (material.children) {
-                        material.children = null;
+                        material.children = null
                     }
-                    material.uid = this.uid();
-                    material.boqs = this.boqs(material.id);
-                    materials.push(material);
+                    material.uid = this.uid()
+                    material.boqs = this.boqs(material.id)
+                    materials.push(material)
                 }
-                return materials;
-            }, []);
+                return materials
+            }, [])
         },
-        chooseMaterials(values) {
-            this.materials_list = values;
-            this.flatList = this.generateFlatList();
-            this.materialSelect.disabled = true; 
+        chooseMaterials (values) {
+            this.materials_list = values
+            this.flatList = this.generateFlatList()
+            this.materialSelect.disabled = true
             if (!this.materialSelect.dirty) {
-                this.materialSelect.dirty = true;
+                this.materialSelect.dirty = true
             }
         },
-        materialResource(depth = 0) {
+        materialResource (depth = 0) {
             return {
-                "name": "",
-                "type": "material",
-                "currency": "",
-                "per": "",
-                "uid": this.uid(),
-                "brand": "",
-                "is_new": true,
-                'tracker': {
-                    'vat': 10,
-                    'price': 0,
-                    'unit': 0,
+                name: ``,
+                type: `material`,
+                currency: ``,
+                per: ``,
+                uid: this.uid(),
+                brand: ``,
+                is_new: true,
+                tracker: {
+                    vat: 10,
+                    price: 0,
+                    unit: 0,
                 },
-                'is_dirty': (depth === 0) ? false : true,
-                "id": 0,
-                'parent_uid': null,
-                'parent_id': null,
-                'depth': depth,
-                'boqs': [],
-                'has_children': false,
+                is_dirty: (depth !== 0),
+                id: 0,
+                parent_uid: null,
+                parent_id: null,
+                depth: depth,
+                boqs: [],
+                has_children: false,
             }
-            
         },
-        closeMenu() {
-            this.rightClick.isActive = false;
-            this.rightClick.selectedUID = null;
-            this.rightClick.selectedIndex = null;
-            this.$refs.rightClick.style.top = "-999px";
-            this.$refs.rightClick.style.left = "-999px";        
-            document.removeEventListener("click", this.rightClick.clickHandle);
+        closeMenu () {
+            this.rightClick.isActive = false
+            this.rightClick.selectedUID = null
+            this.rightClick.selectedIndex = null
+            this.$refs.rightClick.style.top = `-999px`
+            this.$refs.rightClick.style.left = `-999px`
+            document.removeEventListener(`click`, this.rightClick.clickHandle)
         },
-        openMenu(index, event = false) {
-            this.closeMenu();
-            this.$refs.rightClick.style.top = event.pageY + "px";
-            this.$refs.rightClick.style.left = event.pageX + "px";        
-            this.rightClick.isActive = true;
-            this.rightClick.selectedUID = this.flatList[index].uid;
-            this.rightClick.selectedIndex = index;
+        openMenu (index, event = false) {
+            this.closeMenu()
+            this.$refs.rightClick.style.top = event.pageY + `px`
+            this.$refs.rightClick.style.left = event.pageX + `px`
+            this.rightClick.isActive = true
+            this.rightClick.selectedUID = this.flatList[index].uid
+            this.rightClick.selectedIndex = index
             this.rightClick.clickHandle = (event) => {
                 if (event.button === 0) {
                     if (!this.$refs.rightClick.contains(event.target)) {
-                        this.closeMenu();
+                        this.closeMenu()
                     }
                 }
             }
-            document.addEventListener("click", this.rightClick.clickHandle);
+            document.addEventListener(`click`, this.rightClick.clickHandle)
         },
-        newMaterial() {
+        newMaterial () {
             if (!this.materialSelect.dirty) {
-                this.materialSelect.dirty = true;
+                this.materialSelect.dirty = true
             }
-            this.flatList.push(this.materialResource(0));
+            this.flatList.push(this.materialResource(0))
         },
-        deleteMaterial() {
-            const index = this.rightClick.selectedIndex;
-            let parentIds = [this.flatList[index].id];
-            let parentUids = [this.flatList[index].uid];
-            let count = 1;
+        deleteMaterial () {
+            const index = this.rightClick.selectedIndex
+            let parentIds = [this.flatList[index].id]
+            let parentUids = [this.flatList[index].uid]
+            let count = 1
             for (let i = index + 1; i < this.flatList.length; i++) {
                 if ((parentIds.indexOf(this.flatList[i].parent_id) !== -1) || (parentUids.indexOf(this.flatList[i].parent_uid) !== -1)) {
                     if (this.flatList[i].has_children) {
                         if (this.flatList[i].is_new) {
-                            parentUids.push(this.flatList[i].uid);
+                            parentUids.push(this.flatList[i].uid)
                         } else {
-                            parentIds.push(this.flatList[i].id);
+                            parentIds.push(this.flatList[i].id)
                         }
-                        
                     }
-                    count++;
+                    count++
                 } else {
-                    break;
+                    break
                 }
             }
-            this.flatList.splice(index, count);
-            this.closeMenu();
+            this.flatList.splice(index, count)
+            this.closeMenu()
         },
-        addChildMaterial() {
-            const index = this.rightClick.selectedIndex;
-            let material = this.materialResource(this.flatList[index].depth + 1);
-            
+        addChildMaterial () {
+            const index = this.rightClick.selectedIndex
+            let material = this.materialResource(this.flatList[index].depth + 1)
             if (!this.flatList[index].is_new) {
-                material.parent_id = this.flatList[index].id;
+                material.parent_id = this.flatList[index].id
             } else {
-                 material.parent_uid = this.flatList[index].uid;
+                material.parent_uid = this.flatList[index].uid
             }
-            
-            this.flatList[index].has_children = true;
-
-            let parentIds = [this.flatList[index].id];
-            let parentUids = [this.flatList[index].uid];
-
-            let count = 0;
+            this.flatList[index].has_children = true
+            let parentIds = [this.flatList[index].id]
+            let parentUids = [this.flatList[index].uid]
+            let count = 0
             for (let i = index + 1; i < this.flatList.length; i++) {
                 if ((parentIds.indexOf(this.flatList[i].parent_id) !== -1) || (parentUids.indexOf(this.flatList[i].parent_uid) !== -1)) {
                     if (this.flatList[i].has_children) {
                         if (this.flatList[i].is_new) {
-                            parentUids.push(this.flatList[i].uid);
+                            parentUids.push(this.flatList[i].uid)
                         } else {
-                            parentIds.push(this.flatList[i].id);
+                            parentIds.push(this.flatList[i].id)
                         }
-                        
                     }
-                    count++;
+                    count++
                 } else {
-                    break;
+                    break
                 }
             }
-            this.flatList.splice(index + 1 + count, 0, material);
-            this.newBOQ(index + 1 + count);
+            this.flatList.splice(index + 1 + count, 0, material)
+            this.newBOQ(index + 1 + count)
         },
-        newBOQ(material_index) {
-            this.flatList[material_index].boqs.push({
-                'unit': 0,
-                'price': 0,
-                'vat': 0,
-                'total': 0,
-                'is_new': true,
-            });
+        newBOQ (materialIndex) {
+            this.flatList[materialIndex].boqs.push({
+                unit: 0,
+                price: 0,
+                vat: 0,
+                total: 0,
+                is_new: true,
+            })
         },
-        addBOQ() {
-            const index = this.rightClick.selectedIndex;
-            this.newBOQ(index);
+        addBOQ () {
+            const index = this.rightClick.selectedIndex
+            this.newBOQ(index)
         },
-        uid() {
-            return Math.random().toString(36).substring(2) 
-               + (new Date()).getTime().toString(36).substring(10);
+        uid () {
+            return Math.random().toString(36).substring(2) + (new Date()).getTime().toString(36).substring(10)
         },
-        fetchProviders(callback) {
-            callback(null, [{id: 0, label: `TẠO NHÀ CUNG CẤP MỚI`}].concat(this.providers.map( provider => { return {id: provider.id, label: provider.name} })));
+        fetchProviders (callback) {
+            callback(null, [{id: 0, label: `TẠO NHÀ CUNG CẤP MỚI`}].concat(this.providers.map(provider => { return {id: provider.id, label: provider.name} })))
         },
-        fetchTree(callback) {
-            callback(null, this.tree);
+        fetchTree (callback) {
+            callback(null, this.tree)
         },
-        openMaterialSelect() {
+        openMaterialSelect () {
             this.swal({
-                'title': "Xác nhận",
-                'text': "Thay đổi này sẽ xóa hết các dữ liệu đã nhập trong bảng, tiếp tục?",
-                'type': "warning",
+                title: `Xác nhận`,
+                text: `Thay đổi này sẽ xóa hết các dữ liệu đã nhập trong bảng, tiếp tục?`,
+                type: `warning`,
             }).then(result => {
                 if (result) {
-                    this.materialSelect.disabled = false;
+                    this.materialSelect.disabled = false
                 }
-            });
+            })
         },
-
-        submit() {
+        submit () {
             if (this.errors.any()) {
-                return false;
+                return false
             } else {
-                //this.onSubmit = true;
-                this.$store.dispatch("invoice/store", {
-                    'work_id': this.$route.params.work_id,
-                    'provider_id': (this.provider_id !== 0) ? this.provider_id : undefined,
-                    'new_provider': (this.provider_id === 0) ? this.new_provider : undefined,
-                    'new_invoice': this.new_invoice,
-                    'list': this.flatList,
-                }).then( response => {
+                // this.onSubmit = true
+                this.$store.dispatch(`invoice/store`, {
+                    work_id: this.$route.params.work_id,
+                    provider_id: (this.provider_id !== 0) ? this.provider_id : `undefined`,
+                    new_provider: (this.provider_id === 0) ? this.new_provider : `undefined`,
+                    new_invoice: this.new_invoice,
+                    list: this.flatList,
+                }).then(response => {
                     this.swal({
-                        'title': "Thành công",
-                        'text': "Đã tạo đơn hàng",
-                        'type': "success",
-                        'timer': 3000
-                    }).then (result => {
+                        title: `Thành công`,
+                        text: `Đã tạo đơn hàng`,
+                        type: `success`,
+                        timer: 3000,
+                    }).then(result => {
                         this.$router.push({
-                            'name': "work.show",
-                            'params': {
-                                'work_id': this.$route.params.work_id,
-                            }
-                        });
-                    });                   
-                });
+                            name: `work.show`,
+                            params: {
+                                work_id: this.$route.params.work_id,
+                            },
+                        })
+                    })
+                })
             }
         },
     },
-
     directives: {
         focus: {
             // directive definition
             inserted: function (el) {
-                el.focus();
-            }
-        }
+                el.focus()
+            },
+        },
     },
     components: {
         Treeselect,
-    }
+    },
 }
 </script>
 

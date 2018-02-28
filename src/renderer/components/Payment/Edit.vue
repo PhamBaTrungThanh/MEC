@@ -60,60 +60,58 @@
 <script>
 export default {
     computed: {
-        user() {
-            return this.$store.state.user;
+        user () {
+            return this.$store.state.user
         },
-        cleave() {
-            return this.$store.state.cleaveOptions;
+        cleave () {
+            return this.$store.state.cleaveOptions
         },
-        validates() {
-            return this.$store.state.veeValidations;
+        validates () {
+            return this.$store.state.veeValidations
         },
-        payment_methods() {
-            return this.$store.state.paymentMethods;
+        payment_methods () {
+            return this.$store.state.paymentMethods
         },
     },
 
     data: () => ({
-        "payment": false,
-        "original_payment": false,
-        "edit_reason": "",
+        payment: false,
+        original_payment: false,
+        edit_reason: ``,
     }),
     methods: {
-        submitPayment() {
-            if (this.errors.any())
-            {
-                return false;
-            }
-            else {
+        submitPayment () {
+            if (this.errors.any()) {
+                return false
+            } else {
                 return {
-                    "method": "PATCH",
-                    "url": `payment/${this.$route.params.id}`,
-                    "data": {
-                        "name": this.payment.name,
-                        "method": this.payment.method,
-                        "paid_on": this.toISODate(this.payment.paid_on),
-                        "content": this.payment.content,
-                        "amount": this.payment.amount,
-                        "reason": this.edit_reason,
-                    }
+                    method: `PATCH`,
+                    url: `payment/${this.$route.params.id}`,
+                    data: {
+                        name: this.payment.name,
+                        method: this.payment.method,
+                        paid_on: this.toISODate(this.payment.paid_on),
+                        content: this.payment.content,
+                        amount: this.payment.amount,
+                        reason: this.edit_reason,
+                    },
                 }
             }
         },
-        success() {
+        success () {
             this.$router.push({
-                "name": "invoice.show",
-                "params": {
-                    "id": this.payment.invoice.id,
-                }
-            });
-        }
+                name: `invoice.show`,
+                params: {
+                    id: this.payment.invoice.id,
+                },
+            })
+        },
     },
-    created() {
-        this.axios.get(`payment/${this.$route.params.id}`).then( response => {
-            this.payment = response.data;
-        });
-    }
+    created () {
+        this.axios.get(`payment/${this.$route.params.id}`).then(response => {
+            this.payment = response.data
+        })
+    },
 }
 </script>
 

@@ -144,96 +144,88 @@
 <script>
 export default {
     data: () => ({
-        'new_payment': {
-            'name': "",
-            'paid_on': "",
-            'content': "",
-            'amount': "",
-            'method': "bank_transfer",
+        new_payment: {
+            name: ``,
+            paid_on: ``,
+            content: ``,
+            amount: ``,
+            method: `bank_transfer`,
         },
-        'onSubmit': false,
-        'options': {
-            'price': {
-                'numeral': true,
-                'numeralThousandsGroupStyle': 'thousand'
+        onSubmit: false,
+        options: {
+            price: {
+                numeral: true,
+                numeralThousandsGroupStyle: `thousand`,
             },
-            'vat': {
-                'numeral': true,
+            vat: {
+                numeral: true,
             },
-            'date': {
-                'date': true,
-                'datePattern' : ["d", "m", "Y"],                    
-            }
+            date: {
+                date: true,
+                datePattern: [`d`, `m`, `Y`],
+            },
         },
     }),
     computed: {
-        invoice() {
-            return this.$store.getters["invoice/invoice"](parseInt(this.$route.params.invoice_id));
+        invoice () {
+            return this.$store.getters[`invoice/invoice`](parseInt(this.$route.params.invoice_id))
         },
-        payment_methods() {
-            return this.$store.state.paymentMethods;
+        payment_methods () {
+            return this.$store.state.paymentMethods
         },
-        pageMeta() {
+        pageMeta () {
             return {
-                title: "Tạo thanh toán mới",
-                description: (this.invoice) ? `Hóa đơn: ${this.invoice.name}` : "Hóa đơn",
+                title: `Tạo thanh toán mới`,
+                description: (this.invoice) ? `Hóa đơn: ${this.invoice.name}` : `Hóa đơn`,
             }
         },
-        user() {
-            return this.$store.getters["user/user"];
-        }
+        user () {
+            return this.$store.getters[`user/user`]
+        },
     },
-
     methods: {
-        guard() {
-            this.$store.dispatch("invoice/getSingleInvoiceInstance", {'invoice_id': parseInt(this.$route.params.invoice_id)});
-            //this.$store.dispatch("invoice/getRelatedTrackers", {'invoice_id': parseInt(this.$route.params.invoice_id)});
-           // this.$store.dispatch("invoice/getRelatedMaterials", {'invoice_id': parseInt(this.$route.params.invoice_id)});
+        guard () {
+            this.$store.dispatch(`invoice/getSingleInvoiceInstance`, {invoice_id: parseInt(this.$route.params.invoice_id)})
+            // this.$store.dispatch(`invoice/getRelatedTrackers`, {invoice_id: parseInt(this.$route.params.invoice_id)})
+            // this.$store.dispatch(`invoice/getRelatedMaterials`, {invoice_id: parseInt(this.$route.params.invoice_id)})
         },
-        submitPayment() {
+        submitPayment () {
             if (this.errors.any()) {
-                return false;
+                return false
             } else {
-                this.onSubmit = true;
-                this.axios.post("payment", {
-                    "name": this.new_payment.name,
-                    "paid_on": this.toISODate(this.new_payment.paid_on),
-                    "content": this.new_payment.content,
-                    "amount": this.new_payment.amount,
-                    "method": this.new_payment.method,
-                    "invoice_id": this.$route.query.invoice_id,
-                    "user_id": this.$store.state.user.id,
-                }).then ( response => {
-                    this.$store.dispatch("newPayment", response.data.created);
-                    this.$store.dispatch("updateInvoice", response.data.affected.invoice);
-                    this.onSubmit = false;
-
+                this.onSubmit = true
+                this.axios.post(`payment`, {
+                    name: this.new_payment.name,
+                    paid_on: this.toISODate(this.new_payment.paid_on),
+                    content: this.new_payment.content,
+                    amount: this.new_payment.amount,
+                    method: this.new_payment.method,
+                    invoice_id: this.$route.query.invoice_id,
+                    user_id: this.$store.state.user.id,
+                }).then(response => {
+                    this.$store.dispatch(`newPayment`, response.data.created)
+                    this.$store.dispatch(`updateInvoice`, response.data.affected.invoice)
+                    this.onSubmit = false
                     this.$router.push({
-                        'name': "invoice.show",
-                        'params': {
-                            'id': this.invoice.id
-                        }
-                    });
-                });
+                        name: `invoice.show`,
+                        params: {
+                            id: this.invoice.id,
+                        },
+                    })
+                })
             }
         },
-
     },
-    mounted() {
-        const index = (this.$route.query.index) ? this.$route.query.index : 1;
-        this.new_payment.name = `Thanh toán lần ${index}`;
+    mounted () {
+        const index = (this.$route.query.index) ? this.$route.query.index : 1
+        this.new_payment.name = `Thanh toán lần ${index}`
     },
-    beforeRouteEnter(to, from, next) {
-        if (from.name === "invoice.show" || to.query.invoice_id) {
-            next();
+    beforeRouteEnter (to, from, next) {
+        if (from.name === `invoice.show` || to.query.invoice_id) {
+            next()
         } else {
-            next("/dashboard");
+            next(`/dashboard`)
         }
-        
-    }
+    },
 }
 </script>
-
-<style>
-
-</style>

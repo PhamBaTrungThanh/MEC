@@ -70,40 +70,35 @@
 <script>
 export default {
     data: () => ({
-        work_name: "",
-        work_description: "",
-        work_client: "",
-        work_started_at: "",
-        pageMeta: {
-            'title': "Tạo công trường mới",
-            'color': "link",
-
-        },
-        'options': {
-            'date': {
-                'date': true,
-                'datePattern' : ["d", "m", "Y"],                    
-            }
+        work_name: ``,
+        work_description: ``,
+        work_client: ``,
+        work_started_at: ``,
+        options: {
+            date: {
+                date: true,
+                datePattern: [`d`, `m`, `Y`],
+            },
         },
         onSubmit: false,
     }),
     methods: {
-        submit() {
+        submit () {
             if (!this.onSubmit) {
-                this.onSubmit = true;
-                this.$store.dispatch("work/store", {
+                this.onSubmit = true
+                this.$store.dispatch(`work/store`, {
                     name: this.work_name,
                     description: this.work_description,
                     client: this.work_client,
                     started_at: this.work_started_at,
-                }).then( result => {
+                }).then(result => {
                     this.$router.push({
-                        'name': "work.index",
-                    });
-                });
+                        name: `work.index`,
+                    })
+                })
             }
-        }
-    }
+        },
+    },
 }
 </script>
 

@@ -49,31 +49,24 @@
 
 <script>
 
-import {mapGetters} from 'vuex';
+import {mapGetters} from 'vuex'
 
 export default {
-    data() {
+    data () {
         return {
-            'report': false,
-            'action': false,
-            'pageMeta': {
-                'title': "Danh sách công trình",
-                'description': "Tất cả các công trình của MEC hiện tại",
-            },
-            'ready': false,
+            report: false,
+            action: false,
+            ready: false,
         }
     },
     computed: {
-        ...mapGetters('work', [
-            'works',
+        ...mapGetters(`work`, [
+            `works`,
         ]),
-        ...mapGetters('user', [
-            'user',
+        ...mapGetters(`user`, [
+            `user`,
         ]),
     },
-    mounted() {
-        
-    }
 }
 </script>
 

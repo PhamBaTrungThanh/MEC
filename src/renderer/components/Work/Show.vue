@@ -100,81 +100,56 @@
 </template>
 
 <script>
-import {mapState, mapGetters} from 'vuex';
-import * as moment from 'moment';
-import 'moment/locale/vi';
-moment.locale('vi');
+import * as moment from 'moment'
+import 'moment/locale/vi'
+moment.locale(`vi`)
+
 export default {
     data: () => ({
-        sortBy: "date",
+        sortBy: `date`,
     }),
     computed: {
-        user() {
-            return this.$store.getters['user/user'];
+        user () {
+            return this.$store.getters[`user/user`]
         },
-        work() {
-            return this.$store.getters['work/work'](parseInt(this.$route.params.work_id));
+        work () {
+            return this.$store.getters[`work/work`](parseInt(this.$route.params.work_id))
         },
-        invoices() {
-            return this.sortInvoices(this.$store.getters['invoice/invoicesInWork'](parseInt(this.$route.params.work_id)));
+        invoices () {
+            return this.$store.getters[`invoice/invoicesInWork`](parseInt(this.$route.params.work_id))
         },
-        trackers() {
-            return this.$store.getters['tracker/trackersForInvoice'](parseInt(this.$route.params.work_id));
+        trackers () {
+            return this.$store.getters[`tracker/trackersForInvoice`](parseInt(this.$route.params.work_id))
         },
-        sum_invoices() {
-            return this.invoices.reduce( (sum, invoice) => sum += parseFloat(invoice.total), 0) * 1.1;
+        sum_invoices () {
+            return this.invoices.reduce((sum, invoice) => (sum += parseFloat(invoice.total)), 0) * 1.1
         },
-        sum_payments() {
-            return this.invoices.reduce( (sum, invoice) => sum += parseFloat(invoice.payment_total), 0);
+        sum_payments () {
+            return this.invoices.reduce((sum, invoice) => (sum += parseFloat(invoice.payment_total)), 0)
         },
-        pageMeta() {
+        pageMeta () {
             return {
-                'title': `Công trình ${this.work.name}`,
-                'description': this.work.description,
-                'background': this.work.image_cover,
-                'isBigHero': true,
+                title: `Công trình ${this.work.name}`,
+                description: this.work.description,
+                background: this.work.image_cover,
+                isBigHero: true,
             }
-        }
+        },
     },
     methods: {
-        guard() {
-            this.$store.dispatch("work/getWork", {work_id: parseInt(this.$route.params.work_id)});
-            this.$store.dispatch("work/getRelatedInvoices", {work_id: parseInt(this.$route.params.work_id)});
+        guard () {
+            this.$store.dispatch(`work/getWork`, {work_id: parseInt(this.$route.params.work_id)})
+            this.$store.dispatch(`work/getRelatedInvoices`, {work_id: parseInt(this.$route.params.work_id)})
         },
-        provider(id) {
-            return this.$store.getters["provider/provider"](id);
+        provider (id) {
+            return this.$store.getters[`provider/provider`](id)
         },
-        viewReport() {
+        viewReport () {
             this.$router.push({
-                name: "work.report",
-            });
-        },
-
-        sortInvoices($_invoices) {
-            let $_result = $_invoices;
-
-            if (this.sortBy === "date") {
-                let mapped = $_invoices.map( (el, i) => {
-                    return {'index': i, value: moment(el.signed_at, 'DD-MM-YYYY').unix() }
-                });
-                mapped.sort( (a, b) => {
-                    if (a.value > b.value) {
-                        return -1;
-                    }
-                    if (a.value < b.value) {
-                        return 1;
-                    }
-                    return 0;
-                });
-
-                $_result = mapped.map( el => {
-                    return $_invoices[el.index];
-                });
-            }
-            return $_result;
+                name: `work.report`,
+            })
         },
     },
-
 }
 </script>
 

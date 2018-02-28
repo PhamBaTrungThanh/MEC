@@ -142,86 +142,81 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex';
 export default {
     data: () => ({
-        'receive_name': "",
-        'received_at': "",
-        'content': "",
-        'receive_list': [],
-        'onSubmit': false,
-        'options': {
-            'price': {
-                'numeral': true,
-                'numeralThousandsGroupStyle': 'thousand'
+        receive_name: ``,
+        received_at: ``,
+        content: ``,
+        receive_list: [],
+        onSubmit: false,
+        options: {
+            price: {
+                numeral: true,
+                numeralThousandsGroupStyle: `thousand`,
             },
-            'vat': {
-                'numeral': true,
+            vat: {
+                numeral: true,
             },
-            'date': {
-                'date': true,
-                'datePattern' : ["d", "m", "Y"],                    
-            }
+            date: {
+                date: true,
+                datePattern: [`d`, `m`, `Y`],
+            },
         },
     }),
     computed: {
-        pageMeta() {
+        pageMeta () {
             return {
-                'title': "Biên nhận hàng hóa",
-                'description': (this.invoice) ? `Đơn hàng: ${this.invoice.name}` : "Đơn hàng",
+                title: `Biên nhận hàng hóa`,
+                description: (this.invoice) ? `Đơn hàng: ${this.invoice.name}` : `Đơn hàng`,
             }
         },
-        user() {
-            return this.$store.getters["user/user"];
+        user () {
+            return this.$store.getters[`user/user`]
         },
-        trackers() {
-            const trackers = this.$store.getters["tracker/trackersForInvoice"](parseInt(this.$route.params.invoice_id));
-
-            return trackers;
+        trackers () {
+            const trackers = this.$store.getters[`tracker/trackersForInvoice`](parseInt(this.$route.params.invoice_id))
+            return trackers
         },
-        invoice() {
-            return this.$store.getters["invoice/invoice"](parseInt(this.$route.params.invoice_id));
+        invoice () {
+            return this.$store.getters[`invoice/invoice`](parseInt(this.$route.params.invoice_id))
         },
     },
 
     methods: {
-        getMaterial(material_id) {
-            return this.$store.getters["material/material"](material_id);
+        getMaterial (materialId) {
+            return this.$store.getters[`material/material`](materialId)
         },
-        guard() {
-            this.$store.dispatch("invoice/getSingleInvoiceInstance", {'invoice_id': parseInt(this.$route.params.invoice_id)});
-            this.$store.dispatch("invoice/getRelatedTrackers", {'invoice_id': parseInt(this.$route.params.invoice_id)});
-           // this.$store.dispatch("invoice/getRelatedMaterials", {'invoice_id': parseInt(this.$route.params.invoice_id)});
+        guard () {
+            this.$store.dispatch(`invoice/getSingleInvoiceInstance`, {'invoice_id': parseInt(this.$route.params.invoice_id)})
+            this.$store.dispatch(`invoice/getRelatedTrackers`, {'invoice_id': parseInt(this.$route.params.invoice_id)})
+            // this.$store.dispatch("invoice/getRelatedMaterials", {'invoice_id': parseInt(this.$route.params.invoice_id)});
         },
-        submitReceive() {
+        submitReceive () {
             const list = Object.keys(this.receive_list).map(key => {
                 return {
-                    'tracker_id': key,
-                    'value': this.receive_list[key],
+                    tracker_id: key,
+                    value: this.receive_list[key],
                 }
             })
-            
-            this.$store.dispatch("receive/store", {data: {
-                'name': this.receive_name,
-                'received_at': this.received_at,
-                'receive_list': list,
-                'invoice_id': this.$route.params.invoice_id,
+            this.$store.dispatch(`receive/store`, {data: {
+                name: this.receive_name,
+                received_at: this.received_at,
+                receive_list: list,
+                invoice_id: this.$route.params.invoice_id,
             }}).then(result => {
-
                 this.swal({
-                    'title': "Hoàn tất",
-                    'text': "Đã lưu dữ liệu",
-                    'type': "success",
-                    'timer': 3000
+                    title: `Hoàn tất`,
+                    text: `Đã lưu dữ liệu`,
+                    type: `success`,
+                    timer: 3000,
                 }).then(r => {
                     this.$router.push({
-                        'to': "invoice.show",
-                    });
+                        to: `invoice.show`,
+                    })
                 })
-            
-            });
-        }
-    }
+            })
+        },
+    },
 }
 </script>
 

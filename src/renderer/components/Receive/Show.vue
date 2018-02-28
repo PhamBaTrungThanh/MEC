@@ -27,30 +27,30 @@
 <script>
 export default {
     computed: {
-        user() {
+        user () {
             return this.$store.state.user
         },
-        pageMeta() {
+        pageMeta () {
             return {
-                title: (this.receive) ? `Biên nhận hàng hóa ${this.receive.name}` : "",
-                description: (this.invoice) ? `Đơn hàng: ${this.invoice.name}` : "Đơn hàng",
+                title: (this.receive) ? `Biên nhận hàng hóa ${this.receive.name}` : ``,
+                description: (this.invoice) ? `Đơn hàng: ${this.invoice.name}` : `Đơn hàng`,
             }
-        }
+        },
     },
     asyncComputed: {
         receive: {
             default: false,
-            get() {
-                return this.$store.dispatch("getReceive", {payment_id: this.$route.params.id, fetchNew: true});
-            }
+            get () {
+                return this.$store.dispatch(`getReceive`, {payment_id: this.$route.params.id, fetchNew: true})
+            },
         },
         invoice: {
             default: false,
             lazy: true,
-            get() {
-                return this.$store.dispatch("getInvoice", {invoice_id: this.payment.invoice_id});
-            }
-        }
+            get () {
+                return this.$store.dispatch(`getInvoice`, {invoice_id: this.payment.invoice_id})
+            },
+        },
     },
 }
 </script>

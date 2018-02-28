@@ -54,14 +54,13 @@
 
 <script>
 export default {
-    data() {
+    data () {
         return {
-
             new_receive: {
-                name: "",
-                receive_at: "",
-                note: "",
-                type: "new_receive",
+                name: ``,
+                receive_at: ``,
+                note: ``,
+                type: `new_receive`,
                 receive_list: [],
             },
             list: [],
@@ -69,37 +68,42 @@ export default {
         }
     },
     methods: {
-        submitPayment() {
-            axios.patch(`${this.$store.state.apiBase}/invoice/${this.$route.params.id}`, this.new_payment).then( response => {
+        submitPayment () {
+            this.axios.patch(`${this.$store.state.apiBase}/invoice/${this.$route.params.id}`, this.new_payment).then(response => {
                 if (response.status === 200) {
-                    this.$router.go(-1);
+                    this.$router.go(-1)
                 }
-            });
+            })
         },
-        submitReceive() {
-            this.new_receive.receive_list = this.tracker_list.map( tracker => { return {'id': tracker.id, 'value': tracker.value }});
-            axios.patch(`${this.$store.state.apiBase}/invoice/${this.$route.params.id}`, this.new_receive).then( response => {
-                if (response.status === 200) {
-                    this.$router.go(-1);
+        submitReceive () {
+            this.new_receive.receive_list = this.tracker_list.map(tracker => {
+                return {
+                    id: tracker.id,
+                    value: tracker.value,
                 }
-            });
+            })
+            this.axios.patch(`${this.$store.state.apiBase}/invoice/${this.$route.params.id}`, this.new_receive).then(response => {
+                if (response.status === 200) {
+                    this.$router.go(-1)
+                }
+            })
+        },
+    },
+    mounted () {
+        this.new_payment.name = `Thanh toán lần ${this.$route.query.index}`
+        this.new_receive.name = `Nhận hàng đợt ${this.$route.query.index}`
+        if (this.$route.query.action === `new_receive`) {
+            this.axios.get(`${this.$store.state.apiBase}/invoice/${this.$route.params.id}/edit`, {
+                params: {
+                    action: `new_receive`,
+                },
+            }).then(response => {
+                this.tracker_list = response.data.trackers.map(tracker => {
+                    return Object.assign({}, tracker, {value: 0})
+                })
+            })
         }
     },
-    mounted() {
-        this.new_payment.name = `Thanh toán lần ${this.$route.query.index}`;
-        this.new_receive.name = `Nhận hàng đợt ${this.$route.query.index}`;
-        if (this.$route.query.action === 'new_receive') {
-            axios.get(`${this.$store.state.apiBase}/invoice/${this.$route.params.id}/edit`, {
-                params: {
-                    'action': 'new_receive'
-                }
-            }).then (response => {
-                this.tracker_list = response.data.trackers.map( tracker => {
-                    return Object.assign({}, tracker, {value: 0});
-                });
-            });
-        }
-    }
 
 }
 </script>
