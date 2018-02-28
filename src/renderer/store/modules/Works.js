@@ -17,6 +17,9 @@ const getters = {
             }
         }
     },
+    getAllWorks (state) {
+        return state.works
+    },
 }
 const actions = {
     async fetchResources ({commit, dispatch}) {

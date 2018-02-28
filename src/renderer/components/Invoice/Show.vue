@@ -165,7 +165,7 @@
 
 <script>
 
-import { chartColors, ChartJs } from "./../../bootstrap"
+import { chartColors } from "./../../bootstrap"
 import { mapGetters } from 'vuex'
 export default {
     data: () => ({
@@ -300,7 +300,7 @@ export default {
             this.chartRefs.payments.update()
         },
         initializePaymentsChart (element) {
-            this.chartRefs.payments = new ChartJs(element.getContext(`2d`), {
+            this.chartRefs.payments = new this.ChartJs(element.getContext(`2d`), {
                 type: `doughnut`,
                 options: {
                     title: {
@@ -339,7 +339,7 @@ export default {
             })
         },
         initializeReceivesChart (element) {
-            this.chartRefs.receives = new ChartJs(element.getContext(`2d`), {
+            this.chartRefs.receives = new this.ChartJs(element.getContext(`2d`), {
                 type: `line`,
                 options: {
                     title: {

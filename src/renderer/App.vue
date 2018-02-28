@@ -85,7 +85,6 @@
                                 label: `Danh sách nhân viên`,
                                 accelerator: `Control+1`,
                                 click () {
-                                    console.log(`Goto hr/index`)
                                     router.push(`/hr`)
                                 },
                             },
@@ -102,6 +101,11 @@
                                 type: `normal`,
                                 label: `Danh sách công trường`,
                                 accelerator: `Control+2`,
+                                click () {
+                                    router.push({
+                                        name: `work.index`,
+                                    })
+                                },
                             },
                         ],
                     },

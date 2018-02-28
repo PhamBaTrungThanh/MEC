@@ -1,6 +1,5 @@
 <template>
     <div class="wrap">
-        <hero-header :page="pageMeta" />
         <div class="navbar has-shadow">
             <div class="container">
                 <div class="navbar-tabs">
@@ -43,15 +42,11 @@
             </div>
         </section>
     </div>
-
-
 </template>
-
 <script>
-
-import {mapGetters} from 'vuex'
-
+import { mapGetters } from 'vuex'
 export default {
+    name: `work-index`,
     data () {
         return {
             report: false,
@@ -60,12 +55,10 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(`work`, [
-            `works`,
-        ]),
-        ...mapGetters(`user`, [
-            `user`,
-        ]),
+        ...mapGetters({
+            user: `currentUser`,
+            works: `getAllWorks`,
+        }),
     },
 }
 </script>

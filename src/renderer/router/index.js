@@ -1,9 +1,9 @@
 import Vue from 'vue'
-import Router from 'vue-router'
+import VueRouter from 'vue-router'
 
-Vue.use(Router)
+Vue.use(VueRouter)
 
-export default new Router({
+export default new VueRouter({
     routes: [
         {
             path: `/`,
@@ -28,87 +28,91 @@ export default new Router({
         },
         {
             path: `/work`,
-            component: () => require(`@/components/Work/Base.vue`).default,
+            component: require(`@/components/Work/Base`).default,
             children: [
                 {
                     path: `create`,
                     name: `work.create`,
-                    component: () => require(`@/components/Work/Create.vue`).default,
-                }, {
+                    component: require(`@/components/Work/Create`).default,
+                },
+                {
                     path: `:work_id`,
                     name: `work.show`,
-                    component: () => require(`@/components/Work/Show.vue`).default,
-                }, {
+                    component: require(`@/components/Work/Show`).default,
+                },
+                {
                     path: `:work_id/edit`,
                     name: `work.edit`,
-                    component: () => require(`@/components/Work/Edit.vue`).default,
-                }, {
+                    component: require(`@/components/Work/Edit`).default,
+                },
+                {
                     path: `:work_id/report`,
                     name: `work.report`,
-                    component: () => require(`@/components/Work/Report.vue`).default,
-                }, {
+                    component: require(`@/components/Work/Report`).default,
+                },
+                {
                     path: ``,
                     name: `work.index`,
-                    component: () => require(`@/components/Work/Index.vue`).default,
+                    component: require(`@/components/Work/Index`).default,
                 },
             ],
         },
         {
             path: `/work/:work_id/invoice`,
-            component: () => require(`@/components/Invoice/Base.vue`).default,
+            component: require(`@/components/Invoice/Base`).default,
             children: [
                 {
                     path: `create`,
                     name: `invoice.create`,
-                    component: () => require(`@/components/Invoice/Create.vue`).default,
+                    component: require(`@/components/Invoice/Create`).default,
                 },
                 {
                     path: `:invoice_id`,
                     name: `invoice.show`,
-                    component: () => require(`@/components/Invoice/Show.vue`).default,
+                    component: require(`@/components/Invoice/Show`).default,
                 },
                 {
                     path: `:invoice_id/edit`,
                     name: `invoice.edit`,
-                    component: () => require(`@/components/Invoice/Edit.vue`).default,
+                    component: require(`@/components/Invoice/Edit`).default,
                 },
             ],
         },
         {
             path: `/work/:work_id/invoice/:invoice_id/payment`,
-            component: () => require(`@/components/Payment/Base.vue`).default,
+            component: require(`@/components/Payment/Base`).default,
             children: [
                 {
                     path: `create`,
                     name: `payment.create`,
-                    component: () => require(`@/components/Payment/Create.vue`).default,
+                    component: require(`@/components/Payment/Create`).default,
                 }, {
                     path: `:payment_id`,
                     name: `payment.show`,
-                    component: () => require(`@/components/Payment/Show.vue`).default,
+                    component: require(`@/components/Payment/Show`).default,
                 }, {
                     path: `:payment_id/edit`,
                     name: `payment.edit`,
-                    component: () => require(`@/components/Payment/Edit.vue`).default,
+                    component: require(`@/components/Payment/Edit`).default,
                 },
             ],
         },
         {
             path: `/work/:work_id/invoice/:invoice_id/receive`,
-            component: () => require(`@/components/Receive/Base.vue`).default,
+            component: require(`@/components/Receive/Base`).default,
             children: [
                 {
                     path: `create`,
                     name: `receive.create`,
-                    component: () => require(`@/components/Receive/Create.vue`).default,
+                    component: require(`@/components/Receive/Create`).default,
                 }, {
                     path: `:receive_id`,
                     name: `receive.show`,
-                    component: () => require(`@/components/Receive/Show.vue`).default,
+                    component: require(`@/components/Receive/Show`).default,
                 }, {
                     path: `:receive_id/edit`,
                     name: `receive.edit`,
-                    component: () => require(`@/components/Receive/Edit.vue`).default,
+                    component: require(`@/components/Receive/Edit`).default,
                 },
             ],
         },
