@@ -1,12 +1,15 @@
 const state = {
-    providers: [],
+    data: [],
 }
 const mutations = {
     STORE_ALL_PROVIDERS (state, data) {
-        state.providers = data
+        state.data = data
     },
 }
 const getters = {
+    providerById: state => providerId => {
+        return state.data.find(p => p.id === providerId)
+    },
 }
 const actions = {
     storeResources ({commit}, data) {

@@ -1,12 +1,36 @@
 const state = {
-    invoices: [],
+    data: [],
 }
 const mutations = {
     STORE_ALL_INVOICES (state, data) {
-        state.invoices = data
+        state.data = data
     },
 }
 const getters = {
+    relatedInvoicesInWork: state => workId => {
+        if (workId) {
+            return state.data.reduce((invoices, invoice) => {
+                if (invoice.work_id === workId) {
+                    invoices.push(invoice)
+                }
+                return invoices
+            }, [])
+        }
+        return []
+    },
+    currentInvoice (state, getters, rootState) {
+        if (rootState.route.params.invoice_id) {
+            const invoiceId = parseInt(rootState.route.params.invoice_id)
+            const _data = state.data.find(i => i.id === invoiceId)
+            return {
+                data: _data,
+                payments: getters.relatedPaymentsInInvoice(invoiceId),
+                receives: getters.relatedReceivesInInvoice(invoiceId),
+                trackers: getters.relatedTrackersInInvoice(invoiceId),
+            }
+        }
+        return false
+    },
 }
 const actions = {
     storeResources ({commit}, data) {

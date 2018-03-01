@@ -101,6 +101,7 @@ const MEC = {
          */
         Vue.prototype.axios = helpers.axios
         Vue.prototype.ChartJs = Chart
+        Vue.prototype.comma = helpers.monetize
     },
 }
 

@@ -1,12 +1,23 @@
 const state = {
-    receives: [],
+    data: [],
 }
 const mutations = {
     STORE_ALL_RECEIVES (state, data) {
-        state.receives = data
+        state.data = data
     },
 }
 const getters = {
+    relatedReceivesInInvoice: state => invoiceId => {
+        if (invoiceId) {
+            return state.data.reduce((receives, receive) => {
+                if (receive.invoice_id === invoiceId) {
+                    receives.push(receive)
+                }
+                return receives
+            }, [])
+        }
+        return []
+    },
 }
 const actions = {
     storeResources ({commit}, data) {

@@ -14,7 +14,11 @@ Vue.use(MEC)
 
 // Sync store and router
 sync(store, router)
-
+/*
+router.afterEach((to, from) => {
+    store.dispatch(`ROUTE_CHANGE`, to, from)
+})
+*/
 /* eslint-disable no-new */
 new Vue({
     components: { App },

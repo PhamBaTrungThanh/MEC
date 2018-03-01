@@ -1,12 +1,15 @@
 const state = {
-    materials: [],
+    data: [],
 }
 const mutations = {
     STORE_ALL_MATERIALS (state, data) {
-        state.materials = data
+        state.data = data
     },
 }
 const getters = {
+    materialById: state => id => {
+        return state.data.find(m => m.id === id)
+    },
 }
 const actions = {
     storeResources ({commit}, data) {

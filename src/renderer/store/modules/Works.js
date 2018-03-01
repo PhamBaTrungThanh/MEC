@@ -1,24 +1,25 @@
 const state = {
-    works: [],
+    data: [],
 }
 const mutations = {
     STORE_ALL_WORKS (state, data) {
-        state.works = data
+        state.data = data
     },
 }
 const getters = {
-    work (state) {
-        if (state.route) {
-            const workId = (typeof state.route.params.work_id !== `undefined`) ? parseInt(state.route.params.work_id) : false
-            if (workId) {
-                return state.works.find(w => w.id === state.route.params.work_id)
-            } else {
-                return false
+    currentWork (state, getters, rootState) {
+        if (rootState.route.params.work_id) {
+            const workId = parseInt(rootState.route.params.work_id)
+            const _work = state.data.find(w => w.id === workId)
+            return {
+                data: _work,
+                invoices: getters.relatedInvoicesInWork(workId),
             }
         }
+        return false
     },
     getAllWorks (state) {
-        return state.works
+        return state.data
     },
 }
 const actions = {

@@ -1,12 +1,23 @@
 const state = {
-    payments: [],
+    data: [],
 }
 const mutations = {
     STORE_ALL_PAYMENTS (state, data) {
-        state.payments = data
+        state.data = data
     },
 }
 const getters = {
+    relatedPaymentsInInvoice: state => invoiceId => {
+        if (invoiceId) {
+            return state.data.reduce((payments, payment) => {
+                if (payment.invoice_id === invoiceId) {
+                    payments.push(payment)
+                }
+                return payments
+            }, [])
+        }
+        return []
+    },
 }
 const actions = {
     storeResources ({commit}, data) {

@@ -1,6 +1,5 @@
 <template>
     <div class="create_work--wrapper">
-        <hero-header :page="pageMeta" />
         <div class="navbar has-shadow">
             <div class="container">
                 <div class="navbar-tabs">
@@ -74,14 +73,13 @@ export default {
         work_description: ``,
         work_client: ``,
         work_started_at: ``,
-        options: {
-            date: {
-                date: true,
-                datePattern: [`d`, `m`, `Y`],
-            },
-        },
         onSubmit: false,
     }),
+    computed: {
+        options () {
+            return this.$store.App.options
+        },
+    },
     methods: {
         submit () {
             if (!this.onSubmit) {

@@ -6,11 +6,6 @@ Vue.use(VueRouter)
 export default new VueRouter({
     routes: [
         {
-            path: `/`,
-            name: `landing-page`,
-            component: require(`@/components/LandingPage`).default,
-        },
-        {
             path: `/dashboard`,
             name: `dashboard`,
             component: require(`@/components/Dashboard`).default,

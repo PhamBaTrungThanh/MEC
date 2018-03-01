@@ -1,12 +1,23 @@
 const state = {
-    trackers: [],
+    data: [],
 }
 const mutations = {
     STORE_ALL_TRACKERS (state, data) {
-        state.trackers = data
+        state.data = data
     },
 }
 const getters = {
+    relatedTrackersInInvoice: state => invoiceId => {
+        if (invoiceId) {
+            return state.data.reduce((trackers, tracker) => {
+                if (tracker.work_id === invoiceId) {
+                    trackers.push(tracker)
+                }
+                return trackers
+            }, [])
+        }
+        return []
+    },
 }
 const actions = {
     storeResources ({commit}, data) {

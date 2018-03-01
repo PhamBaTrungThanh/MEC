@@ -1,7 +1,7 @@
 <template>
     <div id="app" :class="{'ready': ready}">
         <div class="wrapper" v-if="show && !ready">
-            <router-view></router-view>
+            <landing-page />
         </div>
         <section class="hero is-fullheight" v-if="ready">
             <div class="hero-body no-padding is-relative">
@@ -33,10 +33,12 @@
 
 <script>
     import LoginForm from './components/LoginForm'
+    import LandingPage from './components/LandingPage'
     export default {
         name: `mec`,
         components: {
             LoginForm,
+            LandingPage,
         },
         data: () => {
             return {
@@ -64,9 +66,6 @@
                 return this.$store.state.App.isReady
             },
             requestLogin () {
-                if (this.$store.state.App.requestLogin) {
-                    this.setWindowFixed()
-                }
                 return this.$store.state.App.requestLogin
             },
         },
@@ -139,6 +138,7 @@
             },
         },
         created () {
+            this.setWindowFixed()
             this.$store.dispatch(`appInit`)
         },
     }
@@ -153,7 +153,7 @@
     $family-primary: "Roboto";
     $family-heading: "Roboto Condensed";
     $font-weight-heading: 400;
-    $radius: 0px;
+    // $radius: 0px;
     $label-weight: 400;
     @import "~bulma/bulma.sass";
     /* Override */
@@ -170,7 +170,6 @@
     html::-webkit-scrollbar { 
         display: none;
     }
-
     .is-relative {
         position: relative;
     }
@@ -180,8 +179,11 @@
     .columns.is-verticaly-centered {
         align-items: center;
     }
-    .fuild-height {
+    .fuild-height, {
         height: 100vh;
+    }
+    .is-full-height {
+         height: 100% !important;
     }
     .no-padding {
         padding: 0;
@@ -301,14 +303,14 @@
     }
     .zoom-in-enter {
         opacity: 0;
-        transform: scale(1.2);
+        transform: scale(1.1);
     }
     .zoom-in-enter-to {
         opacity: 1;
         transform: scale(1);
     }
     .zoom-in-enter-active {
-        transition: opacity 0.5s ease, transform 0.5s ease;
+        transition: opacity 0.3s ease, transform 0.3s ease;
     }
     #app.ready {
         .landing-page {

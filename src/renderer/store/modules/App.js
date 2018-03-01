@@ -8,6 +8,12 @@ const state = {
     requestLogin: false,
     _token: ``,
     resources: [],
+    options: {
+        date: {
+            date: true,
+            datePattern: [`d`, `m`, `Y`],
+        },
+    },
 }
 const mutations = {
     IS_READY (state) {
@@ -105,6 +111,9 @@ const actions = {
         } catch (e) {
             console.log(`Store::App('fetchAllResources') => `, e)
         }
+    },
+    ROUTE_CHANGE () {
+        console.log(`route change`)
     },
 }
 export default {

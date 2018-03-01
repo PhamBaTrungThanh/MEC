@@ -153,11 +153,8 @@
                     </div>
                 </div>
             </section>
-
         </div>
     </transition>
-
-
 </template>
 
 <script>
