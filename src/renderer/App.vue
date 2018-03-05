@@ -3,7 +3,7 @@
         <div class="wrapper" v-if="show && !ready">
             <landing-page />
         </div>
-        <section class="hero is-fullheight" v-if="ready">
+        <section class="hero is-fullheight" v-if="show && ready">
             <div class="hero-body no-padding is-relative">
                 <aside :class="{'sidebar': true, 'hide-sidebar': !displaySidebar}">
                     <a class="toggle-sidebar-button" @click="displaySidebar = !displaySidebar">
@@ -20,11 +20,11 @@
                         </div>
                     </div>
                 </aside>
-                <div class="main-content scrollable-y">
+                <div class="main-content scrollable-y" id="main">
                     <router-view></router-view>
                 </div>
             </div>
-        </section>    
+        </section>
         <transition name="zoom-in">
             <login-form v-if="requestLogin" />
         </transition>
@@ -197,6 +197,20 @@
     .scrollable-x {
         overflow-x: auto;
     }
+    .canvas-container.is-square canvas,
+    .canvas-container.is-1by1 canvas,
+    .canvas-container.is-4by3 canvas,
+    .canvas-container.is-3by2 canvas,
+    .canvas-container.is-16by9 canvas,
+    .canvas-container.is-2by1 canvas {
+        bottom: 0;
+        left: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+        height: 100%;
+        width: 100%;
+    }
     /* 
      * navbar
      */
@@ -286,6 +300,14 @@
     }
     aside.sidebar.hide-sidebar + .main-content {
         left: 20px;
+    }
+    .hero.is-fullscreen {
+        position: absolute;
+        z-index: 9999;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
     }
 </style>
 <style lang="scss">

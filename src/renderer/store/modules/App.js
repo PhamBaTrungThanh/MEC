@@ -14,6 +14,7 @@ const state = {
             datePattern: [`d`, `m`, `Y`],
         },
     },
+    isFullscreen: false,
 }
 const mutations = {
     IS_READY (state) {
@@ -33,6 +34,12 @@ const mutations = {
     },
     UPDATE_RESOURCES (state, data) {
         state.resources.push(data)
+    },
+    FULLSCREEN_ON (state) {
+        state.isFullscreen = true
+    },
+    FULLSCREEN_OFF (state) {
+        state.isFullscreen = false
     },
 }
 const actions = {
@@ -98,6 +105,12 @@ const actions = {
     },
     appResourcesFetched ({commit}, data) {
         commit(`UPDATE_RESOURCES`, data)
+    },
+    turnOnFullscreen ({commit}) {
+        commit(`FULLSCREEN_ON`)
+    },
+    turnOffFullscreen ({commit}) {
+        commit(`FULLSCREEN_OFF`)
     },
     async fetchAllResources ({ commit, dispatch }) {
         try {

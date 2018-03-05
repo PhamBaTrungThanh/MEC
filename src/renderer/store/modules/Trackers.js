@@ -10,7 +10,7 @@ const getters = {
     relatedTrackersInInvoice: state => invoiceId => {
         if (invoiceId) {
             return state.data.reduce((trackers, tracker) => {
-                if (tracker.work_id === invoiceId) {
+                if (tracker.invoice_id === invoiceId) {
                     trackers.push(tracker)
                 }
                 return trackers

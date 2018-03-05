@@ -8,17 +8,23 @@
                             <ul>
                                 <router-link tag="li" :to="{name: `dashboard`}" active-class="router-active" exact-active-class="is-active"><a>MEC</a></router-link>
                                 <router-link tag="li" :to="{name: `work.index`}" active-class="router-active" exact-active-class="is-active"><a>Dự án</a></router-link>
-                                <router-link tag="li" :to="{name: `work.show`}" active-class="router-active" exact-active-class="is-active" v-if="routeName === `work.show`"><a>{{work.name}}</a></router-link>
                                 <router-link tag="li" :to="{name: `work.create`}" active-class="router-active" exact-active-class="is-active" v-if="routeName === `work.create`"><a>Tạo dự án mới</a></router-link>
+                                <router-link tag="li" :to="{name: `work.show`, params: {work_id: work.id}}" active-class="router-active" exact-active-class="is-active" v-if="work"><a>{{work.name}}</a></router-link>
+                                <router-link tag="li" :to="{name: `invoice.create`}" active-class="router-active" exact-active-class="is-active" v-if="routeName === `invoice.create`"><a>Tạo đơn hàng</a></router-link>
+                                <router-link tag="li" :to="{name: `invoice.show`, params: {invoice_id: invoice.id}}" active-class="router-active" exact-active-class="is-active" v-if="invoice"><a>Đơn hàng: {{invoice.name}}</a></router-link>
+                                <router-link tag="li" :to="{name: `payment.show`, params: {payment_id: payment.id}}" active-class="router-active" exact-active-class="is-active" v-if="payment"><a>Thanh toán: {{payment.name}}</a></router-link>
                             </ul>
                         </nav>
                     </div>
                     <div class="navbar-end">
-                        <p class="navbar-item">
-                            <router-link :to="{name: `work.create`}" class="button is-success" v-if="routeName === `work.index`">Tạo dự án</router-link>
-                            <router-link :to="{name: `work.index`}" class="button is-danger" v-if="routeName === `work.create`">Hủy</router-link>
-                            <router-link :to="{name: `work.report`, params: {work_id: work.id}}" class="button is-link" v-if="routeName === `work.show`">Xem báo cáo</router-link>
-                        </p>
+                        <div class="navbar-item">
+                            <div class="buttons">
+                                <router-link :to="{name: `work.create`}" class="button is-success" v-if="routeName === `work.index`">Tạo dự án</router-link>
+                                <router-link :to="{name: `work.index`}" class="button is-danger" v-if="routeName === `work.create`">Hủy</router-link>
+                                <router-link :to="{name: `invoice.create`, params: {work_id: work.id}}" class="button is-success" v-if="routeName === `work.show`">Tạo đơn hàng</router-link>
+                                <router-link :to="{name: `work.report`, params: {work_id: work.id}}" class="button is-link" v-if="routeName === `work.show`">Xem báo cáo</router-link>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -37,6 +43,12 @@ export default {
     computed: {
         work () {
             return this.$store.getters.currentWork.data
+        },
+        invoice () {
+            return this.$store.getters.invoice
+        },
+        payment () {
+            return this.$store.getters.payment
         },
         routeName () {
             return this.$route.name

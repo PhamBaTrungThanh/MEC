@@ -95,7 +95,7 @@
                             </div>
                         </nav>
                         
-                        <table class="table is-striped is-hoverable">
+                        <table class="table is-striped is-hoverable is-fullwidth">
                             <tbody>
                                 <tr>
                                     <th style="width: 50px">#</th>
@@ -130,7 +130,7 @@
 </template>
 <script>
 
-import { chartColors } from "./../../bootstrap"
+import { helpers } from "@/bootstrap"
 import { mapGetters } from 'vuex'
 export default {
     name: `invoice-show`,
@@ -152,27 +152,34 @@ export default {
             return this.currentInvoice.payments
         },
         receives () {
+            const receives = this.currentInvoice.receives
+            if (receives[0] === `loading`) {
+                this.$store.dispatch(`getReceiveForInvoice`)
+                return []
+            }
             return this.currentInvoice.receives
         },
         trackers () {
             return this.currentInvoice.trackers
         },
         receivesMap () {
-            let list = []
-            for (let i = this.trackers.length - 1; i >= 0; i--) {
-                list[i] = []
-                for (let j = this.receives.length - 1; j >= 0; j--) {
-                    for (let k = this.receives[j].units.length - 1; k >= 0; k--) {
-                        if (this.receives[j].units[k].tracker_id === this.trackers[i].id) {
-                            list[i][j] = this.receives[j].units[k].unit
+            if (this.receives) {
+                let list = []
+                for (let i = this.trackers.length - 1; i >= 0; i--) {
+                    list[i] = []
+                    for (let j = this.receives.length - 1; j >= 0; j--) {
+                        for (let k = this.receives[j].units.length - 1; k >= 0; k--) {
+                            if (this.receives[j].units[k].tracker_id === this.trackers[i].id) {
+                                list[i][j] = this.receives[j].units[k].unit
+                            }
                         }
                     }
                 }
+                return list
             }
-            return list
         },
         paymentsChartData () {
-            if (this.payments.length > 0 && this.invoice && this.chartRefs.payments) {
+            if (this.invoice && this.chartRefs.payments) {
                 let $Data = []
                 let $Labels = []
                 let $MoneizedData = []
@@ -194,6 +201,7 @@ export default {
                     data: $Data,
                     real: $MoneizedData,
                     total: total,
+                    colors: helpers.colorWheels($Labels.length),
                 }
             }
             return false
@@ -248,9 +256,13 @@ export default {
         },
         updatePaymentsChart (value) {
             this.chartRefs.payments.data.labels = value.labels
+            if (this.chartRefs.payments.data.datasets.length === 0) {
+                this.chartRefs.payments.data.datasets.push({})
+            }
             this.chartRefs.payments.data.datasets[0].data = value.data
             this.chartRefs.payments.data.datasets[0].real = value.real
             this.chartRefs.payments.data.datasets[0].total = value.total
+            this.chartRefs.payments.data.datasets[0].backgroundColor = value.colors
             this.chartRefs.payments.update()
         },
         initializePaymentsChart (element) {
@@ -276,19 +288,13 @@ export default {
                             },
                         },
                     },
-                },
-                data: {
-                    datasets: [{
-                        label: `Thanh toán`,
-                        backgroundColor: [
-                            chartColors.red,
-                            chartColors.blue,
-                            chartColors.green,
-                            chartColors.yellow,
-                            chartColors.orange,
-                            chartColors.purple,
-                        ],
-                    }],
+                    data: {
+                        datasets: [{
+                            label: `Thanh toán`,
+                            backgroundColor: [
+                            ],
+                        }],
+                    },
                 },
             })
         },
@@ -307,14 +313,6 @@ export default {
                 data: {
                     datasets: [{
                         label: `Mặt hàng`,
-                        backgroundColor: [
-                            chartColors.red,
-                            chartColors.blue,
-                            chartColors.green,
-                            chartColors.yellow,
-                            chartColors.orange,
-                            chartColors.purple,
-                        ],
                     }],
                 },
             })

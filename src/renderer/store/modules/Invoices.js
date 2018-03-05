@@ -31,6 +31,13 @@ const getters = {
         }
         return false
     },
+    invoice (state, getters, rootState) {
+        if (rootState.route.params.invoice_id) {
+            const invoiceId = parseInt(rootState.route.params.invoice_id)
+            return state.data.find(invoice => invoice.id === invoiceId)
+        }
+        return false
+    },
 }
 const actions = {
     storeResources ({commit}, data) {
