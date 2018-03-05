@@ -8,10 +8,17 @@ const state = {
     requestLogin: false,
     _token: ``,
     resources: [],
-    options: {
+    cleaveOptions: {
         date: {
             date: true,
             datePattern: [`d`, `m`, `Y`],
+        },
+        price: {
+            numeral: true,
+            numeralThousandsGroupStyle: `thousand`,
+        },
+        vat: {
+            numeral: true,
         },
     },
     isFullscreen: false,
@@ -35,11 +42,10 @@ const mutations = {
     UPDATE_RESOURCES (state, data) {
         state.resources.push(data)
     },
-    FULLSCREEN_ON (state) {
-        state.isFullscreen = true
-    },
-    FULLSCREEN_OFF (state) {
-        state.isFullscreen = false
+}
+const getters = {
+    cleaveOptions (state) {
+        return state.cleaveOptions
     },
 }
 const actions = {
@@ -133,4 +139,5 @@ export default {
     state,
     mutations,
     actions,
+    getters,
 }

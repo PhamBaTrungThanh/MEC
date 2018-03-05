@@ -1,7 +1,6 @@
 <template>
     <transition name="slide-fade">
         <div class="payment_create--wrapper" v-if="invoice">
-            <hero-header :page="pageMeta" />
             <div class="navbar has-shadow">
                 <div class="container">
                     <div class="navbar-tabs">

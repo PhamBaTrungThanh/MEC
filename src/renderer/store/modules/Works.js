@@ -21,6 +21,13 @@ const getters = {
     getAllWorks (state) {
         return state.data
     },
+    work (state, getters, rootState) {
+        if (rootState.route.params.work_id) {
+            const workId = parseInt(rootState.route.params.work_id)
+            return state.data.find(work => work.id === workId)
+        }
+        return false
+    },
 }
 const actions = {
     async fetchResources ({commit, dispatch}) {

@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import VeeValidate from 'vee-validate'
 import { sync } from 'vuex-router-sync'
-
+import Cleave from 'vue-cleave-component'
+import Treeselect from '@riophae/vue-treeselect'
 import App from './App'
 import router from './router'
 import store from './store'
@@ -11,6 +12,8 @@ if (!process.env.IS_WEB) Vue.use(require(`vue-electron`))
 Vue.config.productionTip = false
 Vue.use(VeeValidate)
 Vue.use(MEC)
+Vue.use(Cleave)
+Vue.component(`treeselect`, Treeselect)
 
 // Sync store and router
 sync(store, router)

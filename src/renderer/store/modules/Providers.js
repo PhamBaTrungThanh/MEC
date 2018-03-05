@@ -10,6 +10,9 @@ const getters = {
     providerById: state => providerId => {
         return state.data.find(p => p.id === providerId)
     },
+    allProviders (state) {
+        return state.data
+    },
 }
 const actions = {
     storeResources ({commit}, data) {

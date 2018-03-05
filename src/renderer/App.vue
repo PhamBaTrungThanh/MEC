@@ -147,6 +147,7 @@
 <style lang="scss">
     @import "~@/assets/fonts/fonts.css";
     @import "~mdi/css/materialdesignicons.min.css";
+    @import "~@riophae/vue-treeselect/dist/vue-treeselect.min";
     /*
      * Variables
     */
