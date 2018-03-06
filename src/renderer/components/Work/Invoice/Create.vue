@@ -1,8 +1,8 @@
 <template>
-    <content-sidebar>
+    <content-sidebar v-scroll-spy="{selector: '.scroll-spy-holder', linksSelector: '.scroll-spy-links a'}">
         <aside class="menu" slot="sidebar">
             <p class="menu-label">Đơn hàng</p>
-            <ul class="menu-list" v-scroll-spy-link:scroll1>
+            <ul class="menu-list scroll-spy-links">
                 <li>
                     <a :class="{'is-active': scrollIndex === 0}">Thông tin chung</a>
                 </li>
@@ -19,11 +19,11 @@
                     <a class="has-text-success">Tạo mới</a>
                 </li>
                 <li>
-                    <a class="has-text-danger" @click="$router.go(-1)">Hủy</a>
+                    <a class="has-text-danger" @click="$router.push({name: 'work.show', params: {work_id: work.id}})">Hủy</a>
                 </li>
             </ul>            
         </aside>
-        <div v-scroll-spy:scroll1>
+        <div class="scroll-spy-holder">
             <div class="general-info sector">
                 <a name="general"></a>
                 <p class="title is-4">Thông tin chung</p>

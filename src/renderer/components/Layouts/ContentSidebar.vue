@@ -59,7 +59,8 @@ export default {
                 padding: 60px 6px 60px 20px;
                 .sector {
                     min-height: 70vh;
-                    padding-bottom: 5rem;
+                    padding-bottom: 4rem;
+                    padding-top: 1rem;
                 }
             }
         }

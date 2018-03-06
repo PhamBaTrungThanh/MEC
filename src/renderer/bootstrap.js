@@ -1,7 +1,7 @@
 import axios from 'axios'
 import Chart from 'chart.js'
 import * as Swal from 'sweetalert2'
-import scrollMonitor from 'scrollmonitor'
+// import scrollMonitor from 'scrollmonitor'
 
 const App = Object.freeze({
     version: `0.0.1`,
@@ -124,25 +124,56 @@ const MEC = {
         Vue.prototype.swal = helpers.swal
         Vue.directive(`scroll-spy`, {
             inserted (el, binding, vnode) {
+                /*
                 el.dataset.scrollName = binding.arg
                 let watchers = []
                 const masterElement = document.querySelector(`.fullscreen-wrapper > .content-section`)
                 const masterMonitor = (masterElement) ? scrollMonitor.createContainer(masterElement) : scrollMonitor.createContainer(document.body)
+
                 for (let i = el.children.length - 1; i >= 0; i--) {
                     watchers[i] = masterMonitor.create(el.children[i])
                     watchers[i].enterViewport(() => {
                         vnode.context.$data.scrollIndex = i
                     })
                 }
-            },
-        })
-        Vue.directive(`scroll-spy-link`, {
-            inserted (el, binding) {
-                const nodes = el.querySelectorAll(`a`)
-                for (let i = nodes.length - 1; i >= 0; i--) {
-                    nodes[i].addEventListener(`click`, () => {
-                        const scrollerElement = document.querySelector(`div[data-scroll-name=${binding.arg}]`)
-                        scrollerElement.children[i].scrollIntoView()
+                */
+                const masterElement = document.querySelector(`.fullscreen-wrapper > .content-section`)
+                const spyElements = el.querySelector(binding.value.selector)
+                const linkElements = el.querySelectorAll(binding.value.linksSelector)
+                const offsets = []
+                let oldIndex = 0
+                for (let i = 0; i <= spyElements.children.length - 1; i++) {
+                    offsets.push(spyElements.children[i].offsetTop)
+                }
+                masterElement.addEventListener(`scroll`, function (event) {
+                    let index = 0
+                    if (masterElement.scrollTop < offsets[0]) {
+                        // reach the top
+                        index = 0
+                    } else if (masterElement.scrollTop > offsets[offsets.length - 1]) {
+                        // last item
+                        index = offsets.length - 1
+                    } else if (masterElement.scrollHeight - masterElement.scrollTop === masterElement.clientHeight) {
+                        // reach the end
+                        index = offsets.length - 1
+                    } else {
+                        for (let i = 1; i <= offsets.length - 1; i++) {
+                            if (masterElement.scrollTop >= offsets[i - 1] && masterElement.scrollTop < offsets[i]) {
+                                index = i - 1
+                                break
+                            }
+                        }
+                    }
+                    if (index === oldIndex) {
+                        return
+                    }
+                    linkElements[oldIndex].classList.remove(`is-active`)
+                    linkElements[index].classList.add(`is-active`)
+                    oldIndex = index
+                })
+                for (let i = linkElements.length - 1; i >= 0; i--) {
+                    linkElements[i].addEventListener(`click`, function (event) {
+                        spyElements.children[i].scrollIntoView()
                     })
                 }
             },
