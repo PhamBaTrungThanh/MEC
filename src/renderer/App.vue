@@ -25,6 +25,7 @@
                 </div>
             </div>
         </section>
+        
         <transition name="zoom-in">
             <login-form v-if="requestLogin" />
         </transition>

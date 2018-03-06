@@ -1,6 +1,6 @@
 <template>
-    <div class="work---wrapper">
-        <nav class="navbar has-shadow">
+    <main-layout>
+        <nav class="navbar has-shadow" slot="navbar">
             <div class="container is-fluid">
                 <div class="navbar-menu">
                     <div class="navbar-start">
@@ -29,17 +29,17 @@
                 </div>
             </div>
         </nav>
-        <section class="section">
-            <div class="container is-fluid">
-                <router-view></router-view>
-            </div>
-        </section>
-    </div>
+    </main-layout>
 </template>
 
 <script>
+import MainLayout from '@/components/Layouts/Main'
+
 export default {
     name: `work-base`,
+    components: {
+        MainLayout,
+    },
     computed: {
         work () {
             return this.$store.getters.currentWork.data

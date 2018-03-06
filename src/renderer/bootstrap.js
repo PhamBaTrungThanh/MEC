@@ -1,6 +1,7 @@
 import axios from 'axios'
 import Chart from 'chart.js'
 import * as Swal from 'sweetalert2'
+import scrollMonitor from 'scrollmonitor'
 
 const App = Object.freeze({
     version: `0.0.1`,
@@ -110,6 +111,7 @@ const helpers = Object.freeze({
         return [...colors.slice(0, number - 1), chartColors.grey]
     },
 })
+
 const MEC = {
     install: (Vue) => {
         /**
@@ -120,6 +122,36 @@ const MEC = {
         Vue.prototype.comma = helpers.monetize
         Vue.prototype.__ = helpers.__
         Vue.prototype.swal = helpers.swal
+        Vue.directive(`scroll-spy`, {
+            inserted (el, binding, vnode) {
+                el.dataset.scrollName = binding.arg
+                let watchers = []
+                const masterElement = document.querySelector(`.fullscreen-wrapper > .content-section`)
+                const masterMonitor = (masterElement) ? scrollMonitor.createContainer(masterElement) : scrollMonitor.createContainer(document.body)
+                for (let i = el.children.length - 1; i >= 0; i--) {
+                    watchers[i] = masterMonitor.create(el.children[i])
+                    watchers[i].enterViewport(() => {
+                        vnode.context.$data.scrollIndex = i
+                    })
+                }
+            },
+        })
+        Vue.directive(`scroll-spy-link`, {
+            inserted (el, binding) {
+                const nodes = el.querySelectorAll(`a`)
+                for (let i = nodes.length - 1; i >= 0; i--) {
+                    nodes[i].addEventListener(`click`, () => {
+                        const scrollerElement = document.querySelector(`div[data-scroll-name=${binding.arg}]`)
+                        scrollerElement.children[i].scrollIntoView()
+                    })
+                }
+            },
+        })
+        Vue.directive(`focus`, {
+            inserted (el) {
+                el.focus()
+            },
+        })
     },
 }
 
