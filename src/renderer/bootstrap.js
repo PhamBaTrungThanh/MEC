@@ -176,6 +176,8 @@ const MEC = {
                         spyElements.children[i].scrollIntoView()
                     })
                 }
+                // init
+                linkElements[0].classList.add(`is-active`)
             },
         })
         Vue.directive(`focus`, {

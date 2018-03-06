@@ -4,13 +4,13 @@
             <p class="menu-label">Đơn hàng</p>
             <ul class="menu-list scroll-spy-links">
                 <li>
-                    <a :class="{'is-active': scrollIndex === 0}">Thông tin chung</a>
+                    <a>Thông tin chung</a>
                 </li>
                 <li>
-                    <a :class="{'is-active': scrollIndex === 1}">Nhà cung cấp</a>
+                    <a>Nhà cung cấp</a>
                 </li>
                 <li>
-                    <a :class="{'is-active': scrollIndex === 2}">Danh mục hàng hóa</a>
+                    <a>Danh mục hàng hóa</a>
                 </li>
             </ul>
             <p class="menu-label">Tùy chọn</p>
@@ -255,7 +255,6 @@ export default {
     },
     data () {
         return {
-            scrollIndex: 0,
             is_read: true,
             materials_list: [],
             flatList: [],
