@@ -1,9 +1,26 @@
 <template>
     <transition name="zoom-in">
         <div class="payment_show--wrapper" v-if="payment.isFull">        
-            <p class="title">
-                {{payment.name}}
-            </p>
+            <div class="level">
+                <div class="level-left">
+                    <div class="level-item">
+                        <p class="title">
+                            {{payment.name}}
+                        </p>
+                    </div>
+                </div>
+                <div class="level-right">
+                    <div class="level-item">
+                        <button class="button is-link">
+                            <span class="icon">
+                                <i class="mdi mdi-pencil"></i>
+                            </span>
+                            <span>Sửa thanh toán</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
             <div class="columns">
                 <div class="column">
                     <div class="box">
@@ -121,12 +138,12 @@
                 <div class="column">
                     <div class="field is-grouped is-grouped-centered">
                         <div class="control">
-                            <button class="button is-danger" @click="deletePayment">
+                            <router-link tag="button" class="button is-danger" :to="{name: 'payment.delete'}">
                                 <span class="icon">
                                     <span class="mdi mdi-delete"></span>
                                 </span>
                                 <span class="">Xóa thanh toán</span>
-                            </button>
+                            </router-link>
                         </div>
                         <div class="control">
                             <router-link class="button is-outlined" :to="{'name': 'invoice.show', 'params': {'invoice_id': invoice.id}}">
@@ -160,30 +177,6 @@ export default {
                 }
             }
             return this.$store.getters.payment
-        },
-    },
-    methods: {
-        deletePayment () {
-            this.swal({
-                title: `Xác nhận xóa!`,
-                text: `Bạn có chắc chắc xóa thanh toán này? Hành động này sẽ không thể khôi phục.`,
-                type: `error`,
-                confirmButtonClass: `button is-danger`,
-            }).then(result => {
-                if (result.value) {
-                    this.axios.delete(`payment/${this.payment.id}`).then(response => {
-                        this.swal({
-                            title: `Đã xóa`,
-                            text: `Thanh toán đã được xóa`,
-                            type: `success`,
-                            timer: 3000,
-                        }).then(response => {
-                            this.$store.dispatch(`removePaymentsById`, [this.payment.id])
-                            this.$store.dispatch(`updateInvoice`, response.data.affected.invoice)
-                        })
-                    })
-                }
-            })
         },
     },
 }

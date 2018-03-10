@@ -17,6 +17,17 @@ const mutations = {
             }
         }
     },
+    DELETE_RECEIVES_FROM_INVOICE (state, invoiceId) {
+        let indexes = []
+        for (let i = state.data.length - 1; i >= 0; i--) {
+            if (state.data[i].invoice_id === invoiceId) {
+                indexes.push(i)
+            }
+        }
+        for (let i = indexes.length - 1; i >= 0; i--) {
+            state.data.splice(i, 1)
+        }
+    },
 }
 const getters = {
     relatedReceivesInInvoice: state => invoiceId => {
@@ -64,6 +75,9 @@ const actions = {
         } catch (e) {
             console.log(`Store::Receives('getReceiveForInvoice') => `, e)
         }
+    },
+    deleteInvoice ({commit}, {invoiceId}) {
+        commit(`DELETE_RECEIVES_FROM_INVOICE`, invoiceId)
     },
 }
 export default {

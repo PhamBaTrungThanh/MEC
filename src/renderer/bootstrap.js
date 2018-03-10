@@ -1,6 +1,6 @@
 import axios from 'axios'
 import Chart from 'chart.js'
-import * as Swal from 'sweetalert2'
+import swal from 'sweetalert2'
 // import scrollMonitor from 'scrollmonitor'
 
 const App = Object.freeze({
@@ -88,7 +88,7 @@ const helpers = Object.freeze({
             customClass: `box`,
         }
         const merged = Object.assign({}, defaults, options)
-        return new Swal(merged)
+        return new swal(merged) // eslint-disable-line new-cap
     },
     axios: axios.create({
         baseURL: App.baseAPIUrl,
@@ -137,7 +137,7 @@ const MEC = {
                     })
                 }
                 */
-                const masterElement = document.querySelector(`.fullscreen-wrapper > .content-section`)
+                const masterElement = document.querySelector(`.content-sidebar-wrapper > .content-section`)
                 const spyElements = el.querySelector(binding.value.selector)
                 const linkElements = el.querySelectorAll(binding.value.linksSelector)
                 const offsets = []

@@ -23,6 +23,7 @@
                                 <router-link :to="{name: `work.index`}" class="button is-danger" v-if="routeName === `work.create`">Hủy</router-link>
                                 <router-link :to="{name: `invoice.create`, params: {work_id: work.id}}" class="button is-success" v-if="routeName === `work.show`">Tạo đơn hàng</router-link>
                                 <router-link :to="{name: `work.report`, params: {work_id: work.id}}" class="button is-link" v-if="routeName === `work.show`">Xem báo cáo</router-link>
+                                <router-link :to="{name: `invoice.delete`, params: {work_id: work.id, invoice_id: invoice.id}}" class="button is-danger" v-if="routeName === `invoice.show`">Xóa đơn hàng</router-link>
                             </div>
                         </div>
                     </div>

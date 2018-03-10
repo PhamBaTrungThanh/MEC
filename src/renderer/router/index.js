@@ -61,6 +61,11 @@ export default new VueRouter({
                         component: require(`@/components/Work/Invoice/Show`).default,
                     },
                     {
+                        path: `:invoice_id/delete`,
+                        name: `invoice.delete`,
+                        component: require(`@/components/Work/Invoice/Delete`).default,
+                    },
+                    {
                         path: `:invoice_id/edit`,
                         name: `invoice.edit`,
                         component: require(`@/components/Work/Invoice/Edit`).default,
@@ -78,6 +83,10 @@ export default new VueRouter({
                             path: `:payment_id/edit`,
                             name: `payment.edit`,
                             component: require(`@/components/Work/Invoice/Payment/Edit`).default,
+                        }, {
+                            path: `:payment_id/delete`,
+                            name: `payment.delete`,
+                            component: require(`@/components/Work/Invoice/Payment/Delete`).default,
                         },
                     ]),
                     ...withPrefix(`:invoice_id/receives/`, [

@@ -199,6 +199,9 @@
     .scrollable-x {
         overflow-x: auto;
     }
+    .is-size-6-5 {
+        font-size: 0.85rem;
+    }
     .canvas-container.is-square canvas,
     .canvas-container.is-1by1 canvas,
     .canvas-container.is-4by3 canvas,
@@ -212,6 +215,37 @@
         top: 0;
         height: 100%;
         width: 100%;
+    }
+    .table-container > .table {
+        white-space: nowrap;
+        
+    }
+    .table.has-text-centered-cell {
+        td,th  {
+            text-align: center;
+            vertical-align: middle;
+        }
+    }
+    .table.has-text-left-cell {
+        td {
+            text-align: center;
+            vertical-align: middle;
+        }
+    }
+    tr.depth-1 > td.depth-padding {
+        padding-left: 20px;
+    }
+    tr.depth-2 > td.depth-padding {
+        padding-left: 40px;
+    }
+    tr.depth-3 > td.depth-padding {
+        padding-left: 60px;
+    }
+    tr.depth-4 > td.depth-padding {
+        padding-left: 80px;
+    }
+    tr.depth-5 > td.depth-padding {
+        padding-left: 100px;
     }
     /* 
      * navbar

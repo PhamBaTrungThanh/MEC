@@ -53,6 +53,7 @@
                         <tr>
                             <th style="width: 50px;">#</th>
                             <th style="width: 250px">Tên</th>
+                            <th style="width: 100px">Mã đơn hàng</th>
                             <th style="width: 125px">Ngày ký</th>
                             <th>Nhà cung cấp</th>
                             <th style="width: 175px">Giá trị đơn hàng</th>
@@ -62,8 +63,9 @@
                         <tr v-for="(invoice, index) in invoices" :key="index" >
                             <td><b>{{index + 1}}</b></td>
                             <td><router-link :to="{'name': 'invoice.show', 'params': {'invoice_id': invoice.id}}">{{invoice.name}}</router-link></td>
+                            <td class="is-size-6-5">{{invoice.uid}}</td>
                             <td><b>{{invoice.signed_at}}</b></td>
-                            <td>{{ provider(invoice.provider_id).name}}</td>
+                            <td class="is-size-7">{{ provider(invoice.provider_id).name}}</td>
                             <td>{{comma(invoice.total * 1.1)}}</td>
                             <td>{{comma(invoice.payment_total)}}</td>
                             <td></td>

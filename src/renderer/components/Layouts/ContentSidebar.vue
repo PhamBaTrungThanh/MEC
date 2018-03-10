@@ -2,7 +2,7 @@
     <transition appear name="zoom-in">
         <div slot="navbar">
         </div>
-        <div class="fullscreen-wrapper">
+        <div class="content-sidebar-wrapper">
             <div class="sidebar-section">
                 <div class="sidebar-inside">
                     <slot name="sidebar"></slot>
@@ -30,13 +30,13 @@ export default {
 <style lang="scss">
     $sidebar_width: 218px;
     $content_width: 660px;
-    .fullscreen-wrapper {
+    .content-sidebar-wrapper {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            z-index: 99999;
+            z-index: 999;
             background: #ffffff;
             display: flex;
         .sidebar-section {
@@ -58,7 +58,7 @@ export default {
                 width: $content_width;
                 padding: 60px 6px 60px 20px;
                 .sector {
-                    min-height: 70vh;
+                    min-height: 30vh;
                     padding-bottom: 4rem;
                     padding-top: 1rem;
                 }

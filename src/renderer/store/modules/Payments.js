@@ -13,6 +13,21 @@ const mutations = {
             state.data.splice(index, 1, payment)
         }
     },
+    DELETE_PAYMENTS_FROM_INVOICE (state, invoiceId) {
+        let indexes = []
+        for (let i = state.data.length - 1; i >= 0; i--) {
+            if (state.data[i].invoice_id === invoiceId) {
+                indexes.push(i)
+            }
+        }
+        for (let i = indexes.length - 1; i >= 0; i--) {
+            state.data.splice(i, 1)
+        }
+    },
+    DELETE_PAYMENT (state, id) {
+        const index = state.data.findIndex(p => p.id === id)
+        state.data.splice(index, 1)
+    },
 }
 const getters = {
     relatedPaymentsInInvoice: state => invoiceId => {
@@ -48,6 +63,38 @@ const actions = {
         } catch (e) {
             console.log(`Store::Payments('getPayment') => `, e)
         }
+    },
+    async storePayment ({commit, dispatch}, data) {
+        try {
+            const response = await this._vm.axios.post(`payment`, data)
+            if (response.status === 200) {
+                commit(`STORE_PAYMENT`, response.data.created)
+                dispatch(`updateInvoice`, {
+                    invoiceId: response.data.affected.invoice.id,
+                    resource: response.data.affected.invoice,
+                })
+            }
+        } catch (e) {
+            console.log(e)
+        }
+    },
+    async deletePayment ({commit, dispatch}, {paymentId}) {
+        try {
+            const response = await this._vm.axios.delete(`payment/${paymentId}`)
+            if (response.status === 200) {
+                commit(`DELETE_PAYMENT`, paymentId)
+                dispatch(`updateInvoice`, {
+                    invoiceId: response.data.affected.invoice.id,
+                    resource: response.data.affected.invoice,
+                })
+                return true
+            }
+        } catch (e) {
+            console.log(e)
+        }
+    },
+    deleteInvoice ({commit}, {invoiceId}) {
+        commit(`DELETE_PAYMENTS_FROM_INVOICE`, invoiceId)
     },
 }
 export default {
