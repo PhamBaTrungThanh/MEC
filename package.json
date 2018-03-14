@@ -1,6 +1,6 @@
 {
   "name": "mec",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "author": "Trung Thành <phambatrungthanh@gmail.com>",
   "description": "An electron-vue project",
   "license": "Apache-2.0",
@@ -99,6 +99,7 @@
     "electron-builder": "^19.19.1",
     "electron-debug": "^1.5.0",
     "electron-devtools-installer": "^2.2.0",
+    "electron-winstaller": "^2.6.4",
     "eslint": "^4.4.1",
     "eslint-config-standard": "^10.2.1",
     "eslint-friendly-formatter": "^3.0.0",
