@@ -1,7 +1,6 @@
 'use strict'
 
 import { app, BrowserWindow, autoUpdater, dialog } from 'electron'
-
 /**
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
@@ -9,13 +8,13 @@ import { app, BrowserWindow, autoUpdater, dialog } from 'electron'
 if (process.env.NODE_ENV !== `development`) {
     global.__static = require(`path`).join(__dirname, `/static`).replace(/\\/g, `\\\\`)
 }
-
+if (require(`electron-squirrel-startup`)) app.quit()
 let mainWindow
 const winURL = process.env.NODE_ENV === `development`
     ? `http://localhost:9080`
     : `file://${__dirname}/index.html`
 
-const squirrelUrl = `https://mec-deploy.herokuapp.com/update/win32/:version`
+const squirrelUrl = `https://mec-deploy.herokuapp.com/update/win32/v0.0.4`
 
 function createWindow () {
     /**
@@ -56,26 +55,7 @@ const startAutoUpdater = (squirrelUrl) => {
     // tell squirrel to check for updates
     autoUpdater.checkForUpdates()
 }
-const handleSquirrelEvent = () => {
-    if (process.argv.length === 1) {
-        return false
-    }
-    const squirrelEvent = process.argv[1]
-    switch (squirrelEvent) {
-    case `--squirrel-install`:
-    case `--squirrel-updated`:
-    case `--squirrel-uninstall`:
-        setTimeout(app.quit, 1000)
-        return true
-    case `--squirrel-obsolete`:
-        app.quit()
-        return true
-    }
-}
 
-if (handleSquirrelEvent()) {
-    app.quit()
-}
 app.on(`ready`, () => {
     if (process.env.NODE_ENV === `production`) startAutoUpdater(squirrelUrl)
     createWindow()

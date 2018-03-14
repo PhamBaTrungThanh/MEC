@@ -3,7 +3,7 @@
   "version": "0.0.5-beta.1",
   "author": "Trung Thành <phambatrungthanh@gmail.com>",
   "description": "Manage constructions, invoices, payments, hr, etc... for MEC International",
-  "productName": "my app",
+  "productName": "MEC Manager",
   "license": "Apache-2.0",
   "appCopyright": "me",
   "appCategoryType": "Productivity",
