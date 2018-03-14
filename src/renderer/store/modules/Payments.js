@@ -67,8 +67,8 @@ const actions = {
     async storePayment ({commit, dispatch}, data) {
         try {
             const response = await this._vm.axios.post(`payment`, data)
-            if (response.status === 200) {
-                commit(`STORE_PAYMENT`, response.data.created)
+            if (response.status === 201) {
+                commit(`STORE_PAYMENT`, response.data.data)
                 dispatch(`updateInvoice`, {
                     invoiceId: response.data.affected.invoice.id,
                     resource: response.data.affected.invoice,

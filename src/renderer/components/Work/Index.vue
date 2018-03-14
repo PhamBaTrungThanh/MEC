@@ -1,5 +1,5 @@
 <template>
-    <div>   
+    <div class="container is-fluid">   
         <p class="title">Danh sách dự án</p>
         <table class="table is-fullwidth is-hoverable is-striped">
             <thead>

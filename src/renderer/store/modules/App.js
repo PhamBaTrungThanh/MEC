@@ -27,6 +27,9 @@ const mutations = {
     IS_READY (state) {
         state.isReady = true
     },
+    IS_NOT_READY (state) {
+        state.isReady = false
+    },
     INITIALIZED (state) {
         state.initialized = true
     },
@@ -109,14 +112,21 @@ const actions = {
             return e.response
         }
     },
+    async appLogout ({commit}) {
+        try {
+            console.log(`Store::App('appLogout') -> try to logout`)
+            const worker = await this._vm.axios.post(`/logout`)
+            if (worker.status === 200) {
+                console.log(`Store::App('appLogout') -> logout complete, request login again`)
+                commit(`IS_NOT_READY`)
+                commit(`REQUEST_LOGINFORM`)
+            }
+        } catch (e) {
+            console.log(e)
+        }
+    },
     appResourcesFetched ({commit}, data) {
         commit(`UPDATE_RESOURCES`, data)
-    },
-    turnOnFullscreen ({commit}) {
-        commit(`FULLSCREEN_ON`)
-    },
-    turnOffFullscreen ({commit}) {
-        commit(`FULLSCREEN_OFF`)
     },
     async fetchAllResources ({ commit, dispatch }) {
         try {
@@ -130,9 +140,6 @@ const actions = {
         } catch (e) {
             console.log(`Store::App('fetchAllResources') => `, e)
         }
-    },
-    ROUTE_CHANGE () {
-        console.log(`route change`)
     },
 }
 export default {

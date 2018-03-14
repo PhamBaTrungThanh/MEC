@@ -1,6 +1,6 @@
 <template>
     <transition name="zoom-in">
-        <div v-if="work">           
+        <div v-if="work" class="container is-fluid">           
             <div class="columns">
                 <div class="column is-narrow">
                     <figure class="image is-48x48">

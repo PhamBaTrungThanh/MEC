@@ -1,6 +1,6 @@
 <template>
     <main-layout>
-        <nav class="navbar has-shadow" slot="navbar">
+        <nav class="navbar" slot="navbar">
             <div class="container is-fluid">
                 <div class="navbar-menu">
                     <div class="navbar-start">
@@ -10,6 +10,7 @@
                                 <router-link tag="li" :to="{name: `work.index`}" active-class="router-active" exact-active-class="is-active"><a>Dự án</a></router-link>
                                 <router-link tag="li" :to="{name: `work.create`}" active-class="router-active" exact-active-class="is-active" v-if="routeName === `work.create`"><a>Tạo dự án mới</a></router-link>
                                 <router-link tag="li" :to="{name: `work.show`, params: {work_id: work.id}}" active-class="router-active" exact-active-class="is-active" v-if="work"><a>{{work.name}}</a></router-link>
+                                <router-link tag="li" :to="{name: `work.report`, params: {work_id: work.id}}" active-class="router-active" exact-active-class="is-active" v-if="routeName === 'work.report'"><a>Báo cáo công trình {{work.name}}</a></router-link>
                                 <router-link tag="li" :to="{name: `invoice.create`}" active-class="router-active" exact-active-class="is-active" v-if="routeName === `invoice.create`"><a>Tạo đơn hàng</a></router-link>
                                 <router-link tag="li" :to="{name: `invoice.show`, params: {invoice_id: invoice.id}}" active-class="router-active" exact-active-class="is-active" v-if="invoice"><a>Đơn hàng: {{invoice.name}}</a></router-link>
                                 <router-link tag="li" :to="{name: `payment.show`, params: {payment_id: payment.id}}" active-class="router-active" exact-active-class="is-active" v-if="payment"><a>Thanh toán: {{payment.name}}</a></router-link>

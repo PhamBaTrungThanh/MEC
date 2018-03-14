@@ -127,7 +127,7 @@
                         <div class="column is-narrow">
                             <div class="field is-grouped">
                                 <div class="control">
-                                    <div class="button is-success" @click="submit">Lưu</div>
+                                    <button :class="{'button': true ,'is-success': true, 'is-loading': onSubmit}" @click="submit">Lưu</button>
                                 </div>                               
                                 <div class="control">
                                     <button class="button is-link" @click="toggleFullscreen = false" v-if="toggleFullscreen === true">Thu nhỏ</button>

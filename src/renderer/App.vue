@@ -20,7 +20,7 @@
                         </div>
                     </div>
                 </aside>
-                <div class="main-content scrollable-y" id="main">
+                <div class="main-content" id="main">
                     <router-view></router-view>
                 </div>
             </div>
@@ -67,6 +67,9 @@
                 return this.$store.state.App.isReady
             },
             requestLogin () {
+                if (this.$store.state.App.requestLogin) {
+                    this.setWindowFixed()
+                }
                 return this.$store.state.App.requestLogin
             },
         },
@@ -78,12 +81,29 @@
                 const router = this.$router
                 const template = [
                     {
+                        label: `Công việc`,
+                        submenu: [
+                            {
+                                type: `normal`,
+                                label: `Công việc `,
+                                accelerator: `Control+1`,
+                                click () {
+                                    router.push(`/hr`)
+                                },
+                            },
+                            {
+                                type: `normal`,
+                                label: `Thêm nhân viên mới`,
+                            },
+                        ],
+                    },
+                    {
                         label: `Nhân sự`,
                         submenu: [
                             {
                                 type: `normal`,
                                 label: `Danh sách nhân viên`,
-                                accelerator: `Control+1`,
+                                accelerator: `Control+2`,
                                 click () {
                                     router.push(`/hr`)
                                 },
@@ -100,10 +120,51 @@
                             {
                                 type: `normal`,
                                 label: `Danh sách công trường`,
-                                accelerator: `Control+2`,
+                                accelerator: `Control+3`,
                                 click () {
                                     router.push({
                                         name: `work.index`,
+                                    })
+                                },
+                            },
+                        ],
+                    },
+                    {
+                        label: `Tùy chọn`,
+                        submenu: [
+                            {
+                                type: `normal`,
+                                label: `Chỉnh sửa tùy chọn`,
+                                accelerator: `Control+4`,
+                                click () {
+                                    router.push({
+                                        name: `options`,
+                                        goto: `default`,
+                                    })
+                                },
+                            },
+                            {
+                                type: `normal`,
+                                label: `Đổi mật khẩu`,
+                                click () {
+                                    router.push({
+                                        name: `options`,
+                                        query: {
+                                            goto: `change_password`,
+                                        },
+                                    })
+                                },
+                            },
+                            {
+                                type: `normal`,
+                                label: `Đăng xuất`,
+                                accelerator: `Control+L`,
+                                click () {
+                                    router.push({
+                                        name: `options`,
+                                        query: {
+                                            goto: `logout`,
+                                        },
                                     })
                                 },
                             },
@@ -168,6 +229,7 @@
         -webkit-backface-visibility: hidden;
         -moz-backface-visibility: hidden;
         backface-visibility: hidden;
+        position: relative;
     }
     html::-webkit-scrollbar { 
         display: none;
@@ -232,20 +294,23 @@
             vertical-align: middle;
         }
     }
+    .table.has-text-small {
+        font-size: 0.9rem;
+    }
     tr.depth-1 > td.depth-padding {
-        padding-left: 20px;
+        padding-left: 30px;
     }
     tr.depth-2 > td.depth-padding {
-        padding-left: 40px;
-    }
-    tr.depth-3 > td.depth-padding {
         padding-left: 60px;
     }
+    tr.depth-3 > td.depth-padding {
+        padding-left: 90px;
+    }
     tr.depth-4 > td.depth-padding {
-        padding-left: 80px;
+        padding-left: 120px;
     }
     tr.depth-5 > td.depth-padding {
-        padding-left: 100px;
+        padding-left: 150px;
     }
     /* 
      * navbar
@@ -369,6 +434,17 @@
     }
     .zoom-in-enter-active {
         transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    .slide-up-enter-active {
+        transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    .slide-up-enter {
+        opacity: 0;
+        transform: translateY(100px);
+    }
+    .slide-up-enter-to {
+        opacity: 1;
+        transform: translateY(0);
     }
     #app.ready {
         .landing-page {

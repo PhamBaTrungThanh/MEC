@@ -49,6 +49,9 @@ const getters = {
         }
         return false
     },
+    invoiceById: state => id => {
+        return state.data.find(invoice => invoice.id === id)
+    },
 }
 const actions = {
     storeResources ({commit}, data) {
@@ -65,14 +68,13 @@ const actions = {
                 'new_invoice': data.new_invoice,
                 'list': data.list,
             })
-            if (response.status === 200) {
+            if (response.status === 201) {
                 commit(`STORE_SINGLE_INVOICE`, response.data.data)
-                if (response.data.trackers) {
-                    dispatch(`createOrUpdate`, {
-                        action: `storeInvoice`,
-                        dataPool: response.data,
-                    })
-                }
+                dispatch(`createOrUpdate`, {
+                    action: `storeInvoice`,
+                    dataPool: response.data,
+                })
+                return true
             }
         } catch (e) {
             console.log(`Store::Invoices('storeInvoice') =>`, e)

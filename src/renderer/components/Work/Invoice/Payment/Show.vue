@@ -1,6 +1,6 @@
 <template>
     <transition name="zoom-in">
-        <div class="payment_show--wrapper" v-if="payment.isFull">        
+        <div class="payment_show--wrapper container is-fluid" v-if="payment.isFull">        
             <div class="level">
                 <div class="level-left">
                     <div class="level-item">

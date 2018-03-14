@@ -7,7 +7,7 @@ const App = Object.freeze({
     version: `0.0.1`,
     name: `MEC International`,
     timeout: `5000`,
-    baseURL: `http://tracker.dev`,
+    baseURL: `http://192.168.2.4`,
     get baseAPIUrl () { return `${this.baseURL}/api/v1` },
 })
 

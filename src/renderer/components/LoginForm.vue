@@ -73,6 +73,9 @@ export default {
                             this.password = ``
                         } else {
                             this.$store.dispatch(`fetchAllResources`)
+                            this.$router.push({
+                                name: `work.index`,
+                            })
                         }
                     })
                 }

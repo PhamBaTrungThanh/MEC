@@ -112,8 +112,13 @@ export default new VueRouter({
                 },
             ],
         },
+        {
+            path: `options`,
+            name: `options`,
+            component: require(`@/components/Options/Options`).default,
+        },
     ],
     scrollBehavior (to, from, savedPosition) {
-        window.document.getElementById(`main`).scrollTop = 0
+        window.document.getElementById(`main_section`).scrollTop = 0
     },
 })

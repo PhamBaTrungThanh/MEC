@@ -1,6 +1,6 @@
 'use strict'
 
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, autoUpdater, dialog } from 'electron'
 
 /**
  * Set `__static` path to static files in production
@@ -14,6 +14,8 @@ let mainWindow
 const winURL = process.env.NODE_ENV === `development`
     ? `http://localhost:9080`
     : `file://${__dirname}/index.html`
+
+const squirrelUrl = `https://mec-deploy.herokuapp.com/update/win32/:version`
 
 function createWindow () {
     /**
@@ -40,8 +42,44 @@ function createWindow () {
         mainWindow = null
     })
 }
+const startAutoUpdater = (squirrelUrl) => {
+    // The Squirrel application will watch the provided URL
+    autoUpdater.setFeedURL(squirrelUrl)
+    // Display a success message on successful update
+    autoUpdater.addListener(`update-downloaded`, (event, releaseNotes, releaseName) => {
+        dialog.showMessageBox({message: `The release ${releaseName} has been downloaded`})
+    })
+    // Display an error message on update error
+    autoUpdater.addListener(`error`, (error) => {
+        dialog.showMessageBox({message: `Auto updater error: ${error}`})
+    })
+    // tell squirrel to check for updates
+    autoUpdater.checkForUpdates()
+}
+const handleSquirrelEvent = () => {
+    if (process.argv.length === 1) {
+        return false
+    }
+    const squirrelEvent = process.argv[1]
+    switch (squirrelEvent) {
+    case `--squirrel-install`:
+    case `--squirrel-updated`:
+    case `--squirrel-uninstall`:
+        setTimeout(app.quit, 1000)
+        return true
+    case `--squirrel-obsolete`:
+        app.quit()
+        return true
+    }
+}
 
-app.on(`ready`, createWindow)
+if (handleSquirrelEvent()) {
+    app.quit()
+}
+app.on(`ready`, () => {
+    if (process.env.NODE_ENV === `production`) startAutoUpdater(squirrelUrl)
+    createWindow()
+})
 
 app.on(`window-all-closed`, () => {
     if (process.platform !== `darwin`) {
@@ -54,23 +92,3 @@ app.on(`activate`, () => {
         createWindow()
     }
 })
-
-/**
- * Auto Updater
- *
- * Uncomment the following code below and install `electron-updater` to
- * support auto updating. Code Signing with a valid certificate is required.
- * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-electron-builder.html#auto-updating
- */
-
-/*
-import { autoUpdater } from 'electron-updater'
-
-autoUpdater.on('update-downloaded', () => {
-  autoUpdater.quitAndInstall()
-})
-
-app.on('ready', () => {
-  if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
-})
- */

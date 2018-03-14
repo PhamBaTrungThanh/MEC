@@ -128,7 +128,7 @@
                 </div>
                 <div class="field is-grouped is-grouped-centered">
                     <div class="control">
-                        <button :class="['button', 'is-success', {'is-loading': onSubmit}]" @click="submitPayment">
+                        <button :class="['button', 'is-success', {'is-loading': onSubmit}]" @click="submitPayment" :disabled="onSubmit">
                             <span class="icon">
                                 <i class="mdi mdi-file"></i>
                             </span>
@@ -147,6 +147,7 @@
 <script>
 import ContentSidebar from '@/components/Layouts/ContentSidebar'
 export default {
+    name: `create-payment`,
     components: {
         ContentSidebar,
     },
@@ -202,7 +203,7 @@ export default {
                     this.$router.push({
                         name: `invoice.show`,
                         params: {
-                            id: this.invoice.id,
+                            invoice_id: this.invoice.id,
                         },
                     })
                 })

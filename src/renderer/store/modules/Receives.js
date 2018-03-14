@@ -6,6 +6,9 @@ const mutations = {
     STORE_ALL_RECEIVES (state, data) {
         state.data = data
     },
+    STORE_RECEIVE (state, data) {
+        state.data.push(data)
+    },
     UPDATE_RECEIVES_FROM_INVOICE (state, {invoiceId, receives}) {
         state.detailed.push(invoiceId)
         for (let i = receives.length - 1; i >= 0; i--) {
@@ -78,6 +81,23 @@ const actions = {
     },
     deleteInvoice ({commit}, {invoiceId}) {
         commit(`DELETE_RECEIVES_FROM_INVOICE`, invoiceId)
+    },
+    async storeReceive ({commit, dispatch}, data) {
+        console.log(`Store::Receives('storeReceive') -> create new receive resource with ${data}`)
+        try {
+            const response = await this._vm.axios.post(`receive`, data)
+            if (response.status === 201) {
+                const receive = Object.assign({}, response.data.data, {units: []})
+                receive.units.push(...response.data.units)
+                commit(`STORE_RECEIVE`, receive)
+                dispatch(`updateAffected`, response.data.affected)
+                return true
+            } else {
+                throw new Error(`Server return code ${response.status}`)
+            }
+        } catch (error) {
+            console.log(`Store::Receives('storeReceive') => ${error}`)
+        }
     },
 }
 export default {

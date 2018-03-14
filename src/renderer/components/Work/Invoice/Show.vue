@@ -1,6 +1,6 @@
 <template>
     <transition name="zoom-in">
-        <div class="invoice_show--wrapper" v-if="invoice" >
+        <div class="invoice_show--wrapper container is-fluid" v-if="invoice" >
             <a name="general"></a>
             <p class="title"><i>Đơn hàng:</i> {{invoice.name}}</p>
             <div class="columns">
