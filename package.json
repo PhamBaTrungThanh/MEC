@@ -1,6 +1,6 @@
 {
   "name": "mec",
-  "version": "0.0.0",
+  "version": "0.0.2",
   "author": "Trung Thành <phambatrungthanh@gmail.com>",
   "description": "An electron-vue project",
   "license": "Apache-2.0",
