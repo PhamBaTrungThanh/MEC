@@ -1,7 +1,6 @@
 'use strict'
 
-import { app, BrowserWindow } from 'electron'
-import { autoUpdater } from 'electron-updater'
+import { app, BrowserWindow, autoUpdater, dialog } from 'electron'
 /**
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
@@ -9,10 +8,13 @@ import { autoUpdater } from 'electron-updater'
 if (process.env.NODE_ENV !== `development`) {
     global.__static = require(`path`).join(__dirname, `/static`).replace(/\\/g, `\\\\`)
 }
+if (require(`electron-squirrel-startup`)) app.quit()
 let mainWindow
 const winURL = process.env.NODE_ENV === `development`
     ? `http://localhost:9080`
     : `file://${__dirname}/index.html`
+
+const squirrelUrl = `https://mec-deploy.herokuapp.com/update/win32/v0.0.4`
 
 function createWindow () {
     /**
@@ -39,8 +41,23 @@ function createWindow () {
         mainWindow = null
     })
 }
+const startAutoUpdater = (squirrelUrl) => {
+    // The Squirrel application will watch the provided URL
+    autoUpdater.setFeedURL(squirrelUrl)
+    // Display a success message on successful update
+    autoUpdater.addListener(`update-downloaded`, (event, releaseNotes, releaseName) => {
+        dialog.showMessageBox({message: `The release ${releaseName} has been downloaded`})
+    })
+    // Display an error message on update error
+    autoUpdater.addListener(`error`, (error) => {
+        dialog.showMessageBox({message: `Auto updater error: ${error}`})
+    })
+    // tell squirrel to check for updates
+    autoUpdater.checkForUpdates()
+}
 
 app.on(`ready`, () => {
+    if (process.env.NODE_ENV === `production`) startAutoUpdater(squirrelUrl)
     createWindow()
 })
 
@@ -54,12 +71,4 @@ app.on(`activate`, () => {
     if (mainWindow === null) {
         createWindow()
     }
-})
-
-autoUpdater.on(`update-downloaded`, () => {
-    autoUpdater.quitAndInstall()
-})
-
-app.on(`ready`, () => {
-    if (process.env.NODE_ENV === `production`) autoUpdater.checkForUpdates()
 })
