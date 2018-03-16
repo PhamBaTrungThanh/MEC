@@ -1,6 +1,6 @@
 {
   "name": "mec",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "Trung Thành <phambatrungthanh@gmail.com>",
   "description": "Manage constructions, invoices, payments, hr, etc... for MEC International",
   "productName": "MEC Manager",
@@ -23,7 +23,8 @@
     "pack:renderer": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.renderer.config.js",
     "test": "npm run unit && npm run e2e",
     "unit": "karma start test/unit/karma.conf.js",
-    "postinstall": "npm run lint:fix"
+    "postinstall": "npm run lint:fix",
+    "release": "node .electron-vue/build.js && electron-builder -p always"
   },
   "build": {
     "productName": "MEC Manager",
@@ -31,10 +32,14 @@
     "directories": {
       "output": "build"
     },
+    "nsis": {
+      "oneClick": true
+    },
     "publish": [
       {
         "provider": "github",
-        "owner": "PhamBaTrungThanh"
+        "owner": "PhamBaTrungThanh",
+        "releaseType": "release"
       }
     ],
     "files": [
