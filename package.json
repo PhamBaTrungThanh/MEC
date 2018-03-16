@@ -1,6 +1,6 @@
 {
   "name": "mec",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "author": "Trung Thành <phambatrungthanh@gmail.com>",
   "description": "Manage constructions, invoices, payments, hr, etc... for MEC International",
   "productName": "MEC Manager",
@@ -24,22 +24,23 @@
     "test": "npm run unit && npm run e2e",
     "unit": "karma start test/unit/karma.conf.js",
     "postinstall": "npm run lint:fix",
-    "release": "node .electron-vue/build.js && electron-builder -p always"
+    "release": "node .electron-vue/build.js && electron-builder"
   },
   "build": {
     "productName": "MEC Manager",
-    "appId": "org.simulatedgreg.electron-vue",
+    "appId": "org.phambatrungthanh.mec",
     "directories": {
       "output": "build"
     },
     "nsis": {
-      "oneClick": true
+      "oneClick": true,
+      "createDesktopShortcut": true,
+      "deleteAppDataOnUninstall": true
     },
     "publish": [
       {
         "provider": "github",
-        "owner": "PhamBaTrungThanh",
-        "releaseType": "release"
+        "owner": "PhamBaTrungThanh"
       }
     ],
     "files": [
