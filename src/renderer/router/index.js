@@ -113,9 +113,14 @@ export default new VueRouter({
             ],
         },
         {
-            path: `options`,
+            path: `/options`,
             name: `options`,
             component: require(`@/components/Options/Options`).default,
+        },
+        {
+            path: `/flow`,
+            name: `flow.base`,
+            component: require(`@/components/Flow/Base`).default,
         },
     ],
     scrollBehavior (to, from, savedPosition) {

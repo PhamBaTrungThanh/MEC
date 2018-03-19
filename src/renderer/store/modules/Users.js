@@ -1,7 +1,7 @@
 import arraySort from 'array-sort'
 const state = {
     user: {},
-    users: [],
+    data: [],
     groups: [
         {
             name: `directors`,
@@ -35,7 +35,7 @@ const mutations = {
         state.user = user
     },
     STORE_ALL_USERS (state, users) {
-        state.users = users
+        state.data = users
     },
 
 }
@@ -44,14 +44,14 @@ const getters = {
         return state.user
     },
     users (state) {
-        return state.users
+        return state.data
     },
     usergroups (state) {
         let groups = []
         for (let i = state.groups.length - 1; i >= 0; i--) {
             groups.push({
                 label: state.groups[i].label,
-                list: arraySort(state.users.reduce((users, user) => {
+                list: arraySort(state.data.reduce((users, user) => {
                     if (user.role === state.groups[i].role_id) {
                         users.push(user)
                     }
@@ -61,6 +61,9 @@ const getters = {
             })
         }
         return arraySort(groups, `order`)
+    },
+    userById: state => id => {
+        return state.data.find(user => user.id === id)
     },
 }
 const actions = {

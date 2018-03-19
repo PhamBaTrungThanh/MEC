@@ -101,8 +101,16 @@
                                         <td>{{provider(tracker.invoice.provider_id).name}}</td>
                                     </tr>
                                     <tr>
+                                        <td>Người mua</td>
+                                        <td>{{user(tracker.buyer_id).name}}</td>
+                                    </tr>
+                                    <tr>
                                         <td>Số lượng</td>
                                         <td>{{tracker.unit}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Đơn giá</td>
+                                        <td><p v-if="tracker.cost > 0">{{comma(tracker.cost)}} {{material.currency}}</p></td>
                                     </tr>
                                     <tr>
                                         <td>Đã nhận</td>
@@ -263,6 +271,9 @@ export default {
         },
         provider (id) {
             return this.$store.getters.providerById(id)
+        },
+        user (id) {
+            return this.$store.getters.userById(id)
         },
     },
 }

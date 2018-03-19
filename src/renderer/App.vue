@@ -3,29 +3,9 @@
         <div class="wrapper" v-if="show && !ready">
             <landing-page />
         </div>
-        <section class="hero is-fullheight" v-if="show && ready">
-            <div class="hero-body no-padding is-relative">
-                <aside :class="{'sidebar': true, 'hide-sidebar': !displaySidebar}">
-                    <a class="toggle-sidebar-button" @click="displaySidebar = !displaySidebar">
-                        <span class="icon">
-                            <i class="mdi mdi-chevron-left" v-if="displaySidebar"></i>
-                            <i class="mdi mdi-chevron-right" v-if="!displaySidebar"></i>
-                        </span>
-                    </a>
-                    <div class="sidebar-main">
-                        <div class="sidebar-content scrollable-y">
-                            <div class="navigation-block">
-                                <p class="subtitle is-6 is-capitalized label">Công cụ</p>
-                            </div>
-                        </div>
-                    </div>
-                </aside>
-                <div class="main-content" id="main">
-                    <router-view></router-view>
-                </div>
-            </div>
-        </section>
-        
+        <div class="app--wrapper" v-if="show && ready">
+            <router-view></router-view>
+        </div>
         <transition name="zoom-in">
             <login-form v-if="requestLogin" />
         </transition>
@@ -43,7 +23,6 @@
         },
         data: () => {
             return {
-                displaySidebar: true,
                 fixedWindow: {
                     width: 440,
                     height: 500,
@@ -88,7 +67,7 @@
                                 label: `Công việc `,
                                 accelerator: `Control+1`,
                                 click () {
-                                    router.push(`/hr`)
+                                    router.push(`/flow`)
                                 },
                             },
                             {
