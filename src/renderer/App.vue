@@ -195,8 +195,10 @@
     $family-primary: "Roboto";
     $family-heading: "Roboto Condensed";
     $font-weight-heading: 400;
-    // $radius: 0px;
+    $radius: 2px;
     $label-weight: 400;
+    $modal-background-background-color: rgba(10, 10, 10, 0.64);
+    $box-radius: $radius;
     @import "~bulma/bulma.sass";
     /* Override */
     h1, h2, h3, h4, h5, h6, .title, .subtitle {
@@ -424,6 +426,15 @@
     .slide-up-enter-to {
         opacity: 1;
         transform: translateY(0);
+    }
+    .appear-enter-active {
+        transition: opacity 200ms ease-in;
+    }
+    .appear-enter {
+        opacity: 0;
+    }
+    .appear-enter-to {
+        opacity: 1;
     }
     #app.ready {
         .landing-page {

@@ -121,6 +121,18 @@ export default new VueRouter({
             path: `/flow`,
             name: `flow.base`,
             component: require(`@/components/Flow/Base`).default,
+            children: [
+                {
+                    path: `workgroup`,
+                    name: `workgroup.index`,
+                    component: require(`@/components/Flow/Workgroup/Index`).default,
+                },
+                {
+                    path: `workgroup/create`,
+                    name: `workgroup.create`,
+                    component: require(`@/components/Flow/Workgroup/Create`).default,
+                },
+            ],
         },
     ],
     scrollBehavior (to, from, savedPosition) {

@@ -46,6 +46,10 @@ const getters = {
     users (state) {
         return state.data
     },
+    usersSortByName (state) {
+        let users = JSON.parse(JSON.stringify(state.data))
+        return arraySort(users, `first_name`)
+    },
     usergroups (state) {
         let groups = []
         for (let i = state.groups.length - 1; i >= 0; i--) {
