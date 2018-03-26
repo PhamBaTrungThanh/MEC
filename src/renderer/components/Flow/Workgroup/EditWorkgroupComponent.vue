@@ -3,7 +3,7 @@
         <div class="modal-background"></div>
         <div class="modal-content" style="overflow: unset">
             <transition name="appear" appear>
-                <div class="box">
+                <div class="box" v-if="!onDelete">
                     <div class="level">
                         <div class="level-left">
                             <div class="level-item">
@@ -49,7 +49,20 @@
                                 </p>
                             </div>
                         </div>    
+                        <div class="delete-container">
+                            <p>
+                                <span class="icon has-text-danger">
+                                    <i class="mdi mdi-delete"></i>
+                                </span>
+                                <span class="has-text-danger">Xóa nhóm</span>
+                                <span class="is-size-7">Sau khi xác nhận, toàn bộ nội dung của nhóm này sẽ bị xóa vĩnh viễn. Hành động này không thể khôi phục.</span>
+                            </p>
+
+                        </div>
                     </div>
+                </div>
+                <div class="box" v-if="onDelete">
+
                 </div>
             </transition>
         <button class="modal-close is-large" aria-label="close" @click="$emit('close')"></button>
@@ -81,6 +94,7 @@ export default {
             name: ``,
             isPrivate: false,
             onSubmit: false,
+            onDelete: false,
         }
     },
     methods: {
@@ -110,5 +124,8 @@ export default {
 </script>
 
 <style>
-
+    .delete-container {
+        background: rgba(85, 85, 85, 0.1);
+        padding: 1.5rem 1rem;  
+    }
 </style>

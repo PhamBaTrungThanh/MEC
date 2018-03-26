@@ -306,7 +306,7 @@ export default {
             options: `cleaveOptions`,
             providers: `allProviders`,
             tree: `materialTree`,
-            allMaterials: `allMaterials`,
+            allMaterials: `materialsInWork`,
         }),
     },
     methods: {

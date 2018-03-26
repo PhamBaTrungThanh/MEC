@@ -98,6 +98,7 @@ const actions = {
         console.log(`Store::Workgroup -> update workgroup id:::${id}`)
         try {
             const response = await this._vm.axios.put(`workgroup/${id}`, {
+                action: `update_workgroup`,
                 name: name,
                 is_private: isPrivate,
             })

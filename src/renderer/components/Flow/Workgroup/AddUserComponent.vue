@@ -28,6 +28,18 @@
                         <div class="field">
                             <treeselect :load-root-options="buildUsersList" :closeOnSelect="true" :limit="3" placeholder="Nhập tên" v-validate="'required'" name="user_list" @close="selectUser"></treeselect>
                         </div>
+                        <div class="level">
+                            <div class="level-left">
+                                <p class="level-item">
+                                    <button class="button is-light" :disabled="onSubmit" @click="$emit('close')">Hủy bỏ</button>
+                                </p>
+                            </div>
+                            <div class="level-right">
+                                <p class="level-item">
+                                    <button :class="{'button': true, 'is-info': true, 'is-loading': onSubmit}" @click="submit">Lưu</button>
+                                </p>
+                            </div>
+                        </div>    
                     </div>
                 </div>
             </transition>
@@ -74,6 +86,9 @@ export default {
         },
         selectUser (value) {
             this.selectedUsers.push(value)
+        },
+        submit () {
+            return false
         },
     },
 }
