@@ -6,6 +6,9 @@
                 <li>
                     <a>Tạo nhóm làm việc mới</a>
                 </li>
+                <li>
+                    <a>Chọn Leader</a>
+                </li>
             </ul>
             <p class="menu-label">Tùy chọn</p>
             <ul class="menu-list">
@@ -44,18 +47,36 @@
                         <span>Riêng tư </span><span class="is-size-7">(người khác sẽ không xem được những công việc mà nhóm đang thực hiện)</span>
                     </label>
                 </div>
-                <div class="field is-grouped">
-                    <p class="control">
-                        <a class="button is-success" @click="submitNewWorkgroup">
-                        Tạo mới
-                        </a>
-                    </p>
-                    <p class="control">
-                        <a class="button is-light" @click="$router.push({name: 'workgroup.index'})">
-                        Hủy
-                        </a>
-                    </p>
+            </div>
+            <div class="sector">
+                <p class="title is-4">Chọn Leader</p>
+                <hr />    
+                <div class="columns is-centered is-gapless">
+                    <div class="column is-one-third">
+                        <div class="content">
+                            <figure class="image">
+                                <img src="~@/assets/images/illustration-invite-people.svg">
+                            </figure>   
+                        </div>
+                    </div>
                 </div>
+                <div class="content">
+                    <div class="field">
+                        <treeselect :load-root-options="fetchUsers" :open-on-focus="true" :close-on-select="true" :disableBranchNodes="false" placeholder="Chọn nhóm trưởng" :disabled="onSubmit" v-model="leaderId"></treeselect>
+                    </div>
+                </div>
+            </div>
+            <div class="field is-grouped">
+                <p class="control">
+                    <a class="button is-success" @click="submitNewWorkgroup">
+                    Tạo mới
+                    </a>
+                </p>
+                <p class="control">
+                    <a class="button is-light" @click="$router.push({name: 'workgroup.index'})">
+                    Hủy
+                    </a>
+                </p>
             </div>
 
         </div>
@@ -76,6 +97,7 @@ export default {
             name: ``,
             isPrivate: false,
             onSubmit: false,
+            leaderId: false,
         }
     },
     methods: {
@@ -86,12 +108,22 @@ export default {
                 this.$store.dispatch(`storeWorkgroup`, {
                     name: this.name,
                     isPrivate: this.isPrivate,
+                    leaderId: this.leaderId,
                 }).then(result => {
                     this.$router.push({
                         name: `workgroup.index`,
                     })
                 })
             }
+        },
+        fetchUsers (callback) {
+            const users = this.$store.getters.usersSortByName.map(user => {
+                return {
+                    id: user.id,
+                    label: user.name,
+                }
+            })
+            callback(null, users)
         },
     },
 }

@@ -13,13 +13,29 @@ const mutations = {
         state.data = data
     },
     UPDATE_WORKGROUP_RESOURCE (state, data) {
-        const index = state.data.findIndex(workgroup => workgroup.id === data.id)
-        if (index !== -1) {
-            const oldData = state.data[index]
-            const newWorkgroup = Object.assign({}, oldData, data)
-            state.data.splice(index, 1, newWorkgroup)
-        } else {
-            throw new Error(`Workgroup index not found`)
+        try {
+            const index = state.data.findIndex(workgroup => workgroup.id === data.id)
+            if (index !== -1) {
+                const oldData = state.data[index]
+                const newWorkgroup = Object.assign({}, oldData, data)
+                state.data.splice(index, 1, newWorkgroup)
+            } else {
+                throw new Error(`Workgroup index not found`)
+            }
+        } catch (e) {
+            console.log(e)
+        }
+    },
+    DELETE_WORKGROUP (state, id) {
+        try {
+            const index = state.data.findIndex(workgroup => workgroup.id === id)
+            if (index !== -1) {
+                state.data.splice(index, 1)
+            } else {
+                throw new Error(`Workgroup index not found`)
+            }
+        } catch (e) {
+            console.log(e)
         }
     },
 }
@@ -27,7 +43,7 @@ const getters = {
     workgroupById: (state, getters, rootState, rootGetters) => id => {
         const workgroup = state.data.find(workgroup => workgroup.id === id)
         if (workgroup) {
-            const users = arraySort(workgroup.users.map(user => {
+            const users = (workgroup.users) ? arraySort(workgroup.users.map(user => {
                 const mapUser = rootGetters.userById(user.userId)
                 if (mapUser) {
                     return {
@@ -36,9 +52,9 @@ const getters = {
                         id: user.userId,
                     }
                 } else {
-                    return user
+                    return []
                 }
-            }), [`name`])
+            }), [`name`]) : []
             return Object.assign({}, workgroup, {users: users})
         }
     },
@@ -54,7 +70,7 @@ const getters = {
                             id: user.userId,
                         }
                     } else {
-                        return user
+                        return []
                     }
                 }), [`name`])
                 return Object.assign({}, workgroup, {users: users})
@@ -94,13 +110,14 @@ const actions = {
             console.log(`Store::Workgroup('store') => `, e)
         }
     },
-    async updateWorkgroup ({commit}, {name, isPrivate, id}) {
+    async updateWorkgroup ({commit}, {name, isPrivate, id, leaderId}) {
         console.log(`Store::Workgroup -> update workgroup id:::${id}`)
         try {
             const response = await this._vm.axios.put(`workgroup/${id}`, {
                 action: `update_workgroup`,
                 name: name,
                 is_private: isPrivate,
+                leader_id: leaderId,
             })
             if (response.status === 200) {
                 commit(`UPDATE_WORKGROUP_RESOURCE`, response.data.data)
@@ -108,6 +125,35 @@ const actions = {
             }
         } catch (e) {
             console.log(`Store::Workgroup => update error`, e)
+        }
+    },
+    async deleteWorkgroup ({commit}, {workgroupId}) {
+        console.log(`Store::Workgroup -> delete Workgroup by id ${workgroupId}`)
+        try {
+            const response = await this._vm.axios.delete(`workgroup/${workgroupId}`)
+            if (response.status === 200) {
+                commit(`DELETE_WORKGROUP`, workgroupId)
+                return true
+            }
+        } catch (e) {
+            console.log(`Store::Workgroup -> delete workgroup error`, e)
+        }
+    },
+    async addUsersToWorkgroup ({commit}, {selectedUsers, workgroupId}) {
+        console.log(`Store::Workgroup -> add user to workgroup with id ${workgroupId}`)
+        try {
+            const response = await this._vm.axios.put(`workgroup/${workgroupId}`, {
+                user_list: selectedUsers,
+                action: `add_new_users`,
+            })
+            if (response.status === 200) {
+                commit(`UPDATE_WORKGROUP_RESOURCE`, response.data.data)
+                return true
+            } else {
+                throw new Error(`Can not update resource, return status ${response.status}`)
+            }
+        } catch (e) {
+            console.log(`Store::Workgroup -> update workgroup error`, e)
         }
     },
 }

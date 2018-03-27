@@ -192,6 +192,7 @@
     /*
      * Variables
     */
+    $body-size: 15px;
     $family-primary: "Roboto";
     $family-heading: "Roboto Condensed";
     $font-weight-heading: 400;
