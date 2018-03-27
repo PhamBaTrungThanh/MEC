@@ -45,9 +45,13 @@
                             </div>
                         </div>
                     </header>
-                    <article class="content">
+                    <article class="workgroup-users">
                         <div v-for="user in workgroup.users" :key="user.id" class="user-card">
-                            
+                            <div :class="{'user-header': true, 'is-leader': user.role === 'leader'}"></div>
+                            <div class="user-content">
+                                <span>{{user.name}}</span>
+                            </div>
+                            <div class="user-avatar"></div>
                         </div>
                     </article>
                 </div>
@@ -147,6 +151,9 @@ export default {
             }
         }
     }
+    .workgroup-users {
+        display: flex;
+    }
     .user-card {
         width: 110px;
         height: 130px;
@@ -155,8 +162,31 @@ export default {
         box-shadow: 0px 1px 2px 0 rgba(0,0,0,0.15);       
         background: #ffffff;
         border-radius: 2px;
+        position: relative;
+        &:hover {
+            box-shadow: 0px 4px 6px 0 rgba(0,0,0,0.15);
+        }
+
+        .user-header {
+            height: 25px;
+            background: hsl(204, 86%, 53%);
+            margin: -15px -8px 0;
+            border-top-left-radius: 2px;
+            border-top-right-radius: 2px;
+        }
+        .user-header.is-leader {
+            background: hsl(271, 100%, 71%);
+        }
+        .user-content {
+            padding-top: 50px;
+            text-align: center;
+            font-size: 0.82rem;
+        }
+        .user-avatar {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+        }
     }
-    .user-card:hover {
-        box-shadow: 0px 4px 6px 0 rgba(0,0,0,0.15);
-    }
+
 </style>

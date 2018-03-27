@@ -142,7 +142,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="table-container scrollable-x scrollable-y" style="max-height: 600px">
+                    <div class="table-container scrollable-x scrollable-y" style="max-height: 600px; max-width: 100vw;">
                         <table class="table has-text-centered-cell is-bordered is-striped is-hoverable is-fullwidth" v-if="flatList">
                             <thead>
                                 <tr>
