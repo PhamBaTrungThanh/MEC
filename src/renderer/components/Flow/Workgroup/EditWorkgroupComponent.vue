@@ -29,6 +29,7 @@
                             <input type="text" :class="{'input': true, 'is-info': true, 'is-danger': errors.has('name')}" v-validate="'required'" name="name" v-model="name" :disabled="onSubmit" @keyup.enter="submit">
                         </p>
                         <p class="field">
+                            <label class="label">Trạng thái nhóm</label>
                             <label class="checkbox">
                                 <input type="checkbox" v-model="isPrivate" :disabled="onSubmit">
                                 <span class="icon">
@@ -37,6 +38,16 @@
                                 <span>Riêng tư </span><span class="is-size-7">(người khác sẽ không xem được những công việc mà nhóm đang thực hiện)</span>
                             </label>
                         </p>
+                        <div class="field">
+                            <label class="label">Leader của nhóm</label>
+                            <div class="select">
+                                <select v-model="leaderId">
+                                    <option value="0">Không</option>
+                                    <option disabled>──────────</option>
+                                    <option v-for="user in workgroup.users" :key="user.id" :selected="workgroup.leaderId === user.id" :value="user.id">{{user.name}}</option>
+                                </select>
+                            </div>
+                        </div>
                         <div class="level">
                             <div class="level-left">
                                 <p class="level-item">
@@ -132,6 +143,7 @@ export default {
             if (workgroup) {
                 this.name = workgroup.name
                 this.isPrivate = workgroup.isPrivate
+                this.leaderId = workgroup.leaderId
             }
             return workgroup
         },
@@ -140,6 +152,7 @@ export default {
         return {
             name: ``,
             isPrivate: false,
+            leaderId: false,
             onSubmit: false,
             onDelete: false,
             deleteWorkgroupName: ``,
@@ -150,7 +163,7 @@ export default {
             if (this.errors.any()) {
                 this.onSubmit = false
             } else {
-                if (this.name === this.workgroup.name && this.isPrivate === this.workgroup.isPrivate) {
+                if (this.name === this.workgroup.name && this.isPrivate === this.workgroup.isPrivate && this.leaderId === this.workgroup.leaderId) {
                     this.$emit(`close`)
                     return true
                 } else {
@@ -159,6 +172,7 @@ export default {
                         id: this.workgroup.id,
                         name: this.name,
                         isPrivate: this.isPrivate,
+                        leaderId: this.leaderId,
                     }).then(result => {
                         if (result) {
                             this.$emit(`close`)

@@ -8,6 +8,9 @@
         <section id="main_section" slot="default" class="main-section scrollable-y flow-section">
             <router-view></router-view>
         </section>
+        <section id="side_section" v-if="showSecondDisplay">
+
+        </section>
     </main-layout>
 </template>
 
@@ -17,6 +20,11 @@ export default {
     name: `flow-base`,
     components: {
         MainLayout,
+    },
+    computed: {
+        showSeccondDisplay () {
+            return this.$store.getters.secondaryDisplay
+        },
     },
 }
 </script>

@@ -40,43 +40,36 @@ const mutations = {
     },
 }
 const getters = {
+    usersForWorkgroup: (state, getters, rootState, rootGetters) => id => {
+        const workgroup = state.data.find(workgroup => workgroup.id === id)
+        const users = (workgroup.users) ? arraySort(workgroup.users.map(user => {
+            const mapUser = rootGetters.userById(user.userId)
+            if (mapUser) {
+                return {
+                    name: mapUser.name,
+                    role: user.role,
+                    id: user.userId,
+                    firstName: mapUser.first_name,
+                    roleWeight: (user.role === `leader`) ? 0 : 1,
+                    avatar: mapUser.avatar,
+                }
+            } else {
+                return []
+            }
+        }), [`roleWeight`, `firstName`]) : []
+        return users
+    },
     workgroupById: (state, getters, rootState, rootGetters) => id => {
         const workgroup = state.data.find(workgroup => workgroup.id === id)
         if (workgroup) {
-            const users = (workgroup.users) ? arraySort(workgroup.users.map(user => {
-                const mapUser = rootGetters.userById(user.userId)
-                if (mapUser) {
-                    return {
-                        name: mapUser.name,
-                        role: user.role,
-                        id: user.userId,
-                    }
-                } else {
-                    return []
-                }
-            }), [`name`]) : []
+            const users = getters.usersForWorkgroup(workgroup.id)
             return Object.assign({}, workgroup, {users: users})
         }
     },
     workgroups: (state, getters, rootState, rootGetters) => {
         return state.data.map(workgroup => {
-            if (workgroup.users) {
-                const users = arraySort(workgroup.users.map(user => {
-                    const mapUser = rootGetters.userById(user.userId)
-                    if (mapUser) {
-                        return {
-                            name: mapUser.name,
-                            role: user.role,
-                            id: user.userId,
-                        }
-                    } else {
-                        return []
-                    }
-                }), [`name`])
-                return Object.assign({}, workgroup, {users: users})
-            } else {
-                return workgroup
-            }
+            const users = getters.usersForWorkgroup(workgroup.id)
+            return Object.assign({}, workgroup, {users: users})
         })
     },
 }
@@ -92,13 +85,14 @@ const actions = {
             console.log(`Store::Workgroup('fetchAllResources') => `, e)
         }
     },
-    async storeWorkgroup ({commit}, {name, isPrivate = true, parentId = 0}) {
+    async storeWorkgroup ({commit}, {name, isPrivate = true, parentId = 0, leaderId = 0}) {
         console.log(`Store::Workgroup -> create new workgroup resource`)
         try {
             const response = await this._vm.axios.post(`workgroup`, {
                 name: name,
                 is_private: isPrivate,
                 parent_id: parentId,
+                leader_id: leaderId,
             })
             if (response.status === 201) {
                 commit(`STORE_WORKGROUP`, response.data.data)

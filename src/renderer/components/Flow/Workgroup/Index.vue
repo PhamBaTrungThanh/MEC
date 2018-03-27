@@ -51,7 +51,9 @@
                             <div class="user-content">
                                 <span>{{user.name}}</span>
                             </div>
-                            <div class="user-avatar"></div>
+                            <div class="user-avatar">
+                                <img :src="user.avatar">
+                            </div>
                         </div>
                     </article>
                 </div>
@@ -163,6 +165,8 @@ export default {
         background: #ffffff;
         border-radius: 2px;
         position: relative;
+        cursor: pointer;
+        user-select: none; /* Standard */
         &:hover {
             box-shadow: 0px 4px 6px 0 rgba(0,0,0,0.15);
         }
@@ -173,19 +177,28 @@ export default {
             margin: -15px -8px 0;
             border-top-left-radius: 2px;
             border-top-right-radius: 2px;
+            cursor: move;
         }
         .user-header.is-leader {
             background: hsl(271, 100%, 71%);
         }
         .user-content {
-            padding-top: 50px;
+            padding-top: 55px;
             text-align: center;
             font-size: 0.82rem;
         }
         .user-avatar {
             position: absolute;
-            width: 80px;
-            height: 80px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            top: 13px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 1);
+            border: 2px solid #ffffff;
+            box-shadow: 0px 0px 0px 1px rgba(85, 85, 85, 0.2);
+            overflow: hidden;
         }
     }
 
