@@ -6,6 +6,9 @@ const state = {
     isLoggedIn: false,
     initialized: false,
     requestLogin: false,
+    secondaryDisplay: false,
+    secondaryComponent: false,
+    secondaryProps: [],
     _token: ``,
     resources: [],
     cleaveOptions: {
@@ -45,10 +48,31 @@ const mutations = {
     UPDATE_RESOURCES (state, data) {
         state.resources.push(data)
     },
+    SET_SECONDARY_DISPLAY_PROPS (state, data) {
+        state.secondaryProps = data
+    },
+    TOGGLE_SECONDARY_DISPLAY_ON (state) {
+        state.secondaryDisplay = true
+    },
+    TOGGLE_SECONDARY_DISPLAY_OFF (state) {
+        state.secondaryDisplay = false
+    },
+    SHOW_SECONDARY_DISPLAY (state, componentName) {
+        state.secondaryComponent = componentName
+    },
 }
 const getters = {
     cleaveOptions (state) {
         return state.cleaveOptions
+    },
+    secondaryDisplayStatus (state) {
+        return state.secondaryDisplay
+    },
+    secondaryComponent (state) {
+        return state.secondaryComponent
+    },
+    secondaryProps (state) {
+        return state.secondaryProps
     },
 }
 const actions = {
@@ -125,9 +149,6 @@ const actions = {
             console.log(e)
         }
     },
-    appResourcesFetched ({commit}, data) {
-        commit(`UPDATE_RESOURCES`, data)
-    },
     async fetchAllResources ({ commit, dispatch }) {
         try {
             const [worker] = await Promise.all([this._vm.axios.get(`data`), dispatch(`getLoggedInUser`)])
@@ -140,6 +161,17 @@ const actions = {
         } catch (e) {
             console.log(`Store::App('fetchAllResources') => `, e)
         }
+    },
+    appResourcesFetched ({commit}, data) {
+        commit(`UPDATE_RESOURCES`, data)
+    },
+    sideComponent ({commit}, {componentName, props}) {
+        commit(`TOGGLE_SECONDARY_DISPLAY_ON`)
+        commit(`SET_SECONDARY_DISPLAY_PROPS`, props)
+        commit(`SHOW_SECONDARY_DISPLAY`, componentName)
+    },
+    sideComponentOff ({commit}) {
+        commit(`TOGGLE_SECONDARY_DISPLAY_OFF`)
     },
 }
 export default {

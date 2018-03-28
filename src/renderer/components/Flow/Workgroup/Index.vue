@@ -46,7 +46,7 @@
                         </div>
                     </header>
                     <article class="workgroup-users">
-                        <div v-for="user in workgroup.users" :key="user.id" class="user-card">
+                        <div v-for="user in workgroup.users" :key="user.id" class="user-card" @click="showPersonDetail(user.id)">
                             <div :class="{'user-header': true, 'is-leader': user.role === 'leader'}"></div>
                             <div class="user-content">
                                 <span>{{user.name}}</span>
@@ -125,16 +125,21 @@ export default {
             this.addUserModal = false
             this.editWorkgroupModal = false
         },
+        showPersonDetail (id) {
+            this.$store.dispatch(`sideComponent`, {
+                componentName: `person-detail`,
+                props: {
+                    user: {
+                        id: id,
+                    },
+                },
+            })
+        },
     },
 }
 </script>
 
 <style lang="scss">
-    .workgroup--wrapper {
-        margin-top: -2rem;
-        margin-left: -1.5rem;
-        margin-right: -1.5rem;
-    }
     .workgroup--content {
         padding: 2rem 0; 
         .add-new-workgroup {

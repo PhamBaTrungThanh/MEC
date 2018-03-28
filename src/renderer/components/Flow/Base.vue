@@ -1,35 +1,93 @@
 <template>
-    <main-layout>
+    <main-layout :class="{'side-layout-enabled': showSecondDisplay}">
         <div class="flow-navbar flow-padding level" slot="navbar">
             <div class="level-left">
                 <router-link class="level-item flow-item" :to="{name: 'workgroup.index'}">Nhóm</router-link>
             </div>
         </div>
-        <section id="main_section" slot="default" class="main-section scrollable-y flow-section">
-            <router-view></router-view>
-        </section>
-        <section id="side_section" v-if="showSecondDisplay">
+        <div class="main-section-container">
+            <section id="main_section" slot="default" class="main-section scrollable-y flow-section is-flow-main-section">
+                <router-view></router-view>
+            </section>
+            <transition name="side">
+                <section id="side_section" class="is-flow-side-section" v-if="showSecondDisplay">
+                    <side-layout>
+                        <person-detail v-if="secondaryComponent === 'person-detail'"></person-detail>
+                    </side-layout>
+                </section> 
+            </transition>
+        </div>
 
-        </section>
     </main-layout>
 </template>
 
 <script>
 import MainLayout from '@/components/Layouts/Main'
+import SideLayout from '@/components/Layouts/SideLayout'
+import PersonDetail from '@/components/Flow/People/Show'
 export default {
     name: `flow-base`,
     components: {
         MainLayout,
+        PersonDetail,
+        SideLayout,
     },
     computed: {
-        showSeccondDisplay () {
-            return this.$store.getters.secondaryDisplay
+        showSecondDisplay () {
+            return this.$store.getters.secondaryDisplayStatus
         },
+        secondaryComponent () {
+            return this.$store.getters.secondaryComponent
+        },
+        secondaryProps () {
+            return this.$store.getters.secondaryProps
+        },
+    },
+    beforeRouteLeave (to, from, next) {
+        this.$store.dispatch(`sideComponentOff`)
+        next()
     },
 }
 </script>
-
-<style>
+<style lang="scss">
+    .main-section-container {
+        flex: 1 1 0;
+        width: 100%;
+        position: relative;
+    }
+    .side-layout-enabled {
+        .is-flow-main-section {
+            right: 550px;
+        }
+        .is-flow-side-section {
+            width: 550px;
+        }
+    }
+    .is-flow-side-section {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        box-shadow: 0 2px 6px 0 rgba(0,0,0,0.15);
+        overflow-y: auto;
+    }
+    .side-enter-active {
+        transition: transform 200ms ease 0s;
+    }
+    .side-enter-to {
+        transform: translateX(0);
+    }
+    .side-enter {
+        transform: translateX(100%);
+    }
+    .is-flow-main-section {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        transition: right 200ms ease 0s;
+    }
     .flow-padding {
         padding-left: calc(3rem + 32px);
         padding-right: 32px;

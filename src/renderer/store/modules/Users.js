@@ -37,7 +37,22 @@ const mutations = {
     STORE_ALL_USERS (state, users) {
         state.data = users
     },
-
+    UPDATE_USER_RESOURCE_FIELD (state, {userId, field}) {
+        try {
+            const index = state.data.findIndex(user => user.id === userId)
+            if (index === -1) {
+                throw new Error(`User not found`)
+            }
+            const updatedUser = Object.assign({}, state.data[index], field)
+            state.data.splice(index, 1, updatedUser)
+            // Check to update current user
+            if (state.user.id === userId) {
+                state.user = Object.assign({}, state.user, field)
+            }
+        } catch (e) {
+            console.log(`Store::User -> commit error`, e)
+        }
+    },
 }
 const getters = {
     currentUser (state) {
@@ -86,6 +101,31 @@ const actions = {
         } catch (e) {
             console.log(`Store::Users =>`, e)
             return false
+        }
+    },
+    async updateUserInfo ({commit, getters}, {id, computerName, value}) {
+        console.log(`Store::Users -> update user id ${id} in field ${computerName} with data ${value}`)
+        try {
+            const response = await this._vm.axios.put(`user/${id}`, {
+                action: `update_info`,
+                field_name: computerName,
+                value: value,
+            })
+            if (response.status === 200) {
+                commit(`UPDATE_USER_RESOURCE_FIELD`, {
+                    userId: id,
+                    field: response.data.update,
+                })
+                return true
+            }
+            if (response.status === 204) {
+                throw new Error(`No new value`)
+            }
+            if (response.status === 400) {
+                throw new Error(`Invalid Update field`)
+            }
+        } catch (e) {
+            console.log(`Store::Users -> update user error`, e)
         }
     },
 }
