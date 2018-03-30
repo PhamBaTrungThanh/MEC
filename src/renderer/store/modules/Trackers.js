@@ -27,9 +27,9 @@ const mutations = {
     },
 }
 const getters = {
-    relatedTrackersInInvoice: state => invoiceId => {
+    relatedTrackersInInvoice: (state, getters) => invoiceId => {
         if (invoiceId) {
-            return state.data.reduce((trackers, tracker) => {
+            return getters.allTrackers.reduce((trackers, tracker) => {
                 if (tracker.invoice_id === invoiceId) {
                     trackers.push(tracker)
                 }
@@ -52,7 +52,7 @@ const getters = {
     trackersForCurrentInvoice: (state, getters, rootState) => {
         if (rootState.route.params.invoice_id) {
             const invoiceId = parseInt(rootState.route.params.invoice_id)
-            return state.data.reduce((trackers, tracker) => {
+            return getters.allTrackers.reduce((trackers, tracker) => {
                 if (tracker.invoice_id === invoiceId) {
                     trackers.push(tracker)
                 }
@@ -60,6 +60,11 @@ const getters = {
             }, [])
         }
         return []
+    },
+    allTrackers (state, getters) {
+        return state.data.map(tracker => {
+            return Object.assign({}, tracker, {material: getters.materialById(tracker.material_id)})
+        })
     },
 }
 const actions = {

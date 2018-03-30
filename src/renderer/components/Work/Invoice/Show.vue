@@ -1,7 +1,6 @@
 <template>
     <transition name="zoom-in">
         <div class="invoice_show--wrapper container is-fluid" v-if="invoice" >
-            <a name="general"></a>
             <p class="title"><i>Đơn hàng:</i> {{invoice.name}}</p>
             <div class="columns">
                 <div class="column">
@@ -19,7 +18,75 @@
                     </div>
                 </div>
             </div>
-            <a name="payments"></a>
+            <div class="columns" >
+                <div class="column">
+                    <div class="box">
+                        <nav class="level">
+                            <div class="level-left">
+                                <div class="level-item">
+                                    <p class="title is-4">Chi tiết đơn hàng</p>
+                                </div>
+                            </div>
+                            <div class="level-right" v-if="false">
+                                <div class="level-item">
+                                    <router-link :to="{'name': 'payment.create', 'query': {index: payments.length + 1}}" class="button is-link" v-if="user.can_add_payment">
+                                        <span class="icon">
+                                            <i class="mdi mdi-credit-card-plus"></i>
+                                        </span>
+                                        <span>Thêm thanh toán</span>
+                                    </router-link>
+                                </div>
+                            </div>
+                        </nav>
+                        <div class="content">
+                            <p class="subtitle">
+                                Nhà cung cấp: <b>{{provider.name}}</b>
+                            </p>
+                            <p class="subtitle">
+                                Người mua hàng: <b>{{$store.getters.userById(invoice.buyer_id).name}}</b>
+                            </p>
+                        </div>          
+                        <table class="table is-striped is-hoverable is-fullwidth" v-if="trackers">
+                            <tbody>
+                                <tr>
+                                    <th style="width: 50px">#</th>
+                                    <th style="width: 175px">Tên</th>
+                                    <th style="width: 110px">Đơn vị</th>
+                                    <th style="width: 110px">Loại tiền</th>
+                                    <th style="width: 110px">Hãng</th>
+                                    <th style="width: 110px">Đơn giá</th>
+                                    <th style="width: 110px">VAT</th>
+                                    <th style="width: 110px">Thành tiền</th>
+                                    <!--
+                                    <th style="width: 110px">Số lượng (BOQ)</th>
+                                    <th style="width: 110px">Đơn giá (BOQ)</th>
+                                    <th style="width: 110px">VAT (BOQ)</th>
+                                    <th style="width: 110px">Thành tiền (BOQ)</th>
+                                    -->
+                                </tr>
+                                <tr v-for="(tracker, index) in trackers" :key="index">
+                                    <td><b>{{index + 1}}</b></td>
+                                    <td>{{tracker.material.name}}</td>
+                                    <td>{{tracker.material.per}}</td>
+                                    <td>{{tracker.material.currency}}</td>
+                                    <td>{{tracker.material.brand}}</td>
+                                    <td>{{comma(tracker.cost)}}</td>
+                                    <td>{{comma(tracker.vat)}}</td>
+                                    <td>{{comma(tracker.total)}}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="7">
+                                        <b>Tổng cộng</b>
+                                    </td>
+                                    <td>
+                                        <b>{{comma(invoice.total)}}</b>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
             <div class="columns" >
                 <div class="column">
                     <div class="box">
@@ -66,14 +133,13 @@
                                 </tr>
                                 <tr>
                                     <td colspan="4"><span class="is-size-5"><b>Chưa thanh toán</b></span></td>
-                                    <td colspan="3">{{comma(invoice.total * 1.1 - sum_payment)}}</td>
+                                    <td colspan="3">{{comma(invoice.total - sum_payment)}}</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
-            <a name="receives"></a>
             <div class="columns">
                 <div class="column">
                     <div class="box">
@@ -158,6 +224,9 @@ export default {
                 return []
             }
             return this.currentInvoice.receives
+        },
+        provider () {
+            return this.currentInvoice.provider
         },
         trackers () {
             return this.currentInvoice.trackers

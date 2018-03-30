@@ -66,7 +66,7 @@
                             <td class="is-size-6-5">{{invoice.uid}}</td>
                             <td><b>{{invoice.signed_at}}</b></td>
                             <td class="is-size-7">{{ provider(invoice.provider_id).name}}</td>
-                            <td>{{comma(invoice.total * 1.1)}}</td>
+                            <td>{{comma(invoice.total)}}</td>
                             <td>{{comma(invoice.payment_total)}}</td>
                             <td></td>
                         </tr>
@@ -95,7 +95,7 @@ export default {
             return this.currentWork.data
         },
         sum_invoices () {
-            return this.invoices.reduce((sum, invoice) => (sum += parseFloat(invoice.total)), 0) * 1.1
+            return this.invoices.reduce((sum, invoice) => (sum += parseFloat(invoice.total)), 0)
         },
         sum_payments () {
             return this.invoices.reduce((sum, invoice) => (sum += parseFloat(invoice.payment_total)), 0)

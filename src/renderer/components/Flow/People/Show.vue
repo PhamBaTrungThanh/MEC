@@ -16,24 +16,25 @@
             </ul>
         </div>
         <div class="tabs-content">
+            <workgroups :user="user" v-if="activeTab === 'jobs'"></workgroups>
             <personal-info v-if="activeTab === 'personal-info'" :user="user"></personal-info>
         </div>
     </div>
 </template>
 
 <script>
+import Workgroups from './WorkgroupsComponents'
 import PersonalInfo from './PersonalInfoComponent'
 export default {
     name: `person-detail`,
     components: {
         PersonalInfo,
+        Workgroups,
     },
     computed: {
         props () {
+            // reset active tab when props change
             this.activeTab = `jobs`
-            if (this.$el) {
-                this.$el.scrollTop = 0
-            }
             return this.$store.getters.secondaryProps
         },
         user () {

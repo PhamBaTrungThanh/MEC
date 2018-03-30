@@ -29,15 +29,18 @@ const getters = {
         }
         return []
     },
-    currentInvoice (state, getters, rootState) {
+    currentInvoice (state, getters, rootState, rootGetters) {
         if (rootState.route.params.invoice_id) {
             const invoiceId = parseInt(rootState.route.params.invoice_id)
             const _data = state.data.find(i => i.id === invoiceId)
-            return {
-                data: _data,
-                payments: getters.relatedPaymentsInInvoice(invoiceId),
-                receives: getters.relatedReceivesInInvoice(invoiceId),
-                trackers: getters.relatedTrackersInInvoice(invoiceId),
+            if (_data) {
+                return {
+                    data: _data,
+                    payments: getters.relatedPaymentsInInvoice(invoiceId),
+                    receives: getters.relatedReceivesInInvoice(invoiceId),
+                    trackers: getters.relatedTrackersInInvoice(invoiceId),
+                    provider: getters.providerById(_data.provider_id),
+                }
             }
         }
         return false
