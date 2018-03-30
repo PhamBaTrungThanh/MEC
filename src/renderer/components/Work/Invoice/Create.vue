@@ -500,8 +500,8 @@ export default {
                 // this.onSubmit = true
                 this.$store.dispatch(`storeInvoice`, {
                     work_id: this.$route.params.work_id,
-                    provider_id: (this.provider_id !== 0) ? this.provider_id : `undefined`,
-                    new_provider: (this.provider_id === 0) ? this.new_provider : `undefined`,
+                    provider_id: this.provider_id,
+                    new_provider: (this.provider_id === 0) ? this.new_provider : null,
                     new_invoice: this.new_invoice,
                     list: this.flatList,
                 }).then(response => {

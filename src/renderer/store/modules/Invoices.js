@@ -64,7 +64,7 @@ const actions = {
             const response = await this._vm.axios.post(`invoice`, {
                 'work_id': data.work_id,
                 'provider_id': data.provider_id,
-                'new_provider': data.provider_id,
+                'new_provider': data.new_provider,
                 'new_invoice': data.new_invoice,
                 'list': data.list,
             })
