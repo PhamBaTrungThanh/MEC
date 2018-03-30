@@ -189,6 +189,7 @@
     @import "~@/assets/fonts/fonts.css";
     @import "~mdi/css/materialdesignicons.min.css";
     @import "~@riophae/vue-treeselect/dist/vue-treeselect.min";
+    @import '~v-calendar/lib/v-calendar.min.css';
     /*
      * Variables
     */
