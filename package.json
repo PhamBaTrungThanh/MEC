@@ -1,6 +1,6 @@
 {
   "name": "mec",
-  "version": "0.1.9",
+  "version": "0.2.0",
   "author": "Trung Thành <phambatrungthanh@gmail.com>",
   "description": "Manage constructions, invoices, payments, hr, etc... for MEC International",
   "productName": "MEC Manager",
