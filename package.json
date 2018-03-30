@@ -1,6 +1,6 @@
 {
   "name": "mec",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "author": "Trung Thành <phambatrungthanh@gmail.com>",
   "description": "Manage constructions, invoices, payments, hr, etc... for MEC International",
   "productName": "MEC Manager",
@@ -78,6 +78,7 @@
     "node-sass": "^4.7.2",
     "sass-loader": "^6.0.6",
     "sweetalert2": "^7.12.16",
+    "v-calendar": "^0.8.0",
     "vee-validate": "^2.0.4",
     "vue": "^2.5.13",
     "vue-cleave-component": "^1.0.2",
