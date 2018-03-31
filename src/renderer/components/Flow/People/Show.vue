@@ -16,7 +16,7 @@
             </ul>
         </div>
         <div class="tabs-content">
-            <workgroups :user="user" v-if="activeTab === 'jobs'"></workgroups>
+            <workgroups :user="user" v-if="activeTab === 'jobs'" :workgroups="workgroups"></workgroups>
             <personal-info v-if="activeTab === 'personal-info'" :user="user"></personal-info>
         </div>
     </div>
@@ -39,6 +39,12 @@ export default {
         },
         user () {
             return this.$store.getters.userById(this.props.user.id)
+        },
+        workgroups () {
+            if (this.user) {
+                return this.$store.getters.workgroupsForUser(this.user.id)
+            }
+            return false
         },
     },
     data () {

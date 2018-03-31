@@ -72,6 +72,16 @@ const getters = {
             return Object.assign({}, workgroup, {users: users})
         })
     },
+    workgroupsForUser: state => userId => {
+        return state.data.reduce((workgroups, workgroup) => {
+            if (workgroup.users) {
+                if (workgroup.users.findIndex(user => user.userId === userId) !== -1) {
+                    workgroups.push(workgroup)
+                }
+            }
+            return workgroups
+        }, [])
+    },
 }
 const actions = {
     async fetchAllResources ({commit}) {

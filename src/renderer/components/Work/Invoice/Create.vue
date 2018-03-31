@@ -127,7 +127,7 @@
                         <div class="column is-narrow">
                             <div class="field is-grouped">
                                 <div class="control">
-                                    <button :class="{'button': true ,'is-success': true, 'is-loading': onSubmit}" @click="submit">Lưu</button>
+                                    <button :class="{'button': true ,'is-success': true, 'is-loading': onSubmit}" @click="submit" v-if="toggleFullscreen === true">Lưu</button>
                                 </div>                               
                                 <div class="control">
                                     <button class="button is-link" @click="toggleFullscreen = false" v-if="toggleFullscreen === true">Thu nhỏ</button>
@@ -242,6 +242,37 @@
                                         </template>
                                         <td></td>
                                 </tr>
+                                <tr>
+                                    <td colspan="4">Tổng cộng</td>
+                                    <td colspan="4">
+                                        <div class="level">
+                                            <div class="level-left">
+                                                <p class="level-item">
+                                                    <b>Trước VAT: </b>
+                                                </p>
+                                            </div>
+                                            <div class="level-right">
+                                                <p class="level-item">
+                                                    {{comma(sum)}}
+                                                </p>
+                                            </div>
+                                        </div>     
+                                    </td>
+                                    <td colspan="5" class="has-text-left">
+                                        <div class="level">
+                                            <div class="level-left">
+                                                <p class="level-item">
+                                                    <b>Sau VAT: </b>
+                                                </p>
+                                            </div>
+                                            <div class="level-right">
+                                                <p class="level-item">
+                                                    {{comma(sumVAT)}}
+                                                </p>
+                                            </div>
+                                        </div>    
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -308,6 +339,12 @@ export default {
             tree: `materialTree`,
             allMaterials: `materialsInWork`,
         }),
+        sum () {
+            return this.flatList.reduce((total, node) => total + (node.tracker.unit * node.tracker.price), 0)
+        },
+        sumVAT () {
+            return this.flatList.reduce((total, node) => total + (node.tracker.unit * node.tracker.price * ((node.tracker.vat / 100) + 1)), 0)
+        },
     },
     methods: {
         boqs (materialId) {
