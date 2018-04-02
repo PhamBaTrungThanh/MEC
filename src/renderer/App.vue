@@ -220,6 +220,9 @@
     .is-relative {
         position: relative;
     }
+    .button.is-expanded {
+        width: 100%;
+    }
     .columns.is-stretch {
         align-items: stretch;
     }    
@@ -428,6 +431,20 @@
     .slide-up-enter-to {
         opacity: 1;
         transform: translateY(0);
+    }
+    .slide-left-enter-active {
+        transition: transform 300ms ease 0s;
+    }
+    .slide-left-leave-active {
+        display: none;
+    }
+    .slide-left-enter {
+        // opacity: 0;
+        transform: translateX(100%);
+    }
+    .slide-left-enter-to {
+        // opacity: 1;
+        transform: translateX(0);
     }
     .appear-enter-active {
         transition: opacity 200ms ease-in;

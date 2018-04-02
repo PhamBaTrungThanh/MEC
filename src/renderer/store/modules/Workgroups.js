@@ -157,7 +157,24 @@ const actions = {
                 throw new Error(`Can not update resource, return status ${response.status}`)
             }
         } catch (e) {
-            console.log(`Store::Workgroup -> update workgroup error`, e)
+            console.log(`Store::Workgroup -> addUsersToWorkgroup error`, e)
+        }
+    },
+    async removeUserFromWorkgroup ({commit}, {userId, workgroupId}) {
+        console.log(`Store::Workgroup -> remove user ${userId} from workgroup ${workgroupId}`)
+        try {
+            const response = await this._vm.axios.put(`workgroup/${workgroupId}`, {
+                user_id: userId,
+                action: `remove_user`,
+            })
+            if (response.status === 200) {
+                commit(`UPDATE_WORKGROUP_RESOURCE`, response.data.data)
+                return true
+            } else {
+                throw new Error(`Can not update resource, return status ${response.status}`)
+            }
+        } catch (e) {
+            console.log(`Store::Workgroup -> removeUserfromWorkgroup error`, e)
         }
     },
 }

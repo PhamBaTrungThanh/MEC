@@ -2,6 +2,7 @@
     <main-layout :class="{'side-layout-enabled': showSecondDisplay}">
         <div class="flow-navbar flow-padding level" slot="navbar">
             <div class="level-left">
+                <router-link class="level-item flow-item" :to="{name: 'task.show'}">Công việc</router-link>
                 <router-link class="level-item flow-item" :to="{name: 'workgroup.index'}">Nhóm</router-link>
             </div>
         </div>
@@ -13,6 +14,7 @@
                 <section id="side_section" class="is-flow-side-section" v-if="showSecondDisplay">
                     <side-layout>
                         <person-detail v-if="secondaryComponent === 'person-detail'"></person-detail>
+                        <leave-workgroup v-if="secondaryComponent === 'leave-workgroup'"></leave-workgroup>
                     </side-layout>
                 </section> 
             </transition>
@@ -24,13 +26,15 @@
 <script>
 import MainLayout from '@/components/Layouts/Main'
 import SideLayout from '@/components/Layouts/SideLayout'
-import PersonDetail from '@/components/Flow/People/Show'
+import PersonDetail from '@/components/Flow/User/User'
+import LeaveWorkgroup from '@/components/Flow/User/LeaveWorkgroup'
 export default {
     name: `flow-base`,
     components: {
         MainLayout,
         PersonDetail,
         SideLayout,
+        LeaveWorkgroup,
     },
     computed: {
         showSecondDisplay () {
@@ -89,11 +93,12 @@ export default {
         transition: right 200ms ease 0s;
     }
     .flow-padding {
-        padding-left: calc(3rem + 32px);
+        // padding-left: calc(3rem + 32px);
+        padding-left: 32px;
         padding-right: 32px;
     }
     .flow-navbar {
-        box-shadow: 0 2px 2px -1px rgba(0,0,0,0.2);
+        // box-shadow: 0 2px 2px -1px rgba(0,0,0,0.2);
         background: #ffffff;
         min-height: 3rem;
         border-bottom: 1px solid rgba(68,68,68, 0.2);
@@ -107,6 +112,7 @@ export default {
         position: relative;
         z-index: 1;
         padding: 2px 5px;
+        margin: 0 7px;
     }
     a.flow-item:not(.router-link-active):hover {
         color: #ffffff;
@@ -122,16 +128,16 @@ export default {
         background: #3273dc;
         position: absolute;
         top: -5px;
-        left: -10px;
-        right: -10px;
+        left: -8px;
+        right: -8px;
         bottom: -5px;
         border-radius: 4px;
         z-index: -999;
         opacity: 0;
         transition: opacity 0.2s ease 0s;
-        transform: rotate(-5deg);
+        transform: rotate(-3deg);
     }
-    a.flow-item.router-link-active:before {
+    a.flow-item.router-link-active:after {
         display: block;
         content: "";
         pointer-events: none;
@@ -141,7 +147,7 @@ export default {
         position: absolute;
         height: 2px;
     }
-    a.flow-item.router-link-active:before {
+    a.flow-item.router-link-active:after {
         bottom: 0;
         transform: translateY(3px);
     }

@@ -82,7 +82,10 @@ const getters = {
         return arraySort(groups, `order`)
     },
     userById: state => id => {
-        return state.data.find(user => user.id === id)
+        if (id) {
+            return state.data.find(user => user.id === id)
+        }
+        return false
     },
 }
 const actions = {

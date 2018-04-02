@@ -42,9 +42,11 @@
                             <p class="subtitle">
                                 Nhà cung cấp: <b>{{provider.name}}</b>
                             </p>
+                            <!--
                             <p class="subtitle">
                                 Người mua hàng: <b>{{$store.getters.userById(invoice.buyer_id).name}}</b>
                             </p>
+                            -->
                         </div>          
                         <table class="table is-striped is-hoverable is-fullwidth" v-if="trackers">
                             <tbody>

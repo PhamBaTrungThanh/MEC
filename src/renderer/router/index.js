@@ -115,23 +115,39 @@ export default new VueRouter({
         {
             path: `/options`,
             name: `options`,
-            component: require(`@/components/Options/Options`).default,
+            component: require(`@/components/Flow/User/Options/Options`).default,
         },
         {
             path: `/flow`,
             name: `flow.base`,
             component: require(`@/components/Flow/Base`).default,
             children: [
-                {
-                    path: `workgroup`,
-                    name: `workgroup.index`,
-                    component: require(`@/components/Flow/Workgroup/Index`).default,
-                },
-                {
-                    path: `workgroup/create`,
-                    name: `workgroup.create`,
-                    component: require(`@/components/Flow/Workgroup/Create`).default,
-                },
+                ...withPrefix(`workgroup/`, [
+                    {
+                        path: ``,
+                        name: `workgroup.index`,
+                        component: require(`@/components/Flow/Workgroup/Index`).default,
+                    },
+                    {
+                        path: `create`,
+                        name: `workgroup.create`,
+                        component: require(`@/components/Flow/Workgroup/Create`).default,
+                    },
+                ]),
+                ...withPrefix(`task/`, [
+                    {
+                        path: ``,
+                        name: `task.show`,
+                        component: require(`@/components/Flow/Task/Show`).default,
+                    },
+                ]),
+                ...withPrefix(`user/`, [
+                    {
+                        path: `:user_id/task`,
+                        name: `user.task`,
+                        component: require(`@/components/Flow/User/Task/Task`).default,
+                    },
+                ]),
             ],
         },
     ],

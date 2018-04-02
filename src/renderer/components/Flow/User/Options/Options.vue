@@ -20,8 +20,8 @@
 
 <script>
 import ContentSidebar from '@/components/Layouts/ContentSidebar'
-import Logout from './Logout'
-import ChangePassword from './ChangePassword'
+import Logout from './LogoutComponent'
+import ChangePassword from './ChangePasswordComponent'
 export default {
     name: `options`,
     components: {

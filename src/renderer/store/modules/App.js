@@ -171,6 +171,8 @@ const actions = {
         commit(`SHOW_SECONDARY_DISPLAY`, componentName)
     },
     sideComponentOff ({commit}) {
+        commit(`SET_SECONDARY_DISPLAY_PROPS`, {})
+        commit(`SHOW_SECONDARY_DISPLAY`, ``)
         commit(`TOGGLE_SECONDARY_DISPLAY_OFF`)
     },
 }

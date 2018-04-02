@@ -6,16 +6,18 @@
         </p>
         <div class="workgroup-bit" v-for="workgroup in workgroups" :key="workgroup.id">
             <div class="bit-content">
-                <p class="lead title is-5">
-                    <span>{{workgroup.name}}</span>
+                <p class="lead title is-5">            
                     <input type="checkbox" class="checkbox-menu" :id="`checkbox_${workgroup.id}`">
                     <label :for="`checkbox_${workgroup.id}`">
+                        <span>{{workgroup.name}}</span>
                         <span class="icon">
                             <i class="mdi mdi-chevron-down"></i>
                         </span>
                     </label>
                     <span class="menu">
-                        <a class="has-text-danger">Thoát nhóm</a>
+                        <a class="has-text-danger" @click="leaveWorkgroup(workgroup.id)">
+                            Xóa
+                        </a>
                     </span>
                 </p>
                 <p class="subtitle is-6">
@@ -23,7 +25,7 @@
                 </p>
             </div>
             <div class="view-task">
-                <button class="is-link button">Xem chi tiết</button>
+                <router-link class="is-link button" :to="{name: 'task.mytask', query: {workgroups: [workgroup.id]}}">Xem chi tiết</router-link>
             </div>
         </div>
     </div>
@@ -46,6 +48,21 @@ export default {
             show: false,
         }
     },
+    methods: {
+        leaveWorkgroup (workgroupId) {
+            this.$store.dispatch(`sideComponent`, {
+                componentName: `leave-workgroup`,
+                props: {
+                    user: {
+                        id: this.user.id,
+                    },
+                    workgroup: {
+                        id: workgroupId,
+                    },
+                },
+            })
+        },
+    },
 }
 </script>
 
@@ -64,16 +81,14 @@ export default {
                 flex: 1 1 0;
             }
             .lead.title {
-                margin-bottom: 0.5rem;
                 position: relative;
                 .checkbox-menu {
-                    opacity: 0;
-                    margin-left: -1.25rem;
+                    display: none;
                 }
                 .checkbox-menu + label {
                     cursor: pointer;
                 }
-                .checkbox-menu:checked + label {
+                .checkbox-menu:checked + label span.icon {
                     color: hsl(204, 86%, 53%);
                 }
                 .checkbox-menu:checked + label + .menu {

@@ -21,7 +21,7 @@
                     <div class="content">
                         <div class="level">
                             <div class="level-item">
-                                <p class="title is-3">Sửa nhóm {{workgroup.name}}</p>
+                                <p class="title is-3">Sửa nhóm <b>{{workgroup.name}}</b></p>
                             </div>
                         </div>
                         <p class="field">
