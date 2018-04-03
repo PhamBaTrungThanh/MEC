@@ -8,10 +8,14 @@ const mutations = {
     STORE_MATERIALS (state, data) {
         state.data.push(...data)
     },
-    UPDATE_MUTIPLE_MATERIALS (state, materials) {
+    CREATE_OR_UPDATE_MATERIALS (state, materials) {
         for (let i = materials.length - 1; i >= 0; i--) {
             const index = state.data.findIndex(t => t.id === materials[i].id)
-            state.data.splice(index, 1, materials[i])
+            if (index === -1) {
+                state.data.push(materials[i])
+            } else {
+                state.data.splice(index, 1, materials[i])
+            }
         }
     },
 }
@@ -90,16 +94,16 @@ const actions = {
         console.log(`Store::Materials -> store ${data.materials.length} materials.`)
         commit(`STORE_ALL_MATERIALS`, data.materials)
     },
-    createOrUpdate ({commit}, {action, dataPool}) {
+    updateRelatedResources ({commit}, {action, dataPool}) {
         if (action === `storeInvoice`) {
             if (dataPool.materials) {
-                commit(`STORE_MATERIALS`, dataPool.materials)
+                commit(`CREATE_OR_UPDATE_MATERIALS`, dataPool.materials)
             }
         }
     },
     updateAffected ({commit}, affected) {
         if (affected.hasOwnProperty(`materials`)) {
-            commit(`UPDATE_MUTIPLE_MATERIALS`, affected.materials)
+            commit(`CREATE_OR_UPDATE_MATERIALS`, affected.materials)
         }
     },
 }

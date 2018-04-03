@@ -73,7 +73,7 @@ const actions = {
             })
             if (response.status === 201) {
                 commit(`STORE_SINGLE_INVOICE`, response.data.data)
-                dispatch(`createOrUpdate`, {
+                dispatch(`updateRelatedResources`, {
                     action: `storeInvoice`,
                     dataPool: response.data,
                 })

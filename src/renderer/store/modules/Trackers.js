@@ -72,7 +72,7 @@ const actions = {
         console.log(`Store::Trackers -> store ${data.trackers.length} trackers.`)
         commit(`STORE_ALL_TRACKERS`, data.trackers)
     },
-    createOrUpdate ({commit}, {action, dataPool}) {
+    updateRelatedResources ({commit}, {action, dataPool}) {
         if (action === `storeInvoice`) {
             if (dataPool.trackers) {
                 commit(`STORE_TRACKERS`, dataPool.trackers)
