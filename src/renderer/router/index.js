@@ -140,12 +140,10 @@ export default new VueRouter({
                         name: `task.show`,
                         component: require(`@/components/Flow/Task/Show`).default,
                     },
-                ]),
-                ...withPrefix(`user/`, [
                     {
-                        path: `:user_id/task`,
-                        name: `user.task`,
-                        component: require(`@/components/Flow/User/Task/Task`).default,
+                        path: ``,
+                        name: `task.user`,
+                        component: require(`@/components/Flow/Task/User`).default,
                     },
                 ]),
             ],

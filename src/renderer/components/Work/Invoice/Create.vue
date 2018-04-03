@@ -169,8 +169,7 @@
                             <tbody>
                                 <tr v-for="(material, index) in flatList" :key="index" :class="`depth-${material.depth} ${(selectedIndex === index) ? 'is-selected': ''}`" @click.right.prevent="openMenu(index, $event)">
                                     <template v-if="!material.is_new">
-                                        
-                                        <td class="has-text-left depth-padding">
+                                        <td class="has-text-left depth-padding" :style="`padding-left: ${(material.depth + 1) * depthPadding}px`">
                                             <span class="icon">
                                                 <i class="mdi mdi-chevron-down" v-if="material.has_children"></i>
                                                 <i class="mdi mdi-chevron-right" v-else></i>
@@ -181,7 +180,7 @@
                                         <td>{{material.brand}}</td>
                                     </template>
                                     <template v-else >        
-                                        <td class="has-text-left">
+                                        <td class="has-text-left" :style="`padding-left: ${(material.depth + 1)* depthPadding}px`">
                                             <div class="field">
                                                 <div class="control has-icons-left">
                                                     <span class="icon is-left is-small">
@@ -302,6 +301,7 @@ export default {
     },
     data () {
         return {
+            depthPadding: 20,
             is_read: true,
             materials_list: [],
             flatList: [],
@@ -564,7 +564,7 @@ export default {
             // const addBOQ = this.addBOQ
             const template = [
                 {
-                    label: `Tạo danh mục`,
+                    label: `Tạo danh mục con`,
                     click: () => {
                         this.addChildMaterial()
                     },

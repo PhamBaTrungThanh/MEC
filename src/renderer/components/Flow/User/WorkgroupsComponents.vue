@@ -25,7 +25,7 @@
                 </p>
             </div>
             <div class="view-task">
-                <router-link class="is-link button" :to="{name: 'task.mytask', query: {workgroups: [workgroup.id]}}">Xem chi tiết</router-link>
+                <router-link class="is-link button" :to="{name: 'task.user', params: {user_id: user.id}, query: {workgroups: [workgroup.id]}}">Xem chi tiết</router-link>
             </div>
         </div>
     </div>

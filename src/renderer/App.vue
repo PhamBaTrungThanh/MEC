@@ -207,6 +207,20 @@
         font-family: $family-heading;
         font-weight: $font-weight-heading;
     }
+    table.table {
+        border-collapse: separate;
+        border: none;
+        border-top: 1px solid #dbdbdb;
+        border-right: 1px solid #dbdbdb;       
+        td, th {
+            border: none;
+            border-bottom: 1px solid #dbdbdb;
+            border-left: 1px solid #dbdbdb;
+        }
+    }
+    .content table tbody tr:last-child td, .content table tbody tr:last-child th, .table tbody tr:last-child td, .table tbody tr:last-child th {
+        border-bottom-width: 1px;
+    }
     /** Global */
     * {
         -webkit-backface-visibility: hidden;
@@ -282,21 +296,6 @@
     }
     .table.has-text-small {
         font-size: 0.9rem;
-    }
-    tr.depth-1 > td.depth-padding {
-        padding-left: 30px;
-    }
-    tr.depth-2 > td.depth-padding {
-        padding-left: 60px;
-    }
-    tr.depth-3 > td.depth-padding {
-        padding-left: 90px;
-    }
-    tr.depth-4 > td.depth-padding {
-        padding-left: 120px;
-    }
-    tr.depth-5 > td.depth-padding {
-        padding-left: 150px;
     }
     /* 
      * navbar

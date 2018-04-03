@@ -2,7 +2,7 @@
     <main-layout :class="{'side-layout-enabled': showSecondDisplay}">
         <div class="flow-navbar flow-padding level" slot="navbar">
             <div class="level-left">
-                <router-link class="level-item flow-item" :to="{name: 'task.show'}">Công việc</router-link>
+                <router-link class="level-item flow-item" :to="{name: 'task.user'}">Công việc</router-link>
                 <router-link class="level-item flow-item" :to="{name: 'workgroup.index'}">Nhóm</router-link>
             </div>
         </div>
@@ -112,16 +112,12 @@ export default {
         position: relative;
         z-index: 1;
         padding: 2px 5px;
-        margin: 0 7px;
+        margin: 0 10px;
     }
-    a.flow-item:not(.router-link-active):hover {
+    a.flow-item:hover {
         color: #ffffff;
     }
-    a.flow-item.router-link-active:hover {
-        color: #3273dc;
-        pointer-events: none;
-    }
-    a.flow-item:not(.router-link-active):before {
+    a.flow-item:before {
         display: block;
         content: "";
         pointer-events: none;
@@ -135,23 +131,15 @@ export default {
         z-index: -999;
         opacity: 0;
         transition: opacity 0.2s ease 0s;
-        transform: rotate(-3deg);
     }
-    a.flow-item.router-link-active:after {
-        display: block;
-        content: "";
-        pointer-events: none;
-        background: #3273dc;
-        left: -5px;
-        right: -5px;
-        position: absolute;
-        height: 2px;
+    a.flow-item:hover:before {
+        opacity: 1;
     }
-    a.flow-item.router-link-active:after {
-        bottom: 0;
-        transform: translateY(3px);
+    a.flow-item.router-link-active {
+        color: #ffffff;
+        cursor: default;
     }
-    a.flow-item:not(.router-link-active):hover:before {
+    a.flow-item.router-link-active:before {
         opacity: 1;
     }
     .flow-section {

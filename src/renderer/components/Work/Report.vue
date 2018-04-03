@@ -1,11 +1,11 @@
 <template>
     <transition name="slide-up" appear>
-        <div class="work_report--container container is-fluid" ref="container">
+        <div class="work_report--container" ref="container">
             <div class="work_report-content">
                 <p class="title is-3 has-text-info has-text-centered">Báo cáo vật tư công trình {{work.name}}</p>
                 <div :class="{'report': true, 'cascade': cascadePanel, 'columns': true}">
                     <div :class="{'left-panel': true, 'column': true, 'is-three-fifths': cascadePanel}">
-                        <table class="table is-expanded is-striped is-hoverable is-bordered has-text-small has-text-centered-cell" v-if="materials">
+                        <table class="table is-fullwidth is-striped is-hoverable is-bordered has-text-small has-text-centered-cell" v-if="materials">
                             <thead>
                                 <tr>
                                     <th>#</th>
@@ -86,7 +86,7 @@
                         <div class="tables">
                             <table v-for="tracker in trackers" :key="tracker.id" class="table material-detail is-striped is-hoverable is-bordered has-text-small">
                                 <tbody>
-                                    <tr class="title">
+                                    <tr class="header">
                                         <td colspan="2">
                                             <p class="has-text-centered title is-5 is-spaced">{{tracker.invoice.name}}</p>
                                             <p class="has-text-centered subtitle is-7">{{tracker.invoice.uid}}</p>
@@ -283,8 +283,8 @@ export default {
     .work_report--container {
         position: absolute;
         top: 2rem;
-        left: 1rem;
-        right: 1rem;
+        left: 11px;
+        right: 11px;
         bottom: 0;
         .work_report-content {
             display: flex;
@@ -294,9 +294,11 @@ export default {
         }
         .report {
             border-top: 1px solid #eee;
+            margin-top: 1rem;
         }
         .table.material-detail {
-            tr:not(.title) > td:first-child {
+            width: 100%;
+            tr:not(.header) > td:first-child {
                 width: 200px;
             }
         }
@@ -308,6 +310,9 @@ export default {
             overflow-y: auto;
             padding: 1rem;
             box-shadow: inset 4px 0px 12px -8px rgba(0,0,0,0.39);
+        }
+        .report.cascade .left-panel {
+            padding-right: 8px;
         }
     }
 </style>
