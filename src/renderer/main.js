@@ -1,3 +1,4 @@
+import {remote} from 'electron'
 import Vue from 'vue'
 import VeeValidate from 'vee-validate'
 import { sync } from 'vuex-router-sync'
@@ -9,10 +10,10 @@ import App from './App'
 import router from './router'
 import store from './store'
 import { MEC } from './bootstrap'
-import log from 'electron-log'
 
-if (process.env.NODE_ENV === `production`) window.console = log
+if (process.env.NODE_ENV === `production`) window.console = remote.getGlobal(`log`)
 if (!process.env.IS_WEB) Vue.use(require(`vue-electron`))
+
 Vue.config.productionTip = false
 Vue.use(VeeValidate)
 Vue.use(MEC)
@@ -34,4 +35,3 @@ new Vue({
     store,
     template: `<App/>`,
 }).$mount(`#app`)
-

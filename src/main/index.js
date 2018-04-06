@@ -1,5 +1,5 @@
 'use strict'
-
+import log from 'electron-log'
 import { app, BrowserWindow } from 'electron'
 import { autoUpdater } from 'electron-updater'
 /**
@@ -8,7 +8,9 @@ import { autoUpdater } from 'electron-updater'
  */
 if (process.env.NODE_ENV !== `development`) {
     global.__static = require(`path`).join(__dirname, `/static`).replace(/\\/g, `\\\\`)
+    global.log = log
 }
+
 let mainWindow
 const winURL = process.env.NODE_ENV === `development`
     ? `http://localhost:9080`
