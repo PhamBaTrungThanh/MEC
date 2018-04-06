@@ -80,7 +80,7 @@ const actions = {
                 return true
             }
         } catch (e) {
-            console.log(`Store::Invoices('storeInvoice') =>`, e)
+            console.error(`Store::Invoices('storeInvoice') =>`, e)
         }
     },
     async updateInvoice ({commit}, {invoiceId, resource = false, data = false}) {
@@ -95,7 +95,7 @@ const actions = {
                 commit(`DELETE_INVOICE`, invoiceId)
             }
         } catch (e) {
-            console.log(e)
+            console.error(e)
         }
     },
 }

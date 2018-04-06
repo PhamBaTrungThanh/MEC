@@ -1,13 +1,13 @@
 <template>
     <div class="my-task-container">
-        <nav class="nav flow-padding level">
+        <nav class="nav flow-padding level flow-topnav">
             <div class="level-left">
                 <router-link class="header-item title all-workgroup" :to="{name: 'task.user', query: {all: true}, params: {user_id: user.id}}">Tất cả</router-link>
                 <!--
                 <router-link 
                     v-for="workgroup in workgroups" 
                     :key="workgroup.id" 
-                    :class="{'header-item': true, 'title': true, 'sub-workgroup': true, 'is-active': checkActive(workgroup.id)}"
+                    :class="{'header-item': true, 'title': true, 'sub': true, 'is-active': checkActive(workgroup.id)}"
                     :to="{name: 'task.user', params: {user_id: user.id}, query: {workgroups: [workgroup.id]}}"
                     >
                     {{workgroup.name}}
@@ -106,47 +106,7 @@ export default {
 
 <style lang="scss">
     .my-task-container {
-        & > .nav {
-            background: #ffffff;
-            margin-bottom: 0;
-            a.header-item {
-                padding: 10px 12px;
-                position: relative;
-                color: #363636;
-                text-transform: uppercase;
-                font-size: 0.95rem;
-                // margin-bottom: 0;
-            }
-            a.header-item:hover {
-                color: #3273dc;
-            }
-            a.header-item.sub-workgroup {
-                font-size: 0.85rem;
-                &:before {
-                    top: -0.15rem;
-                }
-            }
-            .header-item:before {
-                display: block;
-                position: absolute;
-                content: "";
-                top: 0;
-                left: 0;
-                right: 0;                
-                height: 2px;
-                transform-origin: center center;
-                transform: scaleX(0);
-                background: #363636;
-                transition: transform 150ms ease 0s, background 150ms ease 0s
-            }
-            .header-item.is-active:before, .header-item.router-link-exact-active:before {
-                transform: scaleX(0.4);
-            }
-            .header-item:hover:before {
-                transform: scaleX(0.8);
-                background: #3273dc;
-            }
-        }
+
         & > .header {
             background: #ffffff;
             margin-bottom: 0;

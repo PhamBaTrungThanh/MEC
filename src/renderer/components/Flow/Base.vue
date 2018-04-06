@@ -2,7 +2,8 @@
     <main-layout :class="{'side-layout-enabled': showSecondDisplay}">
         <div class="flow-navbar flow-padding level" slot="navbar">
             <div class="level-left">
-                <router-link class="level-item flow-item" :to="{name: 'task.user'}">Công việc</router-link>
+                <router-link class="level-item flow-item" :to="{name: 'user.tasks'}">Công việc</router-link>
+                <router-link class="level-item flow-item" :to="{name: 'project.index', params: {workgroup_id: workgroupId}}">Dự án</router-link>
                 <router-link class="level-item flow-item" :to="{name: 'workgroup.index'}">Nhóm</router-link>
             </div>
         </div>
@@ -16,7 +17,7 @@
                         <person-detail v-if="secondaryComponent === 'person-detail'"></person-detail>
                         <leave-workgroup v-if="secondaryComponent === 'leave-workgroup'"></leave-workgroup>
                     </side-layout>
-                </section> 
+                </section> -exact
             </transition>
         </div>
 
@@ -45,6 +46,9 @@ export default {
         },
         secondaryProps () {
             return this.$store.getters.secondaryProps
+        },
+        workgroupId () {
+            return this.$route.params.workgroup_id || 0
         },
     },
     beforeRouteLeave (to, from, next) {
@@ -135,14 +139,66 @@ export default {
     a.flow-item:hover:before {
         opacity: 1;
     }
-    a.flow-item.router-link-active {
+    a.flow-item.router-link-exact-active {
         color: #ffffff;
         cursor: default;
     }
-    a.flow-item.router-link-active:before {
+    a.flow-item.router-link-exact-active:before {
         opacity: 1;
     }
     .flow-section {
         background: rgb(245, 245, 245);
+    }
+
+    .nav.flow-topnav {
+        background: #ffffff;
+        margin-bottom: 0;
+        a.header-item {
+            padding: 10px 12px;
+            position: relative;
+            color: #363636;
+            
+            // font-size: 0.95rem;
+            // margin-bottom: 0;
+        }
+        a.header-item:hover {
+            color: #3273dc;
+        }
+        a.header-item.sub {
+            font-size: 0.9rem;
+            // color: #636363;
+            &:before {
+                top: -0.15rem;
+            }
+        }
+        .header-item:before {
+            display: block;
+            position: absolute;
+            content: "";
+            top: 0;
+            left: 0;
+            right: 0;                
+            height: 2px;
+            transform-origin: center center;
+            transform: scaleX(0);
+            background: #363636;
+            transition: transform 150ms ease 0s, background 150ms ease 0s
+        }
+        .header-item.is-active:before, .header-item.router-link-exact-active:before {
+            transform: scaleX(0.4);
+        }
+        .header-item:hover:before {
+            transform: scaleX(0.8);
+            background: #3273dc;
+        }
+    }
+    .left-sidebar-toggle {
+        color: #696969;
+        background: #ffffff;
+        border-radius: 3px;
+        margin-left: 10px;
+    }
+    .left-sidebar-toggle.is-active {
+        background: #f5f5f5;
     }
 </style>

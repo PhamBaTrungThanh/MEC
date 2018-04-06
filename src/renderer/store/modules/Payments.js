@@ -61,7 +61,7 @@ const actions = {
             const payment = Object.assign({}, response.data.data, response.data.extra, {isFull: true})
             commit(`STORE_PAYMENT`, payment)
         } catch (e) {
-            console.log(`Store::Payments('getPayment') => `, e)
+            console.error(`Store::Payments('getPayment') => `, e)
         }
     },
     async storePayment ({commit, dispatch}, data) {
@@ -75,7 +75,7 @@ const actions = {
                 })
             }
         } catch (e) {
-            console.log(e)
+            console.error(e)
         }
     },
     async deletePayment ({commit, dispatch}, {paymentId}) {
@@ -90,7 +90,7 @@ const actions = {
                 return true
             }
         } catch (e) {
-            console.log(e)
+            console.error(e)
         }
     },
     deleteInvoice ({commit}, {invoiceId}) {

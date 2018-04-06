@@ -25,6 +25,7 @@ const state = {
         },
     },
     isFullscreen: false,
+    storage: {},
 }
 const mutations = {
     IS_READY (state) {
@@ -44,6 +45,10 @@ const mutations = {
     },
     TOKEN (state, token) {
         state._token = token
+    },
+    APP_STORAGE (state, storageData) {
+        // Always overwrite
+        state.storage = Object.assign({}, state.storage, storageData)
     },
     UPDATE_RESOURCES (state, data) {
         state.resources.push(data)
@@ -156,7 +161,7 @@ const actions = {
                 console.log(`Store::App('fetchAllResources') -> data fetched`)
                 dispatch(`storeResources`, worker.data)
                 console.log(`Store::App('fetchAllResources') -> App is Ready`)
-                commit(`IS_READY`)
+                dispatch(`appReady`)
             }
         } catch (e) {
             console.log(`Store::App('fetchAllResources') => `, e)
@@ -174,6 +179,13 @@ const actions = {
         commit(`SET_SECONDARY_DISPLAY_PROPS`, {})
         commit(`SHOW_SECONDARY_DISPLAY`, ``)
         commit(`TOGGLE_SECONDARY_DISPLAY_OFF`)
+    },
+    // Hooks
+    appReady ({commit}) {
+        commit(`IS_READY`)
+    },
+    appStorage ({commit}, data) {
+        commit(`APP_STORAGE`, data)
     },
 }
 export default {

@@ -93,16 +93,19 @@ const actions = {
         console.log(`Store::Users -> store ${data.users.length} works.`)
         commit(`STORE_ALL_USERS`, data.users)
     },
-    async getLoggedInUser ({commit, dispatch}) {
+    storeCurrentUser ({commit}, data) {
+        commit(`STORE_CURRENT_USER`, data)
+    },
+    async getLoggedInUser ({dispatch}) {
         try {
             const currentUser = await this._vm.axios.get(`user`)
             if (currentUser.status === 200) {
                 console.log(`Store::Users -> user ${currentUser.data.data.name} logged in`)
-                commit(`STORE_CURRENT_USER`, currentUser.data.data)
+                dispatch(`storeCurrentUser`, currentUser.data.data)
                 return true
             }
         } catch (e) {
-            console.log(`Store::Users =>`, e)
+            console.error(`Store::Users =>`, e)
             return false
         }
     },
@@ -128,7 +131,7 @@ const actions = {
                 throw new Error(`Invalid Update field`)
             }
         } catch (e) {
-            console.log(`Store::Users -> update user error`, e)
+            console.error(`Store::Users -> update user error`, e)
         }
     },
 }

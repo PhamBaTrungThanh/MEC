@@ -39,7 +39,7 @@ const actions = {
             }
             dispatch(`appResourcesFetched`, `works`)
         } catch (e) {
-            console.log(`Store::Works =>`, e)
+            console.error(`Store::Works =>`, e)
         }
     },
     storeResources ({commit}, data) {

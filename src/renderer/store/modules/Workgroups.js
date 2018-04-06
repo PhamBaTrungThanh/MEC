@@ -84,15 +84,18 @@ const getters = {
     },
 }
 const actions = {
-    async fetchAllResources ({commit}) {
+    storeWorkgroupResources ({commit}, data) {
+        commit(`STORE_WORKGROUP_RESOURCES`, data)
+    },
+    async fetchAllResources ({commit, dispatch}) {
         console.log(`Store::Workgroup -> fetch all Resource`)
         try {
             const response = await this._vm.axios.get(`workgroup`)
             if (response.status === 200) {
-                commit(`STORE_WORKGROUP_RESOURCES`, response.data.data)
+                dispatch(`storeWorkgroupResources`, response.data.data)
             }
         } catch (e) {
-            console.log(`Store::Workgroup('fetchAllResources') => `, e)
+            console.error(`Store::Workgroup('fetchAllResources') => `, e)
         }
     },
     async storeWorkgroup ({commit}, {name, isPrivate = true, parentId = 0, leaderId = 0}) {
@@ -111,7 +114,7 @@ const actions = {
                 throw new Error(`Can not create resource`)
             }
         } catch (e) {
-            console.log(`Store::Workgroup('store') => `, e)
+            console.error(`Store::Workgroup('store') => `, e)
         }
     },
     async updateWorkgroup ({commit}, {name, isPrivate, id, leaderId}) {
@@ -128,7 +131,7 @@ const actions = {
                 return true
             }
         } catch (e) {
-            console.log(`Store::Workgroup => update error`, e)
+            console.error(`Store::Workgroup => update error`, e)
         }
     },
     async deleteWorkgroup ({commit}, {workgroupId}) {

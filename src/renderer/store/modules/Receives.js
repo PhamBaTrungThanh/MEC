@@ -76,7 +76,7 @@ const actions = {
                 commit(`UPDATE_RECEIVES_FROM_INVOICE`, {invoiceId: invoiceId, receives: receives})
             }
         } catch (e) {
-            console.log(`Store::Receives('getReceiveForInvoice') => `, e)
+            console.error(`Store::Receives('getReceiveForInvoice') => `, e)
         }
     },
     deleteInvoice ({commit}, {invoiceId}) {
@@ -96,7 +96,7 @@ const actions = {
                 throw new Error(`Server return code ${response.status}`)
             }
         } catch (error) {
-            console.log(`Store::Receives('storeReceive') => ${error}`)
+            console.error(`Store::Receives('storeReceive') => ${error}`)
         }
     },
 }

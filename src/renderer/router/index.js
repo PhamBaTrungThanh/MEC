@@ -134,16 +134,41 @@ export default new VueRouter({
                         component: require(`@/components/Flow/Workgroup/Create`).default,
                     },
                 ]),
-                ...withPrefix(`task/`, [
+                ...withPrefix(`project/`, [
+                    {
+                        path: ``,
+                        component: require(`@/components/Flow/Workgroup/Project/Base`).default,
+                        children: [
+                            {
+                                path: ``,
+                                name: `project.index`,
+                                component: require(`@/components/Flow/Workgroup/Project/Index`).default,
+                            },
+                            {
+                                path: `workgroup/:workgroup_id`,
+                                name: `project.dashboard`,
+                                component: require(`@/components/Flow/Workgroup/Project/Show`).default,
+                            },
+                            {
+                                path: `workgroup/:workgroup_id/show/:project_id`,
+                                name: `project.show`,
+                                component: require(`@/components/Flow/Workgroup/Project/Show`).default,
+                            },
+                        ],
+                    },
+                ]),
+                ...withPrefix(`workgroup/:workgroup_id/project/:project_id/task/`, [
                     {
                         path: ``,
                         name: `task.show`,
-                        component: require(`@/components/Flow/Task/Show`).default,
+                        component: require(`@/components/Flow/Workgroup/Project/Task/Show`).default,
                     },
+                ]),
+                ...withPrefix(`user/`, [
                     {
-                        path: ``,
-                        name: `task.user`,
-                        component: require(`@/components/Flow/Task/User`).default,
+                        path: `tasks`,
+                        name: `user.tasks`,
+                        component: require(`@/components/Flow/Workgroup/Project/Task/User`).default,
                     },
                 ]),
             ],
