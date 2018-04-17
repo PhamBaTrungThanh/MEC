@@ -105,7 +105,7 @@ export default {
             this.$validator.validateAll()
             if (!this.errors.any() && this.name) {
                 this.onSubmit = true
-                this.$store.dispatch(`storeWorkgroup`, {
+                this.$store.dispatch(`newWorkgroup`, {
                     name: this.name,
                     isPrivate: this.isPrivate,
                     leaderId: this.leaderId,

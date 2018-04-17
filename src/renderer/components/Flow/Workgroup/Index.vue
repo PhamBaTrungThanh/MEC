@@ -46,7 +46,7 @@
                         </div>
                     </header>
                     <article class="workgroup-users">
-                        <div v-for="user in workgroup.users" :key="user.id" class="user-card" @click="showPersonDetail(user.id)">
+                        <div v-for="user in workgroup.users" :key="user.id" class="user-card flow-card" @click="showPersonDetail(user.id)">
                             <div :class="{'user-header': true, 'is-leader': user.role === 'leader'}"></div>
                             <div class="user-content">
                                 <span>{{user.name}}</span>
@@ -166,16 +166,10 @@ export default {
         height: 130px;
         padding: 15px 8px;
         margin: 0 6px 11px 6px;
-        box-shadow: 0px 1px 2px 0 rgba(0,0,0,0.15);       
+        
         background: #ffffff;
         border-radius: 2px;
         position: relative;
-        cursor: pointer;
-        user-select: none; /* Standard */
-        &:hover {
-            box-shadow: 0px 4px 6px 0 rgba(0,0,0,0.15);
-        }
-
         .user-header {
             height: 25px;
             background: hsl(204, 86%, 53%);

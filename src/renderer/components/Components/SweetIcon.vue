@@ -204,7 +204,11 @@ $swal2-error-x-mark-animation: swal2-animate-error-x-mark .5s !default;
     animation: none;
   }
 }
-
+.swal2-icon.swal2-warning, .swal2-icon.swal2-info, .swal2-icon.swal2-question {
+    margin: .333333em auto .5em;
+    font-family: inherit;
+    font-size: inherit;
+}
 .swal2-hide {
   animation: $swal2-hide-animation;
 

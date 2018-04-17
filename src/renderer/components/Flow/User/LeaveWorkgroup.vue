@@ -28,11 +28,9 @@
 
 <script>
 import BackLink from '@/components/components/BackLink'
-import SweetIcon from '@/components/components/SweetIcon'
 export default {
     name: `leave-workgroup`,
     components: {
-        SweetIcon,
         BackLink,
     },
     computed: {

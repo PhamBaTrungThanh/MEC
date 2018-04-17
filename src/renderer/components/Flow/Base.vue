@@ -107,6 +107,16 @@ export default {
         min-height: 3rem;
         border-bottom: 1px solid rgba(68,68,68, 0.2);
     }
+    .flow-card {
+        box-shadow: 0px 1px 2px 0 rgba(0,0,0,0.15);       
+        cursor: pointer;
+        user-select: none; /* Standard */
+        border-radius: 2px;
+        background: #ffffff;
+        &:hover {
+            box-shadow: 0px 4px 6px 0 rgba(0,0,0,0.15);
+        }
+    }
     .level.flow-navbar {
         margin-bottom: 0;
     }
@@ -139,11 +149,11 @@ export default {
     a.flow-item:hover:before {
         opacity: 1;
     }
-    a.flow-item.router-link-exact-active {
+    a.flow-item.router-link-active {
         color: #ffffff;
         cursor: default;
     }
-    a.flow-item.router-link-exact-active:before {
+    a.flow-item.router-link-active:before {
         opacity: 1;
     }
     .flow-section {
@@ -200,5 +210,13 @@ export default {
     }
     .left-sidebar-toggle.is-active {
         background: #f5f5f5;
+    }
+    .flow-body-padding {
+        padding-left: 62px;
+        padding-right: 32px;
+    }
+    .flow-body-margin {
+        margin-left: 62px;
+        margin-right: 32px;
     }
 </style>

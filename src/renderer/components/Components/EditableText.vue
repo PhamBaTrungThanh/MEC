@@ -8,7 +8,8 @@
                 class="editor"
                 ref="editor"
                 v-model="editValue"
-                @keyup="onKeyUp($event)" />
+                @keyup="onKeyUp($event)" 
+                @blur="onBlur"/>
             <cleave 
                 v-else
                 class="editor"
@@ -220,6 +221,7 @@ export default {
         position: relative;
         display: flex;
         align-items: center;
+        font-size: 1em;
         cursor: text;
         .display-text {
             display: block;
@@ -227,7 +229,7 @@ export default {
         }
         .display-text.no-info {
             font-style: italic;
-            font-size: 0.9rem;
+            font-size: 0.9em;
             font-weight: 300;
         }
         .date-picker-editor {
@@ -242,7 +244,7 @@ export default {
         .editor {
             display: block;
             width: 100%;
-            font-size: 1rem;
+            font-size: 1em;
             border: none;
         }
         .editor-mark {

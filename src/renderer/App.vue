@@ -223,8 +223,7 @@
     }
     /** Global */
     * {
-        -webkit-backface-visibility: hidden;
-        -moz-backface-visibility: hidden;
+        -webkit-font-smoothing: antialiased;
         backface-visibility: hidden;
         position: relative;
     }
@@ -245,6 +244,31 @@
     }
     .fuild-height, {
         height: 100vh;
+    }
+    .button.has-label {
+        overflow: hidden;
+        & > .icon:first-child {
+            margin-right: calc(-0.375em - 1px);
+        }           
+        & > .label {
+            width: 0;
+            opacity: 0;
+            transition: opacity 250ms ease 0s;
+            transform-origin: left center;
+        }
+        &:hover > .icon:first-child {
+            margin-right: 0.1875em;
+        }     
+        &:hover > .label {
+            width: 100%;
+            opacity: 1;
+        }
+    }
+    .pointer {
+        cursor: pointer;
+    }
+    .is-unselectable {
+        pointer-events: none;
     }
     .is-full-height {
          height: 100% !important;
@@ -395,7 +419,133 @@
         right: 0;
         bottom: 0;
     }
+
+    /** SPECIAL **/
+    .float-controls-container {
+        position: fixed;
+        display: flex;
+        flex-direction: column;
+        right: 50px;
+        bottom: 50px;
+    }
+    .float-control {
+        background: rgba(#41ab6b, 0.1);
+        width: 5em;
+        height: 5em;
+        border-radius: 50%;
+        text-align: center;
+        transition: background 0.2s, color 0.2s;
+        color: #41ab6b;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        &[disabled="disabled"] {
+            color: #ccc;
+            background: #eee;
+        }
+        &:not([disabled="disabled"]):after {
+            top: -7px;
+            left: -7px;
+            padding: 7px;
+            box-shadow: 0 0 0 4px #41ab6b;
+            transition: transform 0.2s, opacity 0.2s;
+            transform: scale(.8);
+            opacity: 0;
+            pointer-events: none;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            content: '';
+            box-sizing: content-box;
+        }
+        &:not([disabled="disabled"]):hover {
+            color: #ffffff;
+            background: #41ab6b;
+        }
+        &:hover:after {
+            transform: scale(1);
+            opacity: 1;
+        }
+        .icon {
+            font-size: 3em;
+        }
+        .float-explain {
+            position: absolute;
+            background: #41ab6b;
+            z-index: 9999;
+            width: 200px;
+            bottom: 50%;
+            margin-bottom: 0em;
+            padding: 20px;
+            border-radius: 20px;
+            font-size: 1.1em;
+            text-align: center;
+            color: #fff;
+            opacity: 0;
+            cursor: default;
+            pointer-events: none;
+            transition: opacity 0.3s, transform 0.3s; 
+            right: 6em;
+            transform-origin: calc(100% + 5em) 50%;
+            transform: translate3d(0,50%,0) rotate3d(1,1,1,-30deg);
+        }
+        &:not([disabled="disabled"]):hover > .float-explain {
+            opacity: 1;
+            transform: translate3d(0,50%,0) rotate3d(0,0,0,0);
+            pointer-events: auto;
+        }
+    }
 </style>
+<style lang="scss">
+    /* Tooltip */
+    .tooltip-content {
+        text-align: center;
+        color: #fff;
+        cursor: default;
+        font-size: 0.55em;
+        line-height: 1.4;
+        pointer-events: none;
+    }
+    .tooltip-content.bloated {
+        position: absolute;
+        background: url(~@/assets/images/tooltip-bloated.svg) no-repeat center bottom;
+        background-size: 100% 100%;
+        z-index: 9999;
+        width: 200px;
+        bottom: 100%;
+        left: 50%;
+        margin-left: -100px;
+        padding: 50px 30px;
+        text-align: center;
+        color: #fff;
+        opacity: 0;
+        cursor: default;
+        line-height: 1.4;
+        pointer-events: none;
+        transform: scale3d(0.1,0.2,1);
+        transform-origin: 50% 120%;
+        transition: opacity 0.4s, transform 0.4s;
+        transition-timing-function: ease, cubic-bezier(0.6,0,0.4,1);
+        &:after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            left: 50%;
+            margin-left: -8px;
+            top: 100%;
+            background: #00AEEF;
+            transform: translate3d(0,-60%,0) rotate3d(0,0,1,45deg);
+        }
+    }
+    .tooltip:hover > .tooltip-content.bloated, .tooltip-trigger:focus + .tooltip-content.bloated {
+        opacity: 1;
+        pointer-events: auto;
+        transform: scale3d(1,1,1);
+    }
+</style>
+
 <style lang="scss">
     /* Animation */
     .zoom-enter, .zoom-leave-to {

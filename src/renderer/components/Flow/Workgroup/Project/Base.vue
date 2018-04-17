@@ -13,9 +13,9 @@
                         <i class="mdi mdi-chevron-down"></i>
                     </span>
                 </a>
-                <a v-for="workgroup in userWorkgroups" :key="workgroup.id" class="header-item sub">
+                <router-link :to="{name: 'project.dashboard', params: {workgroup_id: workgroup.id}}" v-for="workgroup in userWorkgroups" :key="workgroup.id" class="header-item sub">
                     {{workgroup.name}}
-                </a>
+                </router-link>
             </div>
             <div class="level-right" v-if="false">
                 <div class="dropdown">
@@ -38,13 +38,16 @@
 
 <script>
 export default {
-    name: `project-index`,
+    name: `project-base`,
     computed: {
         user () {
             return this.$store.getters.currentUser
         },
         userWorkgroups () {
             return (this.user) ? this.$store.getters.workgroupsForUser(this.user.id) : false
+        },
+        activeWorkgroupId () {
+            return parseInt(this.$route.params.workgroup_id) || false
         },
     },
     data () {
@@ -54,10 +57,3 @@ export default {
     },
 }
 </script>
-
-<style lang="scss">
-    .project-body {
-        padding-left: 42px;
-        padding-right: 32px;
-    }
-</style>

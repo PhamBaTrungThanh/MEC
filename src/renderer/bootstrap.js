@@ -2,7 +2,7 @@ import axios from 'axios'
 import Chart from 'chart.js'
 import swal from 'sweetalert2'
 // import scrollMonitor from 'scrollmonitor'
-
+import arraySort from 'array-sort'
 const App = Object.freeze({
     version: `0.0.1`,
     name: `MEC International`,
@@ -122,6 +122,7 @@ const MEC = {
         Vue.prototype.comma = helpers.monetize
         Vue.prototype.__ = helpers.__
         Vue.prototype.swal = helpers.swal
+        Vue.prototype.arraySort = arraySort
         Vue.directive(`scroll-spy`, {
             inserted (el, binding, vnode) {
                 /*

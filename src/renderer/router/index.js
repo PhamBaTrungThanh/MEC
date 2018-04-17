@@ -147,7 +147,7 @@ export default new VueRouter({
                             {
                                 path: `workgroup/:workgroup_id`,
                                 name: `project.dashboard`,
-                                component: require(`@/components/Flow/Workgroup/Project/Show`).default,
+                                component: require(`@/components/Flow/Workgroup/Project/Dashboard`).default,
                             },
                             {
                                 path: `workgroup/:workgroup_id/show/:project_id`,
@@ -175,6 +175,8 @@ export default new VueRouter({
         },
     ],
     scrollBehavior (to, from, savedPosition) {
-        window.document.getElementById(`main_section`).scrollTop = 0
+        if (window.document.getElementById(`main_section`)) {
+            window.document.getElementById(`main_section`).scrollTop = 0
+        }
     },
 })

@@ -107,7 +107,7 @@ const actions = {
                 }
             } catch (e) {
                 if (e.response.status === 401) {
-                    console.log(`Store::App('AppInit') => User unauthorized`)
+                    console.warn(`Store::App('AppInit') => User unauthorized`)
                     // remove custom header
                     this._vm.axios.defaults.headers.common.Authorization = ``
                     commit(`REQUEST_LOGINFORM`)
@@ -115,7 +115,7 @@ const actions = {
                 console.log(`Store::App('AppInit') => `, e)
             }
         } else {
-            console.log(`Store::App('AppInit') => User not logged in`)
+            console.warn(`Store::App('AppInit') => User not logged in`)
             commit(`REQUEST_LOGINFORM`)
         }
     },
@@ -137,7 +137,7 @@ const actions = {
             }
             return loginWorker
         } catch (e) {
-            console.log(`Store::App('AppLogin') =>`, e)
+            console.error(`Store::App('AppLogin') =>`, e)
             return e.response
         }
     },
@@ -151,7 +151,7 @@ const actions = {
                 commit(`REQUEST_LOGINFORM`)
             }
         } catch (e) {
-            console.log(e)
+            console.error(e)
         }
     },
     async fetchAllResources ({ commit, dispatch }) {
@@ -164,7 +164,7 @@ const actions = {
                 dispatch(`appReady`)
             }
         } catch (e) {
-            console.log(`Store::App('fetchAllResources') => `, e)
+            console.error(`Store::App('fetchAllResources') => `, e)
         }
     },
     appResourcesFetched ({commit}, data) {

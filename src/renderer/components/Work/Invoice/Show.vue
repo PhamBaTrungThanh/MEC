@@ -255,7 +255,7 @@ export default {
                 let $Labels = []
                 let $MoneizedData = []
                 let sum = 0
-                let total = Math.floor(this.invoice.total * 1.1)
+                let total = Math.floor(this.invoice.total)
                 this.payments.forEach(payment => {
                     $Labels.push(payment.name)
                     $Data.push(Math.floor(payment.amount))
