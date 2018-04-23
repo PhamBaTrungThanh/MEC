@@ -36,21 +36,19 @@
 
 <script>
 import MainLayout from '@/components/Layouts/Main'
-
+import { mapGetters } from 'vuex'
 export default {
     name: `work-base`,
     components: {
         MainLayout,
     },
     computed: {
+        ...mapGetters({
+            invoice: `routeInvoice`,
+            payment: `routePayment`,
+        }),
         work () {
             return this.$store.getters.currentWork.data
-        },
-        invoice () {
-            return this.$store.getters.invoice
-        },
-        payment () {
-            return this.$store.getters.payment
         },
         routeName () {
             return this.$route.name

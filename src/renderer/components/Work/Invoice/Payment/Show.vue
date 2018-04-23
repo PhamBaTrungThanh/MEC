@@ -11,12 +11,12 @@
                 </div>
                 <div class="level-right">
                     <div class="level-item">
-                        <button class="button is-link">
+                        <router-link class="button is-link" :to="{name: 'payment.edit'}">
                             <span class="icon">
                                 <i class="mdi mdi-pencil"></i>
                             </span>
                             <span>Sửa thanh toán</span>
-                        </button>
+                        </router-link>
                     </div>
                 </div>
             </div>
@@ -161,22 +161,21 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
     name: `payment-show`,
     computed: {
-        user () {
-            return this.$store.getters.currentUser
-        },
-        invoice () {
-            return this.$store.getters.invoice
-        },
+        ...mapGetters({
+            user: `currentUser`,
+            invoice: `routeInvoice`,
+        }),
         payment () {
-            if (this.$store.getters.payment) {
-                if (!this.$store.getters.payment.isFull) {
-                    this.$store.dispatch(`getPayment`, this.$store.getters.payment.id)
+            if (this.$store.getters.routePayment) {
+                if (!this.$store.getters.routePayment.isFull) {
+                    this.$store.dispatch(`getPayment`, this.$store.getters.routePayment.id)
                 }
             }
-            return this.$store.getters.payment
+            return this.$store.getters.routePayment
         },
     },
 }

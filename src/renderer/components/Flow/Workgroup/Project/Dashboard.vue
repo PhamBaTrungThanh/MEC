@@ -27,12 +27,12 @@
                     </div>
                     <div class="body" v-if="!localCategories[index].isCollapse">
                         <div class="project-card"></div>
-                        <a class="project-card flow-card add-project">
+                        <router-link :to="{name: `project.create`, params: {workgroup_id: workgroup.id, category_id: category.id}}" class="project-card flow-card add-project">
                             <span class="icon">
                                 <i class="mdi mdi-plus"></i>
                             </span>
                             <span>Thêm dự án mới</span>
-                        </a>
+                        </router-link>
                     </div>
                 </div>
             </div>

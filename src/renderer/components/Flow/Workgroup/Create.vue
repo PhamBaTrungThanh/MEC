@@ -78,20 +78,13 @@
                     </a>
                 </p>
             </div>
-
         </div>
     </content-sidebar>
 </template>
 
 <script>
-import ContentSidebar from '@/components/Layouts/ContentSidebar'
-// import { mapGetters } from 'vuex'
 export default {
     name: `create-workgroup`,
-    components: {
-        ContentSidebar: ContentSidebar,
-
-    },
     data () {
         return {
             name: ``,

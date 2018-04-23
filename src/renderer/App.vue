@@ -202,6 +202,41 @@
     $modal-background-background-color: rgba(10, 10, 10, 0.64);
     $box-radius: $radius;
     @import "~bulma/bulma.sass";
+    /* Colors */
+    .project-color {
+        background: hsl(0, 0%, 98%);
+        color: hsl(0, 0%, 90%);
+    }
+    .project-color:hover {
+        color: hsl(0, 0, 95%);
+    }
+    .project-color.black {
+        background: hsl(0, 0%, 0%);
+    }
+    .project-color.red {
+        background: hsl(348, 100%, 61%);
+    }
+    .project-color.purple {
+        background: hsl(271, 100%, 71%);
+    }
+    .project-color.blue {
+        background: hsl(217, 71%, 53%);
+    }
+    .project-color.cyan {
+        background: hsl(204, 86%, 53%);
+    }
+    .project-color.turquoise {
+        background: hsl(171, 100%, 41%);
+    }
+    .project-color.green {
+        background: hsl(141, 71%, 48%);
+    }
+    .project-color.yellow {
+        background: hsl(48, 100%, 67%);
+    }
+    .project-color.orange {
+        background: hsl(14, 100%, 53%);
+    }
     /* Override */
     h1, h2, h3, h4, h5, h6, .title, .subtitle {
         font-family: $family-heading;
@@ -496,6 +531,42 @@
             pointer-events: auto;
         }
     }
+
+    .breathe-icon {
+        width: 64px;
+        height: 64px;
+        display: flex;
+        position: relative;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        z-index: 110;
+        border-radius: 50%;
+        pointer-events: auto;
+        -webkit-tap-highlight-color: rgba(0,0,0,0);
+    }
+    .breathe-icon:after {
+        width: 64px;
+        height: 64px;
+        box-sizing: border-box;
+        content: '';
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        border: 4px solid #9236f7;
+        border-radius: 50%;
+        animation-duration: 1.2s;
+        animation-name: intervalBorderBreathe;
+        animation-iteration-count: infinite;
+    }
+    .breathe-icon.breathe-light {
+        background-color: hsl(0, 0%, 97%);
+    }
+    .breathe-icon.breathe-light:after {
+        border-color: hsl(0, 0%, 93%);
+    }
 </style>
 <style lang="scss">
     /* Tooltip */
@@ -610,5 +681,21 @@
         }
     }
 
+    @keyframes intervalBorderBreathe {
+	0% {
+		opacity: 1;
+		-webkit-transform: scale(1);
+		transform: scale(1);
+	}
+	80% {
+		-webkit-transform: scale(1.6);
+		transform: scale(1.6);
+	}
+	100% {
+		opacity: 0;
+		-webkit-transform: scale(1.6);
+		transform: scale(1.6);
+	}
+}
 </style>
 

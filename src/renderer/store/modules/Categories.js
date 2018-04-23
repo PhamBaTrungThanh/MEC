@@ -40,6 +40,13 @@ const mutations = {
     },
 }
 const getters = {
+    currentCategory (state, getters, rootState, rootGetters) {
+        if (rootState.route.params.category_id) {
+            const id = parseInt(rootState.route.params.category_id)
+            return getters.categoryById(id)
+        }
+        return {}
+    },
     workgroupCategories: state => {
         return state.data.reduce((categories, category) => {
             if (category.parent_type === `workgroup`) {

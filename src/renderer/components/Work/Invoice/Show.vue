@@ -122,7 +122,7 @@
                                 </tr>
                                 <tr v-for="(payment, index) in payments" :key="payment.id">
                                     <td><b>{{index + 1}}</b></td>
-                                    <td><router-link :to="{'name': 'payment.show', 'params': {payment_id: payment.id}}">{{payment.name}}</router-link></td>
+                                    <td><router-link :to="{name: 'payment.show', params: {payment_id: payment.id, invoice_id: invoice.id}}">{{payment.name}}</router-link></td>
                                     <td>{{payment.paid_on}}</td>
                                     <td>{{__(payment.method)}}</td>
                                     <td>{{comma(payment.amount)}}</td>

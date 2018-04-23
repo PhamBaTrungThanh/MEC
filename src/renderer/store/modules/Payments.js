@@ -3,7 +3,9 @@ const state = {
 }
 const mutations = {
     STORE_ALL_PAYMENTS (state, data) {
-        state.data = data
+        state.data = data.map(payment => {
+            return Object.assign({}, payment, {isFull: false})
+        })
     },
     STORE_PAYMENT (state, payment) {
         const index = state.data.findIndex(p => p.id === payment.id)
@@ -11,6 +13,18 @@ const mutations = {
             state.data.push(payment)
         } else {
             state.data.splice(index, 1, payment)
+        }
+    },
+    UPDATE_PAYMENT (state, payment) {
+        try {
+            const index = state.data.findIndex(p => p.id === payment.id)
+            if (index === -1) {
+                throw new Error(`Payment ${payment.id} not found on database`)
+            } else {
+                state.data.splice(index, 1, payment)
+            }
+        } catch (e) {
+            console.error(`Store::Payments('UPDATE_PAYMENT') commit error`, e)
         }
     },
     DELETE_PAYMENTS_FROM_INVOICE (state, invoiceId) {
@@ -28,6 +42,7 @@ const mutations = {
         const index = state.data.findIndex(p => p.id === id)
         state.data.splice(index, 1)
     },
+
 }
 const getters = {
     relatedPaymentsInInvoice: state => invoiceId => {
@@ -41,7 +56,7 @@ const getters = {
         }
         return []
     },
-    payment (state, getters, rootState) {
+    routePayment (state, getters, rootState) {
         if (rootState.route.params.payment_id) {
             const paymentId = parseInt(rootState.route.params.payment_id)
             return state.data.find(payment => payment.id === paymentId)
@@ -91,6 +106,29 @@ const actions = {
             }
         } catch (e) {
             console.error(e)
+        }
+    },
+    async editPayment ({commit, dispatch}, payment) {
+        try {
+            const response = await this._vm.axios.put(`payment/${payment.id}`, {
+                name: payment.name,
+                method: payment.method,
+                paid_on: payment.paid_on,
+                content: payment.content,
+                amount: payment.amount,
+                edit_reason: payment.reason,
+            })
+            if (response.status === 200) {
+                commit(`UPDATE_PAYMENT`, response.data.data)
+                if (response.affected) {
+                    dispatch(`updateInvoice`, {
+                        invoiceId: response.affected.invoice.id,
+                        resource: response.affected.invoice,
+                    })
+                }
+            }
+        } catch (e) {
+            console.error(`Store::Payments('editPayment') -> error`, e)
         }
     },
     deleteInvoice ({commit}, {invoiceId}) {

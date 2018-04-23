@@ -40,6 +40,13 @@ const mutations = {
     },
 }
 const getters = {
+    currentWorkgroup (state, getters, rootState, rootGetters) {
+        if (rootState.route.params.workgroup_id) {
+            const id = parseInt(rootState.route.params.workgroup_id)
+            return getters.workgroupById(id)
+        }
+        return {}
+    },
     usersForWorkgroup: (state, getters, rootState, rootGetters) => id => {
         const workgroup = state.data.find(workgroup => workgroup.id === id)
         const users = (workgroup.users) ? arraySort(workgroup.users.map(user => {

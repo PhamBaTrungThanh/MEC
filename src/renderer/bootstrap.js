@@ -123,6 +123,7 @@ const MEC = {
         Vue.prototype.__ = helpers.__
         Vue.prototype.swal = helpers.swal
         Vue.prototype.arraySort = arraySort
+        Vue.prototype.toISODate = helpers.toISODate
         Vue.directive(`scroll-spy`, {
             inserted (el, binding, vnode) {
                 /*

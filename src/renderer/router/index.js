@@ -157,6 +157,13 @@ export default new VueRouter({
                         ],
                     },
                 ]),
+                ...withPrefix(`workgroup/:wrokgroup_id/category/:category_id/project`, [
+                    {
+                        path: `create`,
+                        name: `project.create`,
+                        component: require(`@/components/Flow/Workgroup/Project/Create`).default,
+                    },
+                ]),
                 ...withPrefix(`workgroup/:workgroup_id/project/:project_id/task/`, [
                     {
                         path: ``,
