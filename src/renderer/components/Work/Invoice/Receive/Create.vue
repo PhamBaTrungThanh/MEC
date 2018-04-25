@@ -152,7 +152,7 @@ export default {
     computed: {
         ...mapGetters({
             user: `currentUser`,
-            invoice: `invoice`,
+            invoice: `routeInvoice`,
             trackers: `trackersForCurrentInvoice`,
             options: `cleaveOptions`,
             getMaterial: `materialById`,

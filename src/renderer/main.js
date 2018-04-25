@@ -12,6 +12,7 @@ import store from './store'
 import { MEC } from './bootstrap'
 import SweetIcon from '@/components/Components/SweetIcon'
 import ContentSidebar from '@/components/Layouts/ContentSidebar'
+import BreatheIcon from '@/components/Components/BreatheIcon'
 if (process.env.NODE_ENV === `production`) window.console = remote.getGlobal(`log`)
 if (!process.env.IS_WEB) Vue.use(require(`vue-electron`))
 
@@ -23,7 +24,7 @@ Vue.use(VCalendar)
 Vue.component(`sweet-icon`, SweetIcon)
 Vue.component(`treeselect`, Treeselect)
 Vue.component(`content-sidebar`, ContentSidebar)
-
+Vue.component(`breathe-icon`, BreatheIcon)
 // Sync store and router
 sync(store, router)
 /*

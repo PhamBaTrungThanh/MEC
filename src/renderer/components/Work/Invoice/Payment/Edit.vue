@@ -1,14 +1,9 @@
 <template>
     <content-sidebar>
         <aside class="menu" slot="sidebar">
-            <div class="has-text-centered">
-                <div class="breathe-icon breathe-light">
-                    <span class="icon is-large">
-                        <i class="mdi mdi-pencil mdi-24px"></i>
-                    </span>
-                </div>
-            </div>
-
+            <p class="has-text-centered">
+                <breathe-icon></breathe-icon>
+            </p>  
         </aside>
         <div class="payment_edit--wrapper">
             <div class="sector">

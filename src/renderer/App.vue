@@ -203,39 +203,60 @@
     $box-radius: $radius;
     @import "~bulma/bulma.sass";
     /* Colors */
+    $color-red: hsl(348, 100%, 61%);
+    $color-purple: hsl(271, 100%, 71%);
+    $color-blue: hsl(217, 71%, 53%);
+    $color-cyan:hsl(204, 86%, 53%);
+    $color-turquoise: hsl(171, 100%, 41%);
+    $color-green: hsl(141, 71%, 48%);
+    $color-yellow: hsl(48, 100%, 67%);
+    $color-orange: hsl(14, 100%, 53%);
     .project-color {
         background: hsl(0, 0%, 98%);
-        color: hsl(0, 0%, 90%);
+        color: hsl(0, 0%, 97%);
     }
     .project-color:hover {
         color: hsl(0, 0, 95%);
+    }
+    .project-color.white {
+        background: hsl(0, 0%, 98%);
+        color: hsl(0, 0, 30%)
     }
     .project-color.black {
         background: hsl(0, 0%, 0%);
     }
     .project-color.red {
-        background: hsl(348, 100%, 61%);
+        background: $color-red;
+        border-color: darken($color-red, 3%);
     }
     .project-color.purple {
-        background: hsl(271, 100%, 71%);
+        background: $color-purple;
+        border-color: darken($color-purple, 3%);
     }
     .project-color.blue {
-        background: hsl(217, 71%, 53%);
+        background: $color-blue;
+        border-color: darken($color-blue, 3%);
     }
     .project-color.cyan {
-        background: hsl(204, 86%, 53%);
+        background: $color-cyan;
+        border-color: darken($color-cyan, 3%);
     }
     .project-color.turquoise {
-        background: hsl(171, 100%, 41%);
+        background: $color-turquoise;
+        border-color: darken($color-turquoise, 3%);
     }
     .project-color.green {
-        background: hsl(141, 71%, 48%);
+        background: $color-green;
+        border-color: darken($color-green, 3%);
     }
     .project-color.yellow {
-        background: hsl(48, 100%, 67%);
+        background: $color-yellow;
+        border-color: darken($color-yellow, 3%);
+        color: hsl(0, 0, 30%)
     }
     .project-color.orange {
-        background: hsl(14, 100%, 53%);
+        background: $color-orange;
+        border-color: darken($color-orange, 3%);
     }
     /* Override */
     h1, h2, h3, h4, h5, h6, .title, .subtitle {
@@ -429,7 +450,6 @@
             a.toggle-sidebar-button {
                 left: 210px;
             }
-
         }
     }
     .main-content {
@@ -532,41 +552,7 @@
         }
     }
 
-    .breathe-icon {
-        width: 64px;
-        height: 64px;
-        display: flex;
-        position: relative;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-        z-index: 110;
-        border-radius: 50%;
-        pointer-events: auto;
-        -webkit-tap-highlight-color: rgba(0,0,0,0);
-    }
-    .breathe-icon:after {
-        width: 64px;
-        height: 64px;
-        box-sizing: border-box;
-        content: '';
-        display: block;
-        position: absolute;
-        top: 0;
-        left: 0;
-        pointer-events: none;
-        border: 4px solid #9236f7;
-        border-radius: 50%;
-        animation-duration: 1.2s;
-        animation-name: intervalBorderBreathe;
-        animation-iteration-count: infinite;
-    }
-    .breathe-icon.breathe-light {
-        background-color: hsl(0, 0%, 97%);
-    }
-    .breathe-icon.breathe-light:after {
-        border-color: hsl(0, 0%, 93%);
-    }
+
 </style>
 <style lang="scss">
     /* Tooltip */
@@ -681,21 +667,5 @@
         }
     }
 
-    @keyframes intervalBorderBreathe {
-	0% {
-		opacity: 1;
-		-webkit-transform: scale(1);
-		transform: scale(1);
-	}
-	80% {
-		-webkit-transform: scale(1.6);
-		transform: scale(1.6);
-	}
-	100% {
-		opacity: 0;
-		-webkit-transform: scale(1.6);
-		transform: scale(1.6);
-	}
-}
 </style>
 

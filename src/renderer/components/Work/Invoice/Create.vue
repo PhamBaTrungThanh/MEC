@@ -21,7 +21,10 @@
                 <li>
                     <a class="has-text-danger" @click="$router.push({name: 'work.show', params: {work_id: work.id}})">Hủy</a>
                 </li>
-            </ul>            
+            </ul>      
+            <p class="has-text-centered">
+                <breathe-icon></breathe-icon>
+            </p>   
         </aside>
         <div class="scroll-spy-holder">
             <div class="general-info sector">

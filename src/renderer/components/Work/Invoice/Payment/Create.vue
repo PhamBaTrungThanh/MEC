@@ -145,6 +145,7 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
 import ContentSidebar from '@/components/Layouts/ContentSidebar'
 export default {
     name: `create-payment`,
@@ -177,12 +178,10 @@ export default {
         }
     },
     computed: {
-        invoice () {
-            return this.$store.getters.invoice
-        },
-        user () {
-            return this.$store.getters.currentUser
-        },
+        ...mapGetters({
+            user: `currentUser`,
+            invoice: `routeInvoice`,
+        }),
     },
     methods: {
         submitPayment () {

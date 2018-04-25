@@ -3,19 +3,15 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
 export default {
     name: `delete-payment`,
-    computed: {
-        invoice () {
-            return this.$store.getters.invoice
-        },
-        work () {
-            return this.$store.getters.work
-        },
-        payment () {
-            return this.$store.getters.payment
-        },
-    },
+    computed: mapGetters({
+        user: `currentUser`,
+        invoice: `routeInvoice`,
+        payment: `routePayment`,
+        work: `routeWork`,
+    }),
     mounted () {
         this.swal({
             title: `Cảnh báo`,
